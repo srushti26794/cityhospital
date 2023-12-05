@@ -13,8 +13,8 @@ function App() {
   return (
     <>
       <Header />
-      <Home />
-      {/* <Appointment/> */}
+      {/* <Home /> */}
+      <Appointment/>
       {/* <Contact/> */}
       {/* <Department/> */}
       {/* <Doctors/> */}
