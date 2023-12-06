@@ -1,0 +1,60 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .medParent{
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: space-evenly;
+  }
+  
+  .med{
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    margin: 5px 5px;
+    background-color: antiquewhite;
+    text-align: center;
+  }
+
+ 
+  /* span{
+    color: rgb(102, 101, 101);
+  } */
+  
+  /* p{
+    font-size: 10px;
+    line-height: 20px;
+    font-weight: 600;
+  }
+   */
+  /* h4{
+    color: rgb(5, 5, 210);
+  }  */
+  
+  .parent{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .card{
+    width: 10rem;
+    margin: 1rem;
+  }
+
+  .card:hover{
+    background-color: #166ab5;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .but{
+    /* width: 6rem; */
+    height: 2rem;
+    padding-bottom: 9rem;
+  }

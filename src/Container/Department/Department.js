@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Department(props) {
     return (
@@ -6,6 +7,10 @@ function Department(props) {
             <div className="container">
                 <div className="section-title">
                     <h2>Departments</h2>
+
+                    <Link to='./1'>Department 1 </Link>
+                    <Link to='./2'>Department 2 </Link>
+                    <Link to='./3'>Department 3</Link>
                 </div>
                 <div className="row">
                     <div className="col-lg-3">
