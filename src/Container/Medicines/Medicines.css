@@ -45,6 +45,7 @@
   .card{
     width: 10rem;
     margin: 1rem;
+    color: black;
   }
 
   .card:hover{
