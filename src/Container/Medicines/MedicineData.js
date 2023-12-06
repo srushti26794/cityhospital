@@ -1,12 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
-function DepartmentDetails(props) {
-    const {id} = useParams();
+function MedicineData(props) {
 
-    
+    const {id} = useParams()
 
     console.log(id);
+
     return (
         <div>
             
@@ -14,4 +14,4 @@ function DepartmentDetails(props) {
     );
 }
 
-export default DepartmentDetails;
+export default MedicineData;

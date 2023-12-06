@@ -5,6 +5,7 @@ import {
     CardTitle, CardText, Button
 } from "reactstrap"
 import "./Medicines.css"
+import { Link } from 'react-router-dom';
 
 const data = [
     {
@@ -73,23 +74,27 @@ function Medicines(props) {
                     {
                         data.map((v, i) => {
                             return (
-                                <Card
-                                    body
-                                    className="text-center"
-                                    style={{
-                                        width: '18rem'
-                                    }}
-                                >
-                                    <CardTitle tag="h3">
-                                        {v.name}
-                                    </CardTitle>
-                                    <CardText tag='h5'>
-                                        Rs. {v.price}
-                                    </CardText>
-                                    <CardText tag='h6'>
-                                        Expiry: {v.expiry}
-                                    </CardText>
-                                </Card>
+                                <div>
+                                    <Link to='/Medicines/:id'>
+                                        <Card
+                                            body
+                                            className="text-center"
+                                            style={{
+                                                width: '18rem'
+                                            }}
+                                        >
+                                            <CardTitle tag="h3">
+                                                {v.name}
+                                            </CardTitle>
+                                            <CardText tag='h5'>
+                                                Rs. {v.price}
+                                            </CardText>
+                                            <CardText tag='h6'>
+                                                Expiry: {v.expiry}
+                                            </CardText>
+                                        </Card>
+                                    </Link>
+                                </div>
                             )
 
                         })
@@ -97,8 +102,8 @@ function Medicines(props) {
                 </div>
 
 
-            </Container>
-        </div>
+            </Container >
+        </div >
     );
 }
 

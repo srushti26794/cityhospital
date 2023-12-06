@@ -10,7 +10,8 @@ import Doctors from './Container/Doctors/Doctors';
 import About from './Container/About/About';
 import { Route, Routes } from 'react-router-dom';
 import DepartmentDetails from './Container/Department/DepartmentDetails';
-import Medicines from './Component/Medicines/Medicines';
+import Medicines from './Container/Medicines/Medicines';
+import MedicineData from './Container/Medicines/MedicineData';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route exact path='/About' element = {<About/>}/>
         <Route exact path='/Contact' element = {<Contact/>}/>
         <Route exact path='/medicines' element = {<Medicines/>}/>
+        <Route exact path='/medicineData' element = {<MedicineData/>}/>
         <Route exact path='/Appointment' element = {<Appointment/>}/>
       </Routes>
 
