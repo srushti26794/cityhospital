@@ -1,11 +1,12 @@
 import React from 'react';
-import { Container } from 'reactstrap';
+import { CardSubtitle, Container } from 'reactstrap';
 import {
     Card, CardImg, CardBody,
     CardTitle, CardText, Button
 } from "reactstrap"
 import "./Medicines.css"
 import { Link } from 'react-router-dom';
+import { BsCurrencyRupee } from "react-icons/bs";
 
 const data = [
     {
@@ -85,6 +86,38 @@ function Medicines(props) {
                                 <div>
                                     <Link to={`/medicines/${v.id}`}>
                                         <Card
+                                            style={{
+                                                width: '18rem'
+                                            }}
+                                        >
+                                            <div className='medImage'>
+                                                <img
+                                                    className='med-img'
+                                                    alt="Sample"
+                                                    src={require(`../../../public/assets/img/medicine/${v.image}`)}
+                                                />
+                                            </div>
+
+                                            <CardBody>
+                                                <CardTitle tag="h5">
+                                                    {v.name}
+                                                </CardTitle>
+                                                <CardSubtitle
+                                                    className="mb-2"
+                                                    tag="h6"
+                                                >
+                                                    <BsCurrencyRupee />{v.price}
+                                                </CardSubtitle>
+                                                <CardSubtitle
+                                                    className="mb-2"
+                                                    tag="h6"
+                                                >
+                                                    Expiry : {v.expiry}
+                                                </CardSubtitle>
+
+                                            </CardBody>
+                                        </Card>
+                                        {/* <Card
                                             body
                                             className="text-center"
                                             style={{
@@ -100,7 +133,7 @@ function Medicines(props) {
                                             <CardText tag='h6'>
                                                 Expiry: {v.expiry}
                                             </CardText>
-                                        </Card>
+                                        </Card> */}
                                     </Link>
                                 </div>
                             )
