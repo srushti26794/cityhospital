@@ -59,3 +59,13 @@
     height: 2rem;
     padding-bottom: 9rem;
   }
+
+  /* --------------------------med Detail---------------------- */
+
+  .medData{
+    margin: 50px 0;
+  }
+
+  .desc_title{
+    font-weight: 500;
+  }
