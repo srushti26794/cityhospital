@@ -25,25 +25,34 @@ export default function Department() {
           Add Department
         </Button>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Subscribe</DialogTitle>
+          <DialogTitle>Department</DialogTitle>
           <DialogContent>
-            <DialogContentText>
+            {/* <DialogContentText>
               To subscribe to this website, please enter your email address here. We
               will send updates occasionally.
-            </DialogContentText>
+            </DialogContentText> */}
             <TextField
               autoFocus
               margin="dense"
               id="name"
-              label="Email Address"
-              type="email"
+              label="Department name"
+              type="text"
+              fullWidth
+              variant="standard"
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Description"
+              type="text"
               fullWidth
               variant="standard"
             />
           </DialogContent>
           <DialogActions>
+            <Button onClick={handleClose}>Add</Button>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Subscribe</Button>
           </DialogActions>
         </Dialog>
       </React.Fragment>
