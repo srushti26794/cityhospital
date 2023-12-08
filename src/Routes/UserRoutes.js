@@ -10,10 +10,13 @@ import MedicineData from '../Container/Medicines/MedicineData';
 import Appointment from '../Container/Appointment/Appointment';
 import { Route, Routes } from 'react-router-dom';
 import PrivateRoutes from './PrivateRoutes';
+import Header from '../Component/Header/Header';
+import Footer from '../Component/Footer/Footer';
 
 function UserRoutes(props) {
     return (
         <>
+            <Header />
             <Routes>
                 <Route exact path='/' element={<Home />} />
                 <Route exact path='/Department' element={<Department />} />
@@ -23,13 +26,14 @@ function UserRoutes(props) {
                 <Route exact path='/Contact' element={<Contact />} />
 
                 <Route element={<PrivateRoutes />}>
-                    
+
                     <Route exact path='/medicines' element={<Medicines />} />
                     <Route exact path='/medicines/:id' element={<MedicineData />} />
                     <Route exact path='/Appointment' element={<Appointment />} />
                 </Route>
 
             </Routes>
+            <Footer />
         </>
     );
 }

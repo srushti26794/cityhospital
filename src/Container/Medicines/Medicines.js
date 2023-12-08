@@ -8,7 +8,6 @@ import "./Medicines.css"
 import { Link } from 'react-router-dom';
 import { BsCurrencyRupee } from "react-icons/bs";
 import { ButtonGroup } from '@mui/material';
-// import {Button} from '@mui/material';
 
 const data = [
     {
@@ -119,46 +118,12 @@ function Medicines(props) {
 
                                             </CardBody>
                                         </Card>
-                                        {/* <Card
-                                            body
-                                            className="text-center"
-                                            style={{
-                                                width: '18rem'
-                                            }}
-                                        >   
-                                            <CardTitle tag="h3">
-                                                {v.name}
-                                            </CardTitle>
-                                            <CardText tag='h5'>
-                                                Rs. {v.price}
-                                            </CardText>
-                                            <CardText tag='h6'>
-                                                Expiry: {v.expiry}
-                                            </CardText>
-                                        </Card> */}
                                     </Link>
                                 </div>
                             )
-
                         })
                     }
-
                 </div>
-                <div>
-                    <ButtonGroup>
-                        <Button>1</Button>
-                        <Button>2</Button>
-                        <Button>3</Button>
-                        <Button>4</Button>
-                        <Button>5</Button>
-                    </ButtonGroup>
-                </div>
-                <div>
-                    <Button>Primary</Button>
-                    <Button disabled>Disabled</Button>
-                    <Button href="#text-buttons">Link</Button>
-                </div>
-
             </Container >
         </div >
     );
