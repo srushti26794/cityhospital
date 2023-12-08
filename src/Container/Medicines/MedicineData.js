@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Button, Container } from 'reactstrap';
 import "./Medicines.css"
 import { BsCurrencyRupee } from "react-icons/bs";
+// import { Button } from '@mui/material';
 
 const data = [
     {
