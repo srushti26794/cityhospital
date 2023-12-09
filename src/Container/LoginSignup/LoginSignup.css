@@ -1,0 +1,27 @@
+.row{
+    text-align: center;
+    justify-content: center;
+}
+.sign_up{
+    width: 30%;
+}
+.signUpBtn, .loginBtn{
+    background: #FF6337;
+    border: 0;
+    padding: 10px 35px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 50px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.signUpBtn:hover{
+    cursor: pointer;
+    background: #166ab5;
+    color: #fff;
+}
+
+.signup{
+    margin-bottom: 20px;
+}

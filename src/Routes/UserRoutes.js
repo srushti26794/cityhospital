@@ -12,6 +12,7 @@ import { Route, Routes } from 'react-router-dom';
 import PrivateRoutes from './PrivateRoutes';
 import Header from '../Component/Header/Header';
 import Footer from '../Component/Footer/Footer';
+import LoginSignup from '../Container/LoginSignup/LoginSignup';
 
 function UserRoutes(props) {
     return (
@@ -24,6 +25,7 @@ function UserRoutes(props) {
                 <Route exact path='/Doctors' element={<Doctors />} />
                 <Route exact path='/About' element={<About />} />
                 <Route exact path='/Contact' element={<Contact />} />
+                <Route exact path='/LoginSignup' element={<LoginSignup />}/>
 
                 <Route element={<PrivateRoutes />}>
 
