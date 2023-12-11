@@ -8,8 +8,8 @@ function Appointment(props) {
 
     const appointSchema = yup.object({
         name : yup.string().required("Enter your name").matches(/^[a-zA-Z ]{2,30}$/, "Please enter valid name"),
-        email : yup.string().required("Enter youe email").email("Enter valid email"),
-        phone : yup.string().required("Enter your phone number"),
+        email : yup.string().required("Enter your email").email("Enter valid email"),
+        phone : yup.string().required("Enter your phone number").matches('^([9]{1})([234789]{1})([0-9]{8})$',"Please enter valid phone number"),
         date : yup.string().required("Please select date"),
         department : yup.string().required("Enter department"),
         file : yup.string().required("Please upload prescription photo"),
@@ -56,7 +56,7 @@ function Appointment(props) {
                             <div className="validate" />
                         </div>
                         <div className="col-md-4 form-group mt-3 mt-md-0">
-                            <input onChange={handleChange} onBlur={handleBlur} value={values.phone} type="tel" className="form-control" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                            <input onChange={handleChange} onBlur={handleBlur} value={values.phone} type="number" className="form-control" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
                             <span>{errors.phone && touched.phone ? errors.phone : null}</span>
                             <div className="validate" />
                         </div>
