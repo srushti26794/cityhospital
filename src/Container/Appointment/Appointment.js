@@ -4,16 +4,20 @@ import * as yup from 'yup';
 
 function Appointment(props) {
 
-    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-
     const appointSchema = yup.object({
         name : yup.string().required("Enter your name").matches(/^[a-zA-Z ]{2,30}$/, "Please enter valid name"),
         email : yup.string().required("Enter your email").email("Enter valid email"),
-        phone : yup.string().required("Enter your phone number").matches('^([9]{1})([234789]{1})([0-9]{8})$',"Please enter valid phone number"),
-        date : yup.string().required("Please select date"),
+        phone : yup.string().required("Enter your phone number").matches('^([9]{1})([1-9]{1})([0-9]{8})$',"Please enter valid phone number"),
+        date : yup.date().min(new Date(),"Date must be in future").required("Please select date"),
         department : yup.string().required("Enter department"),
         file : yup.string().required("Please upload prescription photo"),
-        message : yup.string().required("Enter message")
+        message : yup.string().required("Enter message").matches(/^[a-zA-Z\s]*$/, 'Only alphabets and spaces are allowed')
+        .test('word-count', 'Must have at least 5 words', value => {
+          const count = value.trim().split(/\s+/).length;
+          return count >= 5;})
+          .test('word-count', 'Maximum 10 words allowed', value => {
+            const count = value.trim().split(/\s+/).length;
+            return count <= 10;})
     })
 
     let formikObj = useFormik({
