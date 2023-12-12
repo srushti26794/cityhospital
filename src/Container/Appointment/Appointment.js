@@ -11,7 +11,7 @@ function Appointment(props) {
         date : yup.date().min(new Date(),"Date must be in future").required("Please select date"),
         department : yup.string().required("Enter department"),
         file : yup.string().required("Please upload prescription photo"),
-        message : yup.string().required("Enter message").matches(/^[a-zA-Z\s]*$/, 'Only alphabets and spaces are allowed')
+        message : yup.string().required("Enter message")
         .test('word-count', 'Must have at least 5 words', value => {
           const count = value.trim().split(/\s+/).length;
           return count >= 5;})
