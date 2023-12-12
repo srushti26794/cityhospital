@@ -11,28 +11,34 @@ import { useFormik } from 'formik';
 
 
 export default function Medicine() {
-    const MAX_FILE_SIZE = 3145728; // 3 mb
+    // const MAX_FILE_SIZE = 3145728; // 3 mb
 
-    const validFileExtensions = { image: ['jpg', 'gif', 'png', 'jpeg', 'svg', 'webp'] };
+    // const validFileExtensions = { image: ['jpg', 'gif', 'png', 'jpeg', 'svg', 'webp'] };
 
-    function isValidFileType(fileName, fileType) {
-        return fileName && validFileExtensions[fileType].indexOf(fileName.split('.').pop()) > -1;
-    }
+    // function isValidFileType(fileName, fileType) {
+    //     return fileName && validFileExtensions[fileType].indexOf(fileName.split('.').pop()) > -1;
+    // }
 
     const medicineSchema = yup.object({
         file: yup
             .mixed()
-            .required("Required")
-            .test("file", "Not a valid image type",
-                value => isValidFileType(value && value.name, "image"))
-            .test("is-valid-size", "Max allowed size is 3MB",
-                value => value && value.size <= MAX_FILE_SIZE),
+            .required('File is required')
+            .test(
+                'file',
+                'File size is too large',
+                (value) => !value || value.size <= 3145728
+            )
+            .test(
+                'fileType',
+                'Unsupported file format',
+                value => value && ['image/jpeg', 'image/png'].includes(value.type)
+            ),
         name: yup.string().required("Enter medicine name").matches(/^([a-zA-Z ]{2,30})||([0-9])$/, "Please enter valid name"),
         price: yup.string().required("Enter price")
-            .test('price', 'price can not be zero or negative', function(val){
-                if(val >= 1){
+            .test('price', 'price can not be zero or negative', function (val) {
+                if (val >= 1) {
                     return true;
-                }else{
+                } else {
                     return false;
                 }
             }),
