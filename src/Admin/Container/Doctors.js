@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -8,38 +8,63 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
+import { DataGrid } from '@mui/x-data-grid';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 
 export default function Doctors() {
+    const [doctorData, setDoctorData] = useState([])
 
     let degree = ['mbbs', 'md', 'bhms', 'physiotherapy', 'dermatology', 'pediatrics', 'skin&vd', 'orthopaedics', 'gynaecology']
 
     const doctorSchema = yup.object({
         name: yup.string().required("Enter doctor name").matches(/^[a-zA-Z ]{2,30}$/, "Please enter valid name"),
-        position : yup.string().required("Enter position").matches(/^[a-zA-Z ]{2,30}$/, "Please enter valid name"),
-        degree : yup.string().required("Enter degree")
-            .test('degree','Enter valid degree', function(val) {
+        designation: yup.string().required("Enter designation").matches(/^[a-zA-Z ]{2,30}$/, "Please enter valid name"),
+        degree: yup.string().required("Enter degree")
+            .test('degree', 'Enter valid degree', function (val) {
                 console.log(val);
 
                 let value = val.toLowerCase();
 
-                if(degree.includes(value)){
+                if (degree.includes(value)) {
                     return true;
-                }else{
+                } else {
                     return false
                 }
             })
     })
 
+    const handleAdd = (values) => {
+        console.log(values);
+
+        let id = Math.floor(Math.random() * 1000)
+
+        let localData = JSON.parse(localStorage.getItem("doctors"));
+
+        if (localData) {
+            localData.push({ ...values, id: id });
+            localStorage.setItem('doctors', JSON.stringify(localData))
+            setDoctorData(localData)
+        } else {
+            localStorage.setItem('doctors', JSON.stringify([{ ...values, id: id }]));
+            setDoctorData([{ ...values, id: id }])
+        }
+    }
+
     let formikObj = useFormik({
         initialValues: {
             name: '',
-            position: '',
+            designation: '',
             degree: ''
         },
         validationSchema: doctorSchema,
         onSubmit: values => {
             console.log(values);
+
+            handleAdd(values);
+            handleClose();
         },
     })
 
@@ -56,76 +81,105 @@ export default function Doctors() {
         setOpen(false);
     };
 
+    const handleDelete = (data) => {
+        console.log(data);
+    }
+
+
+    const columns = [
+        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'name', headerName: 'Doctor name', width: 130 },
+        { field: 'designation', headerName: 'Designation', width: 130 },
+        { field: 'degree', headerName: 'Degree', width: 130 },
+        {
+            field: 'action',
+            headerName: 'Action',
+            width: 130,
+            renderCell: (params) => (
+                <>
+                <IconButton onClick={() => handleDelete(params.row)} aria-label="delete" size="small">
+                    <DeleteIcon fontSize="inherit" />
+                </IconButton>
+                <EditIcon fontSize="small" fill='grey' />
+                </>
+            )
+        },
+    ];
+
     return (
         <React.Fragment>
             <Button variant="outlined" onClick={handleClickOpen}>
                 Add Doctors
             </Button>
-            <Dialog open={open} onClose={handleClose} onSubmit={handleSubmit}>
+            <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Doctors</DialogTitle>
                 <DialogContent>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        name='name'
-                        label="Doctor name"
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.name}
-                    />
-                    <span>{errors.name && touched.name ? errors.name : null}</span>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        name='position'
-                        label="Position"
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.description}
-                    />
-                    <span>{errors.position && touched.position ? errors.position : null}</span>
+                    <form onSubmit={handleSubmit}>
+                        <TextField
+                            margin="dense"
+                            id="name"
+                            name='name'
+                            label="Doctor name"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.name}
+                        />
+                        <span>{errors.name && touched.name ? errors.name : null}</span>
+                        <TextField
+                            margin="dense"
+                            id="name"
+                            name='designation'
+                            label="Designation"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.designation}
+                        />
+                        <span>{errors.designation && touched.designation ? errors.designation : null}</span>
 
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        name='degree'
-                        label="Degree"
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.degree}
-                    />
-                    <span>{errors.degree && touched.degree ? errors.degree : null}</span>
+                        <TextField
+                            margin="dense"
+                            id="name"
+                            name='degree'
+                            label="Degree"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.degree}
+                        />
+                        <span>{errors.degree && touched.degree ? errors.degree : null}</span>
+
+                        <DialogActions>
+                            <Button type='submit'>Add</Button>
+                            <Button onClick={handleClose} type='submit'>Cancel</Button>
+                        </DialogActions>
+                    </form>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} type='submit'>Add</Button>
-                    <Button onClick={handleClose}>Cancel</Button>
-                </DialogActions>
+
             </Dialog>
+
+            <div style={{ height: 400, width: '100%' }}>
+                <DataGrid
+                    rows={doctorData}
+                    columns={columns}
+                    initialState={{
+                        pagination: {
+                            paginationModel: { page: 0, pageSize: 5 },
+                        },
+                    }}
+                    pageSizeOptions={[5, 10]}
+                    checkboxSelection
+                />
+            </div>
+
         </React.Fragment>
     );
 }
 
-// function Department(props) {
-//     return (
-//         <div>
-//             <Container>
-//                 <h1>Admin Department Page</h1>
-//             </Container>
-
-//         </div>
-//     );
-// }
-
-// export default Department;

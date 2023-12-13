@@ -24,6 +24,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { Link } from 'react-router-dom';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import MedicationIcon from '@mui/icons-material/Medication';
+import EditIcon from '@mui/icons-material/Edit';
 
 const drawerWidth = 240;
 

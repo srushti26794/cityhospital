@@ -61,7 +61,6 @@ export default function Department() {
         <DialogTitle>Department</DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
             margin="dense"
             id="name"
             name='name'
@@ -75,7 +74,6 @@ export default function Department() {
           />
           <span>{errors.name && touched.name ? errors.name : null}</span>
           <TextField
-            autoFocus
             margin="dense"
             id="name"
             name='description'
