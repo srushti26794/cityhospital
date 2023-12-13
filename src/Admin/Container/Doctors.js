@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -16,6 +16,14 @@ import EditIcon from '@mui/icons-material/Edit';
 
 export default function Doctors() {
     const [doctorData, setDoctorData] = useState([])
+
+    useEffect(() => {
+        const storedData = localStorage.getItem('doctors');
+        console.log(storedData);
+        if (storedData) {
+            setDoctorData(JSON.parse(storedData));
+        }
+    }, [doctorData]);
 
     let degree = ['mbbs', 'md', 'bhms', 'physiotherapy', 'dermatology', 'pediatrics', 'skin&vd', 'orthopaedics', 'gynaecology']
 
@@ -35,6 +43,8 @@ export default function Doctors() {
                 }
             })
     })
+
+
 
     const handleAdd = (values) => {
         console.log(values);
@@ -68,7 +78,7 @@ export default function Doctors() {
         },
     })
 
-    let { handleSubmit, handleChange, handleBlur, touched, errors, values } = formikObj;
+    let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm } = formikObj;
 
 
     const [open, setOpen] = React.useState(false);
@@ -82,7 +92,17 @@ export default function Doctors() {
     };
 
     const handleDelete = (data) => {
-        console.log(data);
+        console.log(JSON.parse(data.id));
+
+        let id = JSON.parse(data.id)
+
+        let localData = JSON.parse(localStorage.getItem('doctors'))
+
+        let doctorData = localData.filter((v) => v.id !== id);
+
+        localStorage.setItem('doctors', JSON.stringify(doctorData))
+
+        setDoctorData(doctorData);
     }
 
 
@@ -97,14 +117,18 @@ export default function Doctors() {
             width: 130,
             renderCell: (params) => (
                 <>
-                <IconButton onClick={() => handleDelete(params.row)} aria-label="delete" size="small">
-                    <DeleteIcon fontSize="inherit" />
-                </IconButton>
-                <EditIcon fontSize="small" fill='grey' />
+                    <IconButton onClick={() => handleDelete(params.row)} aria-label="delete" size="small">
+                        <DeleteIcon fontSize="inherit" />
+                    </IconButton>
+                    <EditIcon fontSize="small" fill='grey' />
                 </>
             )
         },
     ];
+
+    const formReset = () => {
+       resetForm();
+    }
 
     return (
         <React.Fragment>
@@ -114,7 +138,7 @@ export default function Doctors() {
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Doctors</DialogTitle>
                 <DialogContent>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} id='add_doctor_form'>
                         <TextField
                             margin="dense"
                             id="name"
@@ -158,7 +182,7 @@ export default function Doctors() {
 
                         <DialogActions>
                             <Button type='submit'>Add</Button>
-                            <Button onClick={handleClose} type='submit'>Cancel</Button>
+                            <Button>Cancel</Button>
                         </DialogActions>
                     </form>
                 </DialogContent>
@@ -182,4 +206,3 @@ export default function Doctors() {
         </React.Fragment>
     );
 }
-
