@@ -105,6 +105,14 @@ export default function Doctors() {
         setDoctorData(doctorData);
     }
 
+    const handleEdit = (data) => {
+        
+        values.name = data.name;
+        values.designation = data.designation;
+        values.degree = data.degree;
+
+        
+    }
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
@@ -120,9 +128,9 @@ export default function Doctors() {
                     <IconButton onClick={() => handleDelete(params.row)} aria-label="delete" size="small">
                         <DeleteIcon fontSize="inherit" />
                     </IconButton>
-                    <EditIcon fontSize="small" fill='grey' />
+                    <EditIcon onClick={() => handleEdit(params.row)} fontSize="small" fill='grey' />
                 </>
-            )
+            ) 
         },
     ];
 
