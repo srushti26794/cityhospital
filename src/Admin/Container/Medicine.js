@@ -35,29 +35,24 @@ export default function Medicine() {
     //     return fileName && validFileExtensions[fileType].indexOf(fileName.split('.').pop()) > -1;
     // }
 
+    const SUPPORTED_FORMATS = ['image/jpg','image/JPG', 'image/jpeg', 'image/JPEG', 'image/png'];
+
+
     const medicineSchema = yup.object({
-        file: yup
-            .mixed()
-            .required('File is required')
-            .test(
-                'file',
-                'File size is too large',
-                (value) => !value || value.size <= 3145728
-            )
-            .test(
-                'fileType',
-                'Unsupported file format',
-                value => value && ['image/jpeg', 'image/png'].includes(value.type)
-            ),
-        name: yup.string().required("Enter medicine name").matches(/^([a-zA-Z ]{2,30})||([0-9])$/, "Please enter valid name"),
-        price: yup.string().required("Enter price")
-            .test('price', 'price can not be zero or negative', function (val) {
-                if (val >= 1) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }),
+        file: yup.mixed()
+            .nullable()
+            .required('A file is required')
+            .test('Fichier taille',
+                'upload file size', (value) => !value || (value && value.size <= 1024 * 1024))
+            .test('format',
+                'upload file format', (value) => !value || (value && SUPPORTED_FORMATS.includes(value.type))),
+        price: yup.string().required().test('price', 'price can not be zero or negative', function (val) {
+            if (val >= 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }),
         expiry: yup.string().required("Enter expiry"),
         description: yup.string()
             .required("Enter description")
@@ -99,15 +94,17 @@ export default function Medicine() {
             description: ''
         },
         validationSchema: medicineSchema,
-        onSubmit: values => {
+        onSubmit: (values, {resetForm}) => {
             console.log(values);
 
             handleAdd(values);
             handleClose();
+
+            resetForm();
         },
     })
 
-    let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm } = formikObj;
+    let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm, setFieldValue } = formikObj;
 
 
     const [open, setOpen] = React.useState(false);
@@ -140,7 +137,7 @@ export default function Medicine() {
         console.log(id);
 
         let localData = JSON.parse(localStorage.getItem('medicine'))
-        
+
         values.name = data.name;
         values.price = data.price;
         values.expiry = data.expiry;
@@ -169,9 +166,11 @@ export default function Medicine() {
                     </IconButton>
                     <EditIcon onClick={() => handleEdit(params.row)} fontSize="small" fill='grey' />
                 </>
-            ) 
+            )
         },
     ];
+
+    console.log(errors);
 
     return (
         <React.Fragment>
@@ -182,24 +181,20 @@ export default function Medicine() {
                 <DialogTitle>Medicine</DialogTitle>
                 <DialogContent>
                     <form onSubmit={handleSubmit}>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="name"
-                            name='file'
-                            label="Medicine photo"
+                        <input
                             type="file"
-                            fullWidth
-                            variant="standard"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.file}
+                            id="file"
+                            name='file'
+                            onChange={(event) => setFieldValue("file", event.target.files[0])}
                         />
                         <span>{errors.file && touched.file ? errors.file : null}</span>
 
                         <TextField
-                            autoFocus
                             margin="dense"
+
+
+
+                            
                             id="name"
                             name='name'
                             label="Medicine name"
@@ -213,7 +208,6 @@ export default function Medicine() {
                         <span>{errors.name && touched.name ? errors.name : null}</span>
 
                         <TextField
-                            autoFocus
                             margin="dense"
                             id="name"
                             name='price'
@@ -228,7 +222,6 @@ export default function Medicine() {
                         <span>{errors.price && touched.price ? errors.price : null}</span>
 
                         <TextField
-                            autoFocus
                             margin="dense"
                             id="name"
                             name='expiry'
@@ -243,7 +236,6 @@ export default function Medicine() {
                         <span>{errors.expiry && touched.expiry ? errors.expiry : null}</span>
 
                         <TextField
-                            autoFocus
                             margin="dense"
                             id="name"
                             name='description'
@@ -258,7 +250,7 @@ export default function Medicine() {
                         <span>{errors.description && touched.description ? errors.description : null}</span>
 
                         <DialogActions>
-                            <Button onClick={handleClose} type='submit'>Add</Button>
+                            <Button type='submit'>Add</Button>
                             <Button onClick={handleClose}>Cancel</Button>
                         </DialogActions>
                     </form>

@@ -17,7 +17,8 @@ import EditIcon from '@mui/icons-material/Edit';
 export default function Doctors() {
     const [doctorData, setDoctorData] = useState([])
 
-    let update = null;
+    let update;
+    console.log(update);
 
     useEffect(() => {
         const storedData = localStorage.getItem('doctors');
@@ -25,7 +26,8 @@ export default function Doctors() {
         if (storedData) {
             setDoctorData(JSON.parse(storedData));
         }
-    }, [doctorData]);
+       
+    }, []);
 
     let degree = ['mbbs', 'md', 'bhms', 'physiotherapy', 'dermatology', 'pediatrics', 'skin&vd', 'orthopaedics', 'gynaecology']
 
@@ -50,6 +52,14 @@ export default function Doctors() {
 
     const handleAdd = (values) => {
         console.log(values);
+
+        console.log(update);
+
+        if(update){
+            console.log('update');
+        }else{
+            console.log();
+        }
 
         let id = Math.floor(Math.random() * 1000)
 
@@ -112,13 +122,15 @@ export default function Doctors() {
 
         console.log(id);
 
-        let localData = JSON.parse(localStorage.getItem('doctors'))
+        // let localData = JSON.parse(localStorage.getItem('doctors'))
         
         values.name = data.name;
         values.designation = data.designation;
         values.degree = data.degree;
 
         update = id;
+
+        console.log(update);
 
         handleClickOpen()
     }
