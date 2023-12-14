@@ -21,34 +21,23 @@ export default function Medicine() {
 
     useEffect(() => {
         const storedData = localStorage.getItem('medicine');
-        console.log(storedData);
+        // console.log(storedData);
         if (storedData) {
             setMedicineData(JSON.parse(storedData));
         }
-    }, [medicineData]);
+    }, []);
 
-    // const MAX_FILE_SIZE = 3145728; // 3 mb
-
-    // const validFileExtensions = { image: ['jpg', 'gif', 'png', 'jpeg', 'svg', 'webp'] };
-
-    // function isValidFileType(fileName, fileType) {
-    //     return fileName && validFileExtensions[fileType].indexOf(fileName.split('.').pop()) > -1;
-    // }
+    const SUPPORTED_FORMATS = ['image/jpg','image/JPG', 'image/jpeg', 'image/JPEG', 'image/png', 'image/PNG'];
 
     const medicineSchema = yup.object({
         file: yup
             .mixed()
-            .required('File is required')
-            .test(
-                'file',
-                'File size is too large',
-                (value) => !value || value.size <= 3145728
-            )
-            .test(
-                'fileType',
-                'Unsupported file format',
-                value => value && ['image/jpeg', 'image/png'].includes(value.type)
-            ),
+            .nullable()
+            .required('A file is required')
+            .test('Fichier taille',
+                'File size is too large', (value) => !value || (value && value.size <= 1024 * 1024))
+            .test('format',
+                'Please upload jpg, jpeg or png file', (value) => !value || (value && SUPPORTED_FORMATS.includes(value.type))),
         name: yup.string().required("Enter medicine name").matches(/^([a-zA-Z ]{2,30})||([0-9])$/, "Please enter valid name"),
         price: yup.string().required("Enter price")
             .test('price', 'price can not be zero or negative', function (val) {
@@ -107,7 +96,7 @@ export default function Medicine() {
         },
     })
 
-    let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm } = formikObj;
+    let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm, setFieldValue } = formikObj;
 
 
     const [open, setOpen] = React.useState(false);
@@ -140,7 +129,7 @@ export default function Medicine() {
         console.log(id);
 
         let localData = JSON.parse(localStorage.getItem('medicine'))
-        
+
         values.name = data.name;
         values.price = data.price;
         values.expiry = data.expiry;
@@ -157,7 +146,16 @@ export default function Medicine() {
         { field: 'price', headerName: 'Price', width: 130 },
         { field: 'expiry', headerName: 'Expiry', width: 130 },
         { field: 'description', headerName: 'Description', width: 130 },
-        { field: 'file', headerName: 'Medicine Photo', width: 130 },
+        { field: 'file', headerName: 'Medicine file', width: 130, 
+            renderCell: (params) => {
+                // <image>
+                    <img src={window.URL.createObjectURL(params.row.file.name)}>
+                        
+                    </img>
+                    
+                // </image>
+            }
+        },
         {
             field: 'action',
             headerName: 'Action',
@@ -169,7 +167,7 @@ export default function Medicine() {
                     </IconButton>
                     <EditIcon onClick={() => handleEdit(params.row)} fontSize="small" fill='grey' />
                 </>
-            ) 
+            )
         },
     ];
 
@@ -182,18 +180,11 @@ export default function Medicine() {
                 <DialogTitle>Medicine</DialogTitle>
                 <DialogContent>
                     <form onSubmit={handleSubmit}>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="name"
-                            name='file'
-                            label="Medicine photo"
+                        <input
                             type="file"
-                            fullWidth
-                            variant="standard"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.file}
+                            id="file"
+                            name='file'
+                            onChange={(event) => setFieldValue("file", event.target.files[0])}
                         />
                         <span>{errors.file && touched.file ? errors.file : null}</span>
 

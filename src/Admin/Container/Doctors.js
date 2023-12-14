@@ -25,7 +25,7 @@ export default function Doctors() {
         if (storedData) {
             setDoctorData(JSON.parse(storedData));
         }
-    }, [doctorData]);
+    }, []);
 
     let degree = ['mbbs', 'md', 'bhms', 'physiotherapy', 'dermatology', 'pediatrics', 'skin&vd', 'orthopaedics', 'gynaecology']
 
@@ -72,11 +72,12 @@ export default function Doctors() {
             degree: ''
         },
         validationSchema: doctorSchema,
-        onSubmit: values => {
+        onSubmit: (values, {resetForm}) => {
             console.log(values);
 
             handleAdd(values);
             handleClose();
+            resetForm();
         },
     })
 
@@ -142,10 +143,6 @@ export default function Doctors() {
             ) 
         },
     ];
-
-    const formReset = () => {
-       resetForm();
-    }
 
     return (
         <React.Fragment>

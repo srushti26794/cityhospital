@@ -23,7 +23,7 @@ export default function Department() {
     if (storedData) {
       setDepartmentData(JSON.parse(storedData));
     }
-  }, [departmentData]);
+  }, []);
 
   const departmentSchema = yup.object({
     name: yup.string().required("Enter department name").matches(/^[a-zA-Z ]{2,30}$/, "Please enter valid name"),
