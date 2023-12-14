@@ -27,7 +27,7 @@ export default function Medicine() {
         }
     }, []);
 
-    const SUPPORTED_FORMATS = ['image/jpg','image/JPG', 'image/jpeg', 'image/JPEG', 'image/png', 'image/PNG'];
+    const SUPPORTED_FORMATS = ['image/jpg', 'image/JPG', 'image/jpeg', 'image/JPEG', 'image/png', 'image/PNG'];
 
     const medicineSchema = yup.object({
         file: yup
@@ -146,14 +146,16 @@ export default function Medicine() {
         { field: 'price', headerName: 'Price', width: 130 },
         { field: 'expiry', headerName: 'Expiry', width: 130 },
         { field: 'description', headerName: 'Description', width: 130 },
-        { field: 'file', headerName: 'Medicine file', width: 130, 
+        {
+            field: 'file', headerName: 'Medicine file', width: 130,
             renderCell: (params) => {
+                console.log(params.row);
                 // <image>
-                    <img src={window.URL.createObjectURL(params.row.file.name)}>
-                        
-                    </img>
-                    
-                // </image>
+                return (
+                    <img src={URL.createObjectURL(params.row.file)} />
+                )
+
+
             }
         },
         {
