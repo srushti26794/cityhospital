@@ -17,6 +17,8 @@ import EditIcon from '@mui/icons-material/Edit';
 export default function Doctors() {
     const [doctorData, setDoctorData] = useState([])
 
+    let update = null;
+
     useEffect(() => {
         const storedData = localStorage.getItem('doctors');
         console.log(storedData);
@@ -106,12 +108,19 @@ export default function Doctors() {
     }
 
     const handleEdit = (data) => {
+        let id = JSON.parse(data.id)
+
+        console.log(id);
+
+        let localData = JSON.parse(localStorage.getItem('doctors'))
         
         values.name = data.name;
         values.designation = data.designation;
         values.degree = data.degree;
 
-        
+        update = id;
+
+        handleClickOpen()
     }
 
     const columns = [
