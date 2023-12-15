@@ -13,15 +13,15 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-
 export default function Department() {
   const [departmentData, setDepartmentData] = useState([])
+  const [updateData, setUpdateData] = useState(false)
 
   useEffect(() => {
-    const storedData = localStorage.getItem('department');
-    console.log(storedData);
-    if (storedData) {
-      setDepartmentData(JSON.parse(storedData));
+    const localData = JSON.parse(localStorage.getItem('department'));
+    console.log(localData);
+    if (localData) {
+      setDepartmentData(localData);
     }
   }, []);
 
@@ -58,21 +58,32 @@ export default function Department() {
     }
   }
 
+  const handleUpdate = () => {
+    console.log('Update data');
+  }
+
   let formikObj = useFormik({
     initialValues: {
       name: '',
       description: ''
     },
     validationSchema: departmentSchema,
-    onSubmit: values => {
+    onSubmit: (values, { resetForm }) => {
       console.log(values);
 
-      handleAdd(values);
+      if (updateData) {
+        handleUpdate()
+      } else {
+        handleAdd(values);
+      }
+
+      setUpdateData(false)
       handleClose();
+      resetForm();
     },
   })
 
-  let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm } = formikObj;
+  let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm, setValues } = formikObj;
 
 
   const [open, setOpen] = React.useState(false);
@@ -83,6 +94,7 @@ export default function Department() {
 
   const handleClose = () => {
     setOpen(false);
+    resetForm()
   };
 
   const handleDelete = (data) => {
@@ -99,6 +111,12 @@ export default function Department() {
     setDepartmentData(departmentData);
   }
 
+  const handleEdit = (data) => {
+    handleClickOpen()
+    setValues(data)
+    setUpdateData(true)
+  }
+
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'name', headerName: 'Department name', width: 130 },
@@ -112,15 +130,11 @@ export default function Department() {
           <IconButton onClick={() => handleDelete(params.row)} aria-label="delete" size="small">
             <DeleteIcon fontSize="inherit" />
           </IconButton>
-          <EditIcon fontSize="small" fill='grey' />
+          <EditIcon onClick={() => handleEdit(params.row)} fontSize="small" fill='grey' />
         </>
       )
     },
   ];
-
-  const formReset = () => {
-    resetForm();
-  }
 
   return (
     <React.Fragment>
@@ -146,7 +160,7 @@ export default function Department() {
             <span>{errors.name && touched.name ? errors.name : null}</span>
             <TextField
               margin="dense"
-              id="name"
+              id="description"
               name='description'
               label="Description"
               type="text"
@@ -159,8 +173,8 @@ export default function Department() {
             <span>{errors.description && touched.description ? errors.description : null}</span>
 
             <DialogActions>
-              <Button type='submit'>Add</Button>
-              <Button>Cancel</Button>
+              <Button type='submit'>{updateData ? 'Update' : 'Add'}</Button>
+              <Button onClick={handleClose}>Cancel</Button>
             </DialogActions>
           </form>
         </DialogContent>

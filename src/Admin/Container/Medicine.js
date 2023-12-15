@@ -16,8 +16,13 @@ import EditIcon from '@mui/icons-material/Edit';
 
 export default function Medicine() {
     const [medicineData, setMedicineData] = useState([])
+    const [updateData, setUpdateData] = useState(false)
 
-    let update = null;
+    let d = new Date();
+
+    let nd = new Date();
+    nd.setDate(d.getDate() - 1)
+
 
     useEffect(() => {
         const storedData = localStorage.getItem('medicine');
@@ -47,7 +52,7 @@ export default function Medicine() {
                     return false;
                 }
             }),
-        expiry: yup.string().required("Enter expiry"),
+        expiry: yup.date().min(nd, "Date must be current or future").required("Please enter expiry"),
         description: yup.string()
             .required("Enter description")
             .test('description', "Description in between 10 to 30 word", function (val) {
@@ -79,6 +84,10 @@ export default function Medicine() {
         }
     }
 
+    const handleUpdate = () => {
+        console.log('update data');
+    }
+
     let formikObj = useFormik({
         initialValues: {
             file: '',
@@ -88,15 +97,21 @@ export default function Medicine() {
             description: ''
         },
         validationSchema: medicineSchema,
-        onSubmit: values => {
+        onSubmit: (values, { resetForm }) => {
             console.log(values);
 
-            handleAdd(values);
+            if (updateData) {
+                handleUpdate()
+            } else {
+                handleAdd(values);
+            }
+            setUpdateData(false)
             handleClose();
+            resetForm();
         },
     })
 
-    let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm, setFieldValue } = formikObj;
+    let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm, setFieldValue, setValues } = formikObj;
 
 
     const [open, setOpen] = React.useState(false);
@@ -124,20 +139,9 @@ export default function Medicine() {
     }
 
     const handleEdit = (data) => {
-        let id = JSON.parse(data.id)
-
-        console.log(id);
-
-        let localData = JSON.parse(localStorage.getItem('medicine'))
-
-        values.name = data.name;
-        values.price = data.price;
-        values.expiry = data.expiry;
-        values.description = data.description
-
-        update = id;
-
         handleClickOpen()
+        setValues(data)
+        // setUpdateData(true)
     }
 
     const columns = [
@@ -274,16 +278,3 @@ export default function Medicine() {
         </React.Fragment>
     );
 }
-
-// function Department(props) {
-//     return (
-//         <div>
-//             <Container>
-//                 <h1>Admin Department Page</h1>
-//             </Container>
-
-//         </div>
-//     );
-// }
-
-// export default Department;

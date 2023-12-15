@@ -16,14 +16,13 @@ import EditIcon from '@mui/icons-material/Edit';
 
 export default function Doctors() {
     const [doctorData, setDoctorData] = useState([])
-
-    let update = null;
+    const [updateData, setUpdateData] = useState(false)
 
     useEffect(() => {
-        const storedData = localStorage.getItem('doctors');
-        console.log(storedData);
-        if (storedData) {
-            setDoctorData(JSON.parse(storedData));
+        let localData = JSON.parse(localStorage.getItem('doctors'))
+        console.log(localData);
+        if (localData) {
+            setDoctorData(localData);
         }
     }, []);
 
@@ -65,6 +64,10 @@ export default function Doctors() {
         }
     }
 
+    const handleUpdate = () => {
+        console.log('Update data');
+    }
+
     let formikObj = useFormik({
         initialValues: {
             name: '',
@@ -72,16 +75,21 @@ export default function Doctors() {
             degree: ''
         },
         validationSchema: doctorSchema,
-        onSubmit: (values, {resetForm}) => {
+        onSubmit: (values, { resetForm }) => {
             console.log(values);
 
-            handleAdd(values);
+            if(updateData){
+                handleUpdate()
+            }else{
+                handleAdd(values);
+            }
+            setUpdateData(false)
             handleClose();
             resetForm();
         },
     })
 
-    let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm } = formikObj;
+    let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm, setValues } = formikObj;
 
 
     const [open, setOpen] = React.useState(false);
@@ -92,6 +100,7 @@ export default function Doctors() {
 
     const handleClose = () => {
         setOpen(false);
+        resetForm()
     };
 
     const handleDelete = (data) => {
@@ -109,20 +118,11 @@ export default function Doctors() {
     }
 
     const handleEdit = (data) => {
-        let id = JSON.parse(data.id)
-
-        console.log(id);
-
-        let localData = JSON.parse(localStorage.getItem('doctors'))
-        
-        values.name = data.name;
-        values.designation = data.designation;
-        values.degree = data.degree;
-
-        update = id;
-
         handleClickOpen()
+        setValues(data)
+        setUpdateData(true)
     }
+
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
@@ -135,12 +135,12 @@ export default function Doctors() {
             width: 130,
             renderCell: (params) => (
                 <>
+                    <EditIcon onClick={() => handleEdit(params.row)} fontSize="small" fill='grey' />
                     <IconButton onClick={() => handleDelete(params.row)} aria-label="delete" size="small">
                         <DeleteIcon fontSize="inherit" />
                     </IconButton>
-                    <EditIcon onClick={() => handleEdit(params.row)} fontSize="small" fill='grey' />
                 </>
-            ) 
+            )
         },
     ];
 
@@ -168,7 +168,7 @@ export default function Doctors() {
                         <span>{errors.name && touched.name ? errors.name : null}</span>
                         <TextField
                             margin="dense"
-                            id="name"
+                            id="designation"
                             name='designation'
                             label="Designation"
                             type="text"
@@ -182,7 +182,7 @@ export default function Doctors() {
 
                         <TextField
                             margin="dense"
-                            id="name"
+                            id="degree"
                             name='degree'
                             label="Degree"
                             type="text"
@@ -195,8 +195,8 @@ export default function Doctors() {
                         <span>{errors.degree && touched.degree ? errors.degree : null}</span>
 
                         <DialogActions>
-                            <Button type='submit'>Add</Button>
-                            <Button>Cancel</Button>
+                            <Button type='submit'>{updateData ? 'Update' : 'Add'}</Button>
+                            <Button onClick={handleClose}>Cancel</Button>
                         </DialogActions>
                     </form>
                 </DialogContent>
