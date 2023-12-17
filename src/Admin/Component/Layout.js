@@ -25,6 +25,7 @@ import { Link } from 'react-router-dom';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import MedicationIcon from '@mui/icons-material/Medication';
 import EditIcon from '@mui/icons-material/Edit';
+import AddHomeIcon from '@mui/icons-material/AddHome';
 
 const drawerWidth = 240;
 
@@ -108,7 +109,8 @@ export default function Layout({ children }) {
     const listItem = [
         { Label: 'Department', Icon: <PeopleAltIcon />, to: '/Admin/department' },
         { Label: 'Medicine', Icon: <MedicationIcon />, to: '/Admin/medicine' },
-        { Label: 'Doctors', Icon: <LocalHospitalIcon />, to: '/Admin/doctors' }
+        { Label: 'Doctors', Icon: <LocalHospitalIcon />, to: '/Admin/doctors' },
+        { Label: 'Facilities', Icon: <AddHomeIcon />, to: '/Admin/facilities' }
     ];
 
     console.log(listItem);
