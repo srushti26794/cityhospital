@@ -1,74 +1,147 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { DataGrid } from '@mui/x-data-grid';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
+import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function Facilities() {
-    const [open, setOpen] = React.useState(false);
+    const [facilityData, setFacilityData] = useState([])
+    const [updateData, setUpdateData] = useState(false)
 
-    const FaciltiesSchema = yup.object({
-        image: yup.mixed().required('Choose image'),
-        facility: yup.string().required('Enter facilities').matches(/^[A-Za-z ]||[0-9]*$/, 'Please enter valid name'),
-        description: yup.string().required('Enter description')
+    const SUPPORTED_FORMATS = ['image/jpg', 'image/JPG', 'image/jpeg', 'image/JPEG', 'image/png', 'image/PNG'];
+
+    useEffect(() => {
+        const storedData = localStorage.getItem('facility');
+        // console.log(storedData);
+        if (storedData) {
+            setFacilityData(JSON.parse(storedData));
+        }
+    }, []);
+
+    const facilitySchema = yup.object({
+        file: yup
+            .mixed(),
+        // .nullable()
+        // .required('A file is required')
+        // .test('Fichier taille',
+        //     'File size is too large', (value) => !value || (value && value.size <= 1024 * 1024))
+        // .test('format',
+        //     'Please upload jpg, jpeg or png file', (value) => !value || (value && SUPPORTED_FORMATS.includes(value.type))),
+        facility: yup.string().required("Enter facility").matches(/^([a-zA-Z ]{2,30})||([0-9])$/, "Please enter valid name"),
+        description: yup.string()
+            .required("Enter description")
+            .test('description', "Description in between 10 to 30 word", function (val) {
+                let array = val.split(" ");
+
+                if (array.length >= 10 && array.length <= 30) {
+                    return true;
+                } else {
+                    return false
+                }
+            })
     })
 
-    // const handleAdd = (values) => {
-    //     console.log(values);
+    const handleAdd = (values) => {
+        console.log(values);
+
+        let id = Math.floor(Math.random() * 1000);
+
+        let localData = JSON.parse(localStorage.getItem('facility'));
+
+        if (localData) {
+            localData.push({ ...values, id: id });
+            localStorage.setItem('facility', JSON.stringify(localData))
+            setFacilityData(localData)
+        } else {
+            localStorage.setItem('facility', JSON.stringify([{ ...values, id: id }]));
+            setFacilityData([{ ...values, id: id }])
+        }
+    }
+
+    // const handleUpdate = () => {
+    //     console.log('update data');
     // }
 
-    const formikObj = useFormik({
+    let formikObj = useFormik({
         initialValues: {
-            image: '',
+            file: '',
             facility: '',
             description: ''
         },
-        validationSchema: FaciltiesSchema,
-        onSubmit: values => {
-            console.log(values);
-            // handleAdd(values);
-        },
+        validationSchema: facilitySchema,
+        onSubmit: (values, { resetForm }) => {
+            // if (updateData) {
+            //     handleUpdate()
+            // } else {
+            //     handleAdd(values);
+            // }
+            handleAdd(values);
+            setUpdateData(false)
+            handleClose();
+            resetForm()
+        }
     })
 
-    let { handleSubmit, handleBlur, handleChange, touched, errors, values } = formikObj
+    let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm, setValues, setFieldValue } = formikObj
 
+    const [open, setOpen] = React.useState(false);
+    
     const handleClickOpen = () => {
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
+        resetForm();
     };
+
+    const handleEdit = (data) => {
+        handleClickOpen()
+        setValues(data)
+        setFacilityData(true)
+    }
+
+    const handleDelete = (data) => {
+        console.log(data);
+        console.log(JSON.parse(data.id));
+
+        let id = JSON.parse(data.id)
+
+        let localData = JSON.parse(localStorage.getItem('facility'))
+        console.log(localData);
+
+        let newFacilityData = localData.filter((v) => v.id !== id)
+        console.log(newFacilityData);
+        // localStorage.setItem('facility', JSON.stringify(newFacilityData))
+        // setFacilityData(newFacilityData)
+    }
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'image', headerName: 'Image', width: 130 },
         { field: 'facility', headerName: 'Facility', width: 130 },
         { field: 'description', headerName: 'Description', width: 130 },
         {
             field: 'action',
             headerName: 'Action',
             width: 130,
-            renderCell: (params) => {
+            renderCell: (params) => (
                 <>
-                    <IconButton aria-label="delete" size="small">
-                        <ModeEditIcon fontSize="small" />
-                    </IconButton>
-                    <IconButton aria-label="delete" size="small">
-                        <DeleteIcon fontSize="small" />
+                    <EditIcon onClick={handleEdit(params.row)} fontSize="small" fill='grey' />
+                    <IconButton onClick={handleDelete(params.row)} aria-label="delete" size="small">
+                        <DeleteIcon fontSize="inherit" />
                     </IconButton>
                 </>
-            }
+            )
         },
-    ]
+    ];
 
     return (
         <React.Fragment>
@@ -80,25 +153,20 @@ export default function Facilities() {
                 <DialogContent>
                     <form onSubmit={handleSubmit}>
                         <input
-                            margin="dense"
-                            id="image"
-                            name='image'
-                            label="Add Image"
                             type="file"
-                            fullWidth
-                            variant="standard"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.image}
+                            id="file"
+                            name='file'
+                            onChange={(event) => setFieldValue("file", event.target.files[0])}
                         />
-                        <span>{errors.image && touched.image ? errors.image : null}</span>
+                        <span>{errors.file && touched.file ? errors.file : null}</span>
+
 
                         <TextField
                             margin="dense"
                             id="facility"
                             name='facility'
                             label="Facility"
-                            type="email"
+                            type="text"
                             fullWidth
                             variant="standard"
                             onChange={handleChange}
@@ -112,7 +180,7 @@ export default function Facilities() {
                             id="description"
                             name='description'
                             label="Description"
-                            type="email"
+                            type="text"
                             fullWidth
                             variant="standard"
                             onChange={handleChange}
@@ -120,17 +188,18 @@ export default function Facilities() {
                             value={values.description}
                         />
                         <span>{errors.description && touched.description ? errors.description : null}</span>
+
+                        <DialogActions>
+                            <Button type='submit' onClick={handleClose}>Add</Button>
+                            <Button onClick={handleClose}>Cancel</Button>
+                        </DialogActions>
                     </form>
                 </DialogContent>
-                <DialogActions>
-                    <Button type='submit' onClick={handleClose}>Add</Button>
-                    <Button onClick={handleClose}>Cancel</Button>
-                </DialogActions>
             </Dialog>
 
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    rows={values}
+                    rows={facilityData}
                     columns={columns}
                     initialState={{
                         pagination: {

@@ -4,7 +4,6 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
@@ -52,7 +51,7 @@ export default function Medicine() {
                     return false;
                 }
             }),
-        expiry: yup.date().min(nd, "Date must be current or future").required("Please enter expiry"),
+        expiry: yup.date().min(nd, "Date must be future").required("Please enter expiry"),
         description: yup.string()
             .required("Enter description")
             .test('description', "Description in between 10 to 30 word", function (val) {
