@@ -14,7 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 export default function Facilities() {
     const [facilityData, setFacilityData] = useState([])
-    const [updateData, setUpdateData] = useState(false)
+    // const [updateData, setUpdateData] = useState(false)
 
     const SUPPORTED_FORMATS = ['image/jpg', 'image/JPG', 'image/jpeg', 'image/JPEG', 'image/png', 'image/PNG'];
 
@@ -28,13 +28,13 @@ export default function Facilities() {
 
     const facilitySchema = yup.object({
         file: yup
-            .mixed(),
-        // .nullable()
-        // .required('A file is required')
-        // .test('Fichier taille',
-        //     'File size is too large', (value) => !value || (value && value.size <= 1024 * 1024))
-        // .test('format',
-        //     'Please upload jpg, jpeg or png file', (value) => !value || (value && SUPPORTED_FORMATS.includes(value.type))),
+            .mixed()
+            .nullable()
+            .required('A file is required')
+            .test('Fichier taille',
+                'File size is too large', (value) => !value || (value && value.size <= 1024 * 1024))
+            .test('format',
+                'Please upload jpg, jpeg or png file', (value) => !value || (value && SUPPORTED_FORMATS.includes(value.type))),
         facility: yup.string().required("Enter facility").matches(/^([a-zA-Z ]{2,30})||([0-9])$/, "Please enter valid name"),
         description: yup.string()
             .required("Enter description")
@@ -74,7 +74,7 @@ export default function Facilities() {
         initialValues: {
             file: '',
             facility: '',
-            description: ''
+            description: '',
         },
         validationSchema: facilitySchema,
         onSubmit: (values, { resetForm }) => {
@@ -84,7 +84,7 @@ export default function Facilities() {
             //     handleAdd(values);
             // }
             handleAdd(values);
-            setUpdateData(false)
+            // setUpdateData(false)
             handleClose();
             resetForm()
         }
@@ -93,7 +93,7 @@ export default function Facilities() {
     let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm, setValues, setFieldValue } = formikObj
 
     const [open, setOpen] = React.useState(false);
-    
+
     const handleClickOpen = () => {
         setOpen(true);
     };
