@@ -55,6 +55,7 @@ export default function Facilities() {
         let id = Math.floor(Math.random() * 1000);
 
         let localData = JSON.parse(localStorage.getItem('facility'));
+        console.log(localData);
 
         if (localData) {
             localData.push({ ...values, id: id });
@@ -134,7 +135,7 @@ export default function Facilities() {
             width: 130,
             renderCell: (params) => (
                 <>
-                    <EditIcon onClick={handleEdit(params.row)} fontSize="small" fill='grey' />
+                    <EditIcon onClick={handleEdit(params.row)} fontSize="small" style={{ color: 'grey' }} />
                     <IconButton onClick={handleDelete(params.row)} aria-label="delete" size="small">
                         <DeleteIcon fontSize="inherit" />
                     </IconButton>
