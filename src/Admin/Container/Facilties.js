@@ -31,7 +31,7 @@ export default function Facilities() {
         file: yup
             .mixed()
             .nullable()
-            .required('A file is required')
+            .required('Please upload image')
             .test('Fichier taille',
                 'File size is too large', (value) => !value || (value && value.size <= 1024 * 1024))
             .test('format',
@@ -76,9 +76,18 @@ export default function Facilities() {
         let localData = JSON.parse(localStorage.getItem('facility'))
         console.log(localData);
 
-        let index = localData.findIndex((v,i) => v.id === id)
+        let updatedData = localData.map((v) => {
+            if (v.id == id) {
+                v = data;
+            }
+            return v;
+        })
 
-        console.log(updatedData);
+         console.log(updatedData);
+
+        localStorage.setItem('facility', JSON.stringify(updatedData))
+
+        setFacilityData(updatedData)
     }
 
     let formikObj = useFormik({
@@ -102,7 +111,7 @@ export default function Facilities() {
 
     let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm, setValues, setFieldValue } = formikObj
 
-    
+
 
     const handleClickOpen = () => {
         setOpen(true);
