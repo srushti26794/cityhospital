@@ -13,8 +13,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 export default function Facilities() {
+    const [open, setOpen] = React.useState(false);
     const [facilityData, setFacilityData] = useState([])
-    // const [updateData, setUpdateData] = useState(false)
+    const [updateData, setUpdateData] = useState(false)
 
     const SUPPORTED_FORMATS = ['image/jpg', 'image/JPG', 'image/jpeg', 'image/JPEG', 'image/png', 'image/PNG'];
 
@@ -67,9 +68,18 @@ export default function Facilities() {
         }
     }
 
-    // const handleUpdate = () => {
-    //     console.log('update data');
-    // }
+    const handleUpdate = (data) => {
+        console.log(data);
+        let id = JSON.parse(data.id);
+        console.log(id);
+
+        let localData = JSON.parse(localStorage.getItem('facility'))
+        console.log(localData);
+
+        let index = localData.findIndex((v,i) => v.id === id)
+
+        console.log(updatedData);
+    }
 
     let formikObj = useFormik({
         initialValues: {
@@ -79,13 +89,12 @@ export default function Facilities() {
         },
         validationSchema: facilitySchema,
         onSubmit: (values, { resetForm }) => {
-            // if (updateData) {
-            //     handleUpdate()
-            // } else {
-            //     handleAdd(values);
-            // }
-            handleAdd(values);
-            // setUpdateData(false)
+            if (updateData) {
+                handleUpdate(values)
+            } else {
+                handleAdd(values);
+            }
+            setUpdateData(false)
             handleClose();
             resetForm()
         }
@@ -93,7 +102,7 @@ export default function Facilities() {
 
     let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm, setValues, setFieldValue } = formikObj
 
-    const [open, setOpen] = React.useState(false);
+    
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -107,7 +116,7 @@ export default function Facilities() {
     const handleEdit = (data) => {
         handleClickOpen()
         setValues(data)
-        setFacilityData(true)
+        setUpdateData(true)
     }
 
     const handleDelete = (data) => {
@@ -121,8 +130,8 @@ export default function Facilities() {
 
         let newFacilityData = localData.filter((v) => v.id !== id)
         console.log(newFacilityData);
-        // localStorage.setItem('facility', JSON.stringify(newFacilityData))
-        // setFacilityData(newFacilityData)
+        localStorage.setItem('facility', JSON.stringify(newFacilityData))
+        setFacilityData(newFacilityData)
     }
 
     const columns = [
@@ -135,8 +144,8 @@ export default function Facilities() {
             width: 130,
             renderCell: (params) => (
                 <>
-                    <EditIcon onClick={handleEdit(params.row)} fontSize="small" style={{ color: 'grey' }} />
-                    <IconButton onClick={handleDelete(params.row)} aria-label="delete" size="small">
+                    <EditIcon onClick={() => handleEdit(params.row)} fontSize="small" style={{ color: 'grey' }} />
+                    <IconButton onClick={() => handleDelete(params.row)} aria-label="delete" size="small">
                         <DeleteIcon fontSize="inherit" />
                     </IconButton>
                 </>
@@ -191,7 +200,7 @@ export default function Facilities() {
                         <span>{errors.description && touched.description ? errors.description : null}</span>
 
                         <DialogActions>
-                            <Button type='submit' onClick={handleClose}>Add</Button>
+                            <Button type='submit'>{updateData ? 'Update' : 'Add'}</Button>
                             <Button onClick={handleClose}>Cancel</Button>
                         </DialogActions>
                     </form>
