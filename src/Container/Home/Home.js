@@ -1,6 +1,9 @@
 import React from 'react';
 
+let facilityData = JSON.parse(localStorage.getItem('facility'))
+
 function Home(props) {
+
     return (
 
         <main id="main">
@@ -54,8 +57,35 @@ function Home(props) {
                             amet ex in volutpat. Donec lacinia finibus tortor. Curabitur luctus eleifend odio. Phasellus placerat mi et
                             suscipit pulvinar. Donec quis tristique lectus.</p>
                     </div>
-                    <div className="row">
-                        <div className="col-lg-4 col-md-6 d-flex align-items-stretch">
+                    <div className="row justify-beetween">
+                        {
+                            facilityData.map((v, index) => {
+                                console.log(v);
+                                // for (let i = 0; i <= v[index]; i++) {
+                                //     if (v[index] = 0) {
+                                //         return (
+                                //             <div className="col-lg-4 col-md-6 d-flex align-items-stretch">
+                                //                 <div className="icon-box">
+                                //                     <div className="icon"><i className="fas fa-hospital-alt" /></div>
+                                //                     <h4><a href>{v.facility}</a></h4>
+                                //                     <p>{v.description}</p>
+                                //                 </div>
+                                //             </div>
+                                //         )
+                                //     }
+                                // }
+                                return (
+                                    <div className="col-lg-4 col-md-6">
+                                        <div className="icon-box">
+                                            <div className="icon"><i className="fas fa-hospital-alt" /></div>
+                                            <h4><a href>{v.facility}</a></h4>
+                                            <p>{v.description}</p>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                        {/* <div className="col-lg-4 col-md-6 d-flex align-items-stretch">
                             <div className="icon-box">
                                 <div className="icon"><i className="fas fa-hospital-alt" /></div>
                                 <h4><a href>24x7 Emergency Available</a></h4>
@@ -96,7 +126,7 @@ function Home(props) {
                                 <h4><a href>Medical</a></h4>
                                 <p>Morbi vulputate, tortor nec pellentesque molestie</p>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </section>

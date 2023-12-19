@@ -70,14 +70,12 @@ export default function Facilities() {
 
     const handleUpdate = (data) => {
         console.log(data);
-        let id = JSON.parse(data.id);
-        console.log(id);
-
+    
         let localData = JSON.parse(localStorage.getItem('facility'))
         console.log(localData);
 
         let updatedData = localData.map((v) => {
-            if (v.id == id) {
+            if (v.id == data.id) {
                 v = data;
             }
             return v;

@@ -1,4 +1,9 @@
-.row{
+/* .row{
+    text-align: center;
+    justify-content: center;
+} */
+.login-signup-form{
+    display: flex;
     text-align: center;
     justify-content: center;
 }

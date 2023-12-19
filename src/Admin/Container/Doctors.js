@@ -63,8 +63,24 @@ export default function Doctors() {
         }
     }
 
-    const handleUpdate = () => {
-        console.log('Update data');
+    const handleUpdate = (data) => {
+        console.log(data);
+    
+        let localData = JSON.parse(localStorage.getItem('doctors'))
+        console.log(localData);
+
+        let updatedData = localData.map((v) => {
+            if (v.id == data.id) {
+                v = data;
+            }
+            return v;
+        })
+
+         console.log(updatedData);
+
+        localStorage.setItem('doctors', JSON.stringify(updatedData))
+
+        setDoctorData(updatedData)
     }
 
     let formikObj = useFormik({
@@ -78,7 +94,7 @@ export default function Doctors() {
             console.log(values);
 
             if(updateData){
-                handleUpdate()
+                handleUpdate(values)
             }else{
                 handleAdd(values);
             }

@@ -60,45 +60,47 @@ function LoginSignup(props) {
 
                 <form onSubmit={handleSubmit} method='post' className='SignupForm'>
                     <div className='row'>
+                        <div className='login-signup-form'>
 
-                        <div className='sign_up'>
-                            {
-                                type === 'signup'
-                                    ? <><input onChange={handleChange} onBlur={handleBlur} value={values.name} type="text" name="name" className="form-control signup" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                                        <span>{errors.name && touched.name ? errors.name : null}</span>
-                                        <div className="validate" /></> : null
-                            }
+                            <div className='sign_up'>
+                                {
+                                    type === 'signup'
+                                        ? <><input onChange={handleChange} onBlur={handleBlur} value={values.name} type="text" name="name" className="form-control signup" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                                            <span>{errors.name && touched.name ? errors.name : null}</span>
+                                            <div className="validate" /></> : null
+                                }
 
 
-                            <input onChange={handleChange} onBlur={handleBlur} value={values.email} type="email" className="form-control signup" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
-                            <span>{errors.email && touched.email ? errors.email : null}</span>
-                            <div className="validate" />
+                                <input onChange={handleChange} onBlur={handleBlur} value={values.email} type="email" className="form-control signup" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                                <span>{errors.email && touched.email ? errors.email : null}</span>
+                                <div className="validate" />
 
-                            {
-                                type === 'forgot'
-                                    ? null
-                                    : <><input onChange={handleChange} onBlur={handleBlur} value={values.password} type="password" className="form-control signup" name="password" id="password" placeholder="Enter Password" data-rule="password" data-msg="Please enter a valid password" />
-                                        <span>{errors.password && touched.password ? errors.password : null}</span>
-                                        <div className="validate" /></>
-                            }
+                                {
+                                    type === 'forgot'
+                                        ? null
+                                        : <><input onChange={handleChange} onBlur={handleBlur} value={values.password} type="password" className="form-control signup" name="password" id="password" placeholder="Enter Password" data-rule="password" data-msg="Please enter a valid password" />
+                                            <span>{errors.password && touched.password ? errors.password : null}</span>
+                                            <div className="validate" /></>
+                                }
 
-                            {
-                                type === 'signup' ? <><input onChange={handleChange} onBlur={handleBlur} value={values.confPassword} type="password" className="form-control signup" name="confPassword" id="confPassword" placeholder="Confirm Password" data-rule="password" data-msg="Please enter a valid password" />
-                                    <span>{errors.confPassword && touched.confPassword ? errors.confPassword : null}</span><div className="validate" /></> : null
-                            }
+                                {
+                                    type === 'signup' ? <><input onChange={handleChange} onBlur={handleBlur} value={values.confPassword} type="password" className="form-control signup" name="confPassword" id="confPassword" placeholder="Confirm Password" data-rule="password" data-msg="Please enter a valid password" />
+                                        <span>{errors.confPassword && touched.confPassword ? errors.confPassword : null}</span><div className="validate" /></> : null
+                                }
 
-                            {
-                                type === 'forgot'
-                                    ? <><div className="text-center"><button className='signUpBtn' type="submit">Find account</button></div>
-                                        <p className='haveAcc'><a href='#' onClick={handleLogin}>Login</a></p></>
+                                {
+                                    type === 'forgot'
+                                        ? <><div className="text-center"><button className='signUpBtn' type="submit">Find account</button></div>
+                                            <p className='haveAcc'><a href='#' onClick={handleLogin}>Login</a></p></>
 
-                                    : type === 'signup'
-                                        ? <><div className="text-center"><button className='signUpBtn' type="submit">Sign up</button></div>
-                                            <p className='haveAcc'>Already have an account? <a href='#' onClick={handleLogin}>Login</a></p></>
-                                        : <><div className="text-center"><button className='loginBtn' type="submit">Login</button></div>
-                                            <p className='haveAcc'><a href='#' onClick={handleForgot}>Forgot password?</a></p>
-                                            <p><a href='#' onClick={handleSignup}>Create a new account?</a></p></>
-                            }
+                                        : type === 'signup'
+                                            ? <><div className="text-center"><button className='signUpBtn' type="submit">Sign up</button></div>
+                                                <p className='haveAcc'>Already have an account? <a href='#' onClick={handleLogin}>Login</a></p></>
+                                            : <><div className="text-center"><button className='loginBtn' type="submit">Login</button></div>
+                                                <p className='haveAcc'><a href='#' onClick={handleForgot}>Forgot password?</a></p>
+                                                <p><a href='#' onClick={handleSignup}>Create a new account?</a></p></>
+                                }
+                            </div>
                         </div>
                     </div>
                 </form>
