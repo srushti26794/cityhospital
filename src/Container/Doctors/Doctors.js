@@ -1,5 +1,7 @@
 import React from 'react';
 
+let localData = JSON.parse(localStorage.getItem('doctors'))
+
 function Doctors(props) {
     return (
         <section id="doctors" className="doctors">
