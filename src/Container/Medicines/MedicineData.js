@@ -114,7 +114,7 @@ function MedicineData(props) {
                             )
                         })
                     }
-                </div>
+                </div >
             </Container>
 
         </div>

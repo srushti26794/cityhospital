@@ -167,15 +167,15 @@ export default function Medicine() {
         { field: 'description', headerName: 'Description', width: 130 },
         {
             field: 'file', headerName: 'Medicine file', width: 130,
-            renderCell: (params) => {
-                console.log(params.row);
-                // <image>
-                return (
-                    <img src={URL.createObjectURL(params.row.file)} />
-                )
+            // renderCell: (params) => {
+            //     console.log(params.row);
+            //     // <image>
+            //     return (
+            //         <img src={URL.createObjectURL(params.row.file)} />
+            //     )
 
 
-            }
+            // }
         },
         {
             field: 'action',
