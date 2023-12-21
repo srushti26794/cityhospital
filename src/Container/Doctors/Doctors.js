@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 function Doctors(props) {
     const [data, setData] = useState([])
     const [search, setSearch] = useState('')
+    const [sort, setSort] = useState('')
     const [searchData, setSearchData] = useState([]);
 
     useEffect(() => {
@@ -13,22 +14,32 @@ function Doctors(props) {
         }
     }, [])
 
-    const handleSearch = (val) => {
-        setSearch(val)
+    const handleSearchSort = () => {
+        console.log(data, search, sort);
 
         let fData = data.filter((v) =>
-            v.name.toLowerCase().includes(val.toLowerCase()) ||
-            v.designation.toLowerCase().includes(val.toLowerCase()) ||
-            v.degree.toLowerCase().includes(val.toLowerCase())
+            v.name.toLowerCase().includes(search) ||
+            v.designation.toLowerCase().includes(search) ||
+            v.degree.toLowerCase().includes(search)
         )
+
+        fData = fData.sort((a,b) => {
+            if(sort === 'az'){
+                return a.name.localeCompare(b.name);
+            }else if(sort === 'za'){
+                return b.name.localeCompare(a.name);
+            }
+        })
+
         console.log(fData);
 
-        setSearchData(fData);
+        return fData
     }
-    console.log(search);
+    console.log(data);
 
-    const finalData = searchData.length > 0 ? searchData : data
+    const finalData = handleSearchSort();
 
+    console.log(finalData);
 
     return (
         <section id="doctors" className="doctors">
@@ -40,7 +51,13 @@ function Doctors(props) {
                         ipsum lacus, ut pharetra arcu sagittis nec. Phasellus a eleifend elit.</p>
                 </div>
                 <div className='search_bar'>
-                    <input onChange={(event) => handleSearch(event.target.value)} type='search' />
+                    <input onChange={(event) => setSearch(event.target.value)} type='search' />
+
+                    <select name='sort' onChange={(event) => setSort(event.target.value)}>
+                        <option value="0">Sort by:</option>
+                        <option value="az">A to Z</option>
+                        <option value="za">Z to A</option>
+                    </select>
                 </div>
                 <div className="row">
                     {

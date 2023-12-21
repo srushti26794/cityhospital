@@ -79,6 +79,7 @@ import { ButtonGroup } from '@mui/material';
 function Medicines(props) {
     const [data, setData] = useState([])
     const [search, setSearch] = useState('')
+    const [sort, setSort] = useState('')
     const [searchData, setSearchData] = useState([]);
 
     useEffect(() => {
@@ -89,31 +90,52 @@ function Medicines(props) {
         }
     }, [])
 
-    const handleSearch = (val) => {
-        setSearch(val)
+    const handleSearchSort = () => {
+        console.log(data, search, sort);
 
-        let fData =  data.filter((v) =>
-            v.name.toLowerCase().includes(val.toLowerCase()) ||
-            v.price.toString().includes(val) ||
-            v.expiry.toString().includes(val) ||
-            v.description.toLowerCase().includes(val.toLowerCase())
+        let fData = data.filter((v) =>
+            v.name.toLowerCase().includes(search) ||
+            v.price.toString().includes(search) ||
+            v.expiry.toString().includes(search) ||
+            v.description.toLowerCase().includes(search)
         )
+
+        fData = fData.sort((a, b) => {
+            if (sort === 'az') {
+                return a.name.localeCompare(b.name);
+            } else if (sort === 'za') {
+                return b.name.localeCompare(a.name);
+            } else if (sort === 'lh') {
+                return a.price - b.price;
+            } else if (sort === 'hl') {
+                return b.price - a.price;
+            }
+        })
+
+
         console.log(fData);
 
-        setSearchData(fData);
+        return fData
     }
-    console.log(search);
+    console.log(data);
 
-    const finalData = searchData.length > 0 ? searchData : data
+    const finalData = handleSearchSort();
 
-    
 
     return (
         <div>
             <Container className="bg-light border">
                 <div className='search_bar'>
-                    <input onChange={(event) => handleSearch(event.target.value)} type='search' />
+                    <input onChange={(event) => setSearch(event.target.value)} type='search' />
+                    <select name='sort' onChange={(event) => setSort(event.target.value)}>
+                        <option value="0">--Select--</option>
+                        <option value="az">A to Z</option>
+                        <option value="za">Z to A</option>
+                        <option value="lh">Low to High</option>
+                        <option value="hl">High to Low</option>
+                    </select>
                 </div>
+
                 <div className='medParent'>
                     {
                         finalData.map((v, i) => {
