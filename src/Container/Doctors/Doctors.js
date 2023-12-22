@@ -1,33 +1,65 @@
+import { BorderAll } from '@mui/icons-material';
+import { colors } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
 function Doctors(props) {
     const [data, setData] = useState([])
     const [search, setSearch] = useState('')
     const [sort, setSort] = useState('')
-    const [searchData, setSearchData] = useState([]);
+    const [category, setcategory] = useState([])
+    const [selectCat, setSelectCat] = useState('')
 
     useEffect(() => {
-        let localData = JSON.parse(localStorage.getItem('doctors'))
+        getData()
+        // let localData = JSON.parse(localStorage.getItem('doctors'))
 
-        if (localData) {
-            setData(localData)
-        }
+        // if (localData) {
+        //     setData(localData)
+        // }
     }, [])
+
+    const getData = async () => {
+        let response = await fetch("https://fakestoreapi.com/products")
+        let apiData = await response.json();
+
+        console.log(apiData);
+
+        let uniqueCat = [];
+
+        apiData.map((a) => {
+            if (!uniqueCat.includes(a.category)) {
+                uniqueCat.push(a.category)
+            }
+        })
+        console.log(uniqueCat);
+
+        setcategory(uniqueCat)
+
+        setData(apiData)
+
+    }
+
 
     const handleSearchSort = () => {
         console.log(data, search, sort);
 
         let fData = data.filter((v) =>
-            v.name.toLowerCase().includes(search) ||
-            v.designation.toLowerCase().includes(search) ||
-            v.degree.toLowerCase().includes(search)
+            v.title.toLowerCase().includes(search) ||
+            v.category.toLowerCase().includes(search)
+            // v.name.toLowerCase().includes(search) ||
+            // v.designation.toLowerCase().includes(search) ||
+            // v.degree.toLowerCase().includes(search)
         )
 
-        fData = fData.sort((a,b) => {
-            if(sort === 'az'){
-                return a.name.localeCompare(b.name);
-            }else if(sort === 'za'){
-                return b.name.localeCompare(a.name);
+        if(selectCat !== ''){
+            fData = fData.filter((v) => v.category === selectCat)
+        }
+
+        fData = fData.sort((a, b) => {
+            if (sort === 'az') {
+                return a.title.localeCompare(b.title);
+            } else if (sort === 'za') {
+                return b.title.localeCompare(a.title);
             }
         })
 
@@ -50,6 +82,17 @@ function Doctors(props) {
                         tincidunt viverra erat. Quisque in lectus id nulla viverra sodales in a risus. Aliquam ut sem ex. Duis viverra
                         ipsum lacus, ut pharetra arcu sagittis nec. Phasellus a eleifend elit.</p>
                 </div>
+                
+                <div className='text-center'>
+                {   
+                    category.map((v) => (
+                        <button onClick={() => setSelectCat(v)} className="appointment-btn scrollto" id='doc-cat-but'>
+                            <span className="d-none d-md-inline">{v}</span>
+                        </button>
+                    ))
+                }
+                </div>
+
                 <div className='search_bar'>
                     <input onChange={(event) => setSearch(event.target.value)} type='search' />
 
@@ -59,7 +102,26 @@ function Doctors(props) {
                         <option value="za">Z to A</option>
                     </select>
                 </div>
+
                 <div className="row">
+                    {
+                        finalData.map((v) => (
+                            <div className="col-lg-6">
+                                <div className="pic text-center"><img src={v.image} className="img-doctor" alt /></div>
+                                <div className="member d-flex align-items-start">
+                                    {/* <div className="pic"><img src={v.image} className="img-doctor" alt /></div> */}
+                                    <div className="member-info">
+                                        <h4>{v.title}</h4>
+                                        <span>{v.category}</span>
+                                        <p>{v.description}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+
+                {/* <div className="row">
                     {
                         finalData.map((v) => (
                             <div className="col-lg-6">
@@ -80,7 +142,7 @@ function Doctors(props) {
                             </div>
                         ))
                     }
-                </div>
+                </div> */}
             </div>
         </section>
 
