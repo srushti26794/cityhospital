@@ -1,6 +1,8 @@
 import { BorderAll } from '@mui/icons-material';
 import { colors } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { set } from 'date-fns';
 
 function Doctors(props) {
     const [data, setData] = useState([])
@@ -8,9 +10,11 @@ function Doctors(props) {
     const [sort, setSort] = useState('')
     const [category, setcategory] = useState([])
     const [selectCat, setSelectCat] = useState('')
+    const [wishlist, setWishlist] = useState([])
 
     useEffect(() => {
         getData()
+        // handleWishlist()
         // let localData = JSON.parse(localStorage.getItem('doctors'))
 
         // if (localData) {
@@ -36,7 +40,20 @@ function Doctors(props) {
         setcategory(uniqueCat)
 
         setData(apiData)
+    }
 
+    const handleWishlist = (value) => {
+        console.log(value);
+
+        if (wishlist.includes(value)) {
+            wishlist.splice(value, 1)
+            setWishlist(wishlist)
+        } else {
+            wishlist.push(value)
+            setWishlist(wishlist)
+        }
+
+        console.log(wishlist);
     }
 
 
@@ -51,7 +68,7 @@ function Doctors(props) {
             // v.degree.toLowerCase().includes(search)
         )
 
-        if(selectCat !== ''){
+        if (selectCat !== '') {
             fData = fData.filter((v) => v.category === selectCat)
         }
 
@@ -82,20 +99,19 @@ function Doctors(props) {
                         tincidunt viverra erat. Quisque in lectus id nulla viverra sodales in a risus. Aliquam ut sem ex. Duis viverra
                         ipsum lacus, ut pharetra arcu sagittis nec. Phasellus a eleifend elit.</p>
                 </div>
-                
+
                 <div className='text-center'>
-                {   
-                    category.map((v) => (
-                        <button onClick={() => setSelectCat(v)} className="appointment-btn scrollto" id='doc-cat-but'>
-                            <span className="d-none d-md-inline">{v}</span>
-                        </button>
-                    ))
-                }
+                    {
+                        category.map((v) => (
+                            <button onClick={() => setSelectCat(v)} className="appointment-btn scrollto" id='doc-cat-but'>
+                                <span className="d-none d-md-inline">{v}</span>
+                            </button>
+                        ))
+                    }
                 </div>
 
                 <div className='search_bar'>
                     <input onChange={(event) => setSearch(event.target.value)} type='search' />
-
                     <select name='sort' onChange={(event) => setSort(event.target.value)}>
                         <option value="0">Sort by:</option>
                         <option value="az">A to Z</option>
@@ -107,7 +123,10 @@ function Doctors(props) {
                     {
                         finalData.map((v) => (
                             <div className="col-lg-6">
-                                <div className="pic text-center"><img src={v.image} className="img-doctor" alt /></div>
+                                <span className='icon' onClick={() => handleWishlist(v)}><FavoriteBorderIcon /></span>
+                                <div className="pic text-center">
+                                    <img src={v.image} className="img-doctor" alt />
+                                </div>
                                 <div className="member d-flex align-items-start">
                                     {/* <div className="pic"><img src={v.image} className="img-doctor" alt /></div> */}
                                     <div className="member-info">
@@ -120,6 +139,30 @@ function Doctors(props) {
                         ))
                     }
                 </div>
+
+                <div className="row">
+                    <h1>WishList</h1>
+                    {
+                        wishlist.map((v) => (
+                            console.log(v),
+                            <div className="col-lg-6">
+                                <span className='icon' onClick={() => handleWishlist(v)}><FavoriteBorderIcon /></span>
+                                <div className="pic text-center">
+                                    <img src={v.image} className="img-doctor" alt />
+                                </div>
+                                <div className="member d-flex align-items-start">
+                                    {/* <div className="pic"><img src={v.image} className="img-doctor" alt /></div> */}
+                                    <div className="member-info">
+                                        <h4>{v.title}</h4>
+                                        <span>{v.category}</span>
+                                        <p>{v.description}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+
 
                 {/* <div className="row">
                     {
