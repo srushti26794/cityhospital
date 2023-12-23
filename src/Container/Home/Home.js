@@ -1,6 +1,7 @@
 import React from 'react';
 
 let facilityData = JSON.parse(localStorage.getItem('facility'))
+console.log(facilityData);
 
 function Home(props) {
 
@@ -9,7 +10,7 @@ function Home(props) {
         <main id="main">
             <section id="hero" className="d-flex align-items-center">
                 <div className="container">
-                    <h1>Welcome to City <br />Multispeciality Hospital</h1>
+                    <h1>Welcome to City <br/>Multispeciality Hospital</h1>
                     <h2>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h2>
                 </div>
             </section>
@@ -59,22 +60,8 @@ function Home(props) {
                     </div>
                     <div className="row justify-beetween">
                         {
-                            facilityData.map((v, index) => {
+                            facilityData.map((v, index) => (
                                 console.log(v);
-                                // for (let i = 0; i <= v[index]; i++) {
-                                //     if (v[index] = 0) {
-                                //         return (
-                                //             <div className="col-lg-4 col-md-6 d-flex align-items-stretch">
-                                //                 <div className="icon-box">
-                                //                     <div className="icon"><i className="fas fa-hospital-alt" /></div>
-                                //                     <h4><a href>{v.facility}</a></h4>
-                                //                     <p>{v.description}</p>
-                                //                 </div>
-                                //             </div>
-                                //         )
-                                //     }
-                                // }
-                                return (
                                     <div className="col-lg-4 col-md-6">
                                         <div className="icon-box">
                                             <div className="icon"><i className="fas fa-hospital-alt" /></div>
@@ -83,7 +70,7 @@ function Home(props) {
                                         </div>
                                     </div>
                                 )
-                            })
+                            )
                         }
                     </div>
                 </div>
