@@ -61,7 +61,6 @@ function Home(props) {
                     <div className="row justify-beetween">
                         {
                             facilityData.map((v, index) => (
-                                console.log(v);
                                     <div className="col-lg-4 col-md-6">
                                         <div className="icon-box">
                                             <div className="icon"><i className="fas fa-hospital-alt" /></div>

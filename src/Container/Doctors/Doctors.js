@@ -26,7 +26,7 @@ function Doctors(props) {
         let response = await fetch("https://fakestoreapi.com/products")
         let apiData = await response.json();
 
-        console.log(apiData);
+        // console.log(apiData);
 
         let uniqueCat = [];
 
@@ -35,30 +35,52 @@ function Doctors(props) {
                 uniqueCat.push(a.category)
             }
         })
-        console.log(uniqueCat);
+        // console.log(uniqueCat);
 
         setcategory(uniqueCat)
 
         setData(apiData)
     }
 
-    const handleWishlist = (value) => {
-        console.log(value);
+    const handleWishlist = (id) => {
+        console.log(id);
 
-        if (wishlist.includes(value)) {
-            wishlist.splice(value, 1)
-            setWishlist(wishlist)
+        let product = data.find((v) => v.id === id);
+        console.log(product);
+
+        let index = wishlist.findIndex((v) => v.id === id);
+        if (index !== -1) {
+            wishlist.splice(index, 1)
         } else {
-            wishlist.push(value)
-            setWishlist(wishlist)
+            // product.isAdded = true;
+            wishlist.push(product)
         }
+        setWishlist([...wishlist]);
+
+        // if (wishlist.includes(id)) {
+        //     console.log('remove');
+        //     wishlist.splice(id, 2)
+        // } else {
+        //     console.log('add');
+        //     wishlist.push(id)
+        // }
+        // setWishlist(wishlist)
+
+
+        // if (wishlist.includes(value)) {
+        //     wishlist.splice(value, 1)
+        //     setWishlist(wishlist)
+        // } else {
+        //     wishlist.push(value)
+        //     setWishlist(wishlist)
+        // }
 
         console.log(wishlist);
     }
 
 
     const handleSearchSort = () => {
-        console.log(data, search, sort);
+        // console.log(data, search, sort);
 
         let fData = data.filter((v) =>
             v.title.toLowerCase().includes(search) ||
@@ -80,15 +102,15 @@ function Doctors(props) {
             }
         })
 
-        console.log(fData);
+        // console.log(fData);
 
         return fData
     }
-    console.log(data);
+    // console.log(data);
 
     const finalData = handleSearchSort();
 
-    console.log(finalData);
+    // console.log(finalData);
 
     return (
         <section id="doctors" className="doctors">
@@ -123,7 +145,7 @@ function Doctors(props) {
                     {
                         finalData.map((v) => (
                             <div className="col-lg-6">
-                                <span className='icon' onClick={() => handleWishlist(v)}><FavoriteBorderIcon /></span>
+                                <span className='icon' onClick={() => handleWishlist(v.id)}><FavoriteBorderIcon /></span>
                                 <div className="pic text-center">
                                     <img src={v.image} className="img-doctor" alt />
                                 </div>
