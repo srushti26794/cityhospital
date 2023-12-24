@@ -44,36 +44,18 @@ function Doctors(props) {
 
     const handleWishlist = (id) => {
         console.log(id);
+        let index = wishlist.indexOf(id);
+        console.log(index);
 
-        let product = data.find((v) => v.id === id);
-        console.log(product);
-
-        let index = wishlist.findIndex((v) => v.id === id);
-        if (index !== -1) {
-            wishlist.splice(index, 1)
+        if (index === -1) {
+            wishlist.push(id)
+            setWishlist(wishlist);
         } else {
-            // product.isAdded = true;
-            wishlist.push(product)
-        }
-        setWishlist([...wishlist]);
+            wishlist.splice(index, 1);
+            setWishlist(wishlist);
+        }    
 
-        // if (wishlist.includes(id)) {
-        //     console.log('remove');
-        //     wishlist.splice(id, 2)
-        // } else {
-        //     console.log('add');
-        //     wishlist.push(id)
-        // }
-        // setWishlist(wishlist)
-
-
-        // if (wishlist.includes(value)) {
-        //     wishlist.splice(value, 1)
-        //     setWishlist(wishlist)
-        // } else {
-        //     wishlist.push(value)
-        //     setWishlist(wishlist)
-        // }
+        setWishlist(wishlist)
 
         console.log(wishlist);
     }
@@ -166,7 +148,6 @@ function Doctors(props) {
                     <h1>WishList</h1>
                     {
                         wishlist.map((v) => (
-                            console.log(v),
                             <div className="col-lg-6">
                                 <span className='icon' onClick={() => handleWishlist(v)}><FavoriteBorderIcon /></span>
                                 <div className="pic text-center">
@@ -184,30 +165,6 @@ function Doctors(props) {
                         ))
                     }
                 </div>
-
-
-                {/* <div className="row">
-                    {
-                        finalData.map((v) => (
-                            <div className="col-lg-6">
-                                <div className="member d-flex align-items-start">
-                                    <div className="pic"><img src="../assets/img/doctors/doctors-1.jpg" className="img-doctor" alt /></div>
-                                    <div className="member-info">
-                                        <h4>{v.name}</h4>
-                                        <span>{v.designation}</span>
-                                        <p>{v.degree}</p>
-                                        <div className="social">
-                                            <a href><i className="ri-twitter-fill" /></a>
-                                            <a href><i className="ri-facebook-fill" /></a>
-                                            <a href><i className="ri-instagram-fill" /></a>
-                                            <a href> <i className="ri-linkedin-box-fill" /> </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    }
-                </div> */}
             </div>
         </section>
 
