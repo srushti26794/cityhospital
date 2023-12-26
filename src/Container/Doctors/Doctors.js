@@ -1,16 +1,17 @@
 import { BorderAll } from '@mui/icons-material';
-import { colors } from '@mui/material';
+import { IconButton, colors } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { set } from 'date-fns';
+import { id } from 'date-fns/locale';
 
-function Doctors(props) {
+function Doctors({wishlist, setWishlist}) {
     const [data, setData] = useState([])
     const [search, setSearch] = useState('')
     const [sort, setSort] = useState('')
     const [category, setcategory] = useState([])
     const [selectCat, setSelectCat] = useState('')
-    const [wishlist, setWishlist] = useState([])
 
     useEffect(() => {
         getData()
@@ -43,22 +44,18 @@ function Doctors(props) {
     }
 
     const handleWishlist = (id) => {
-        console.log(id);
-        let index = wishlist.indexOf(id);
-        console.log(index);
+        console.log(wishlist.includes(id));
 
-        if (index === -1) {
-            wishlist.push(id)
-            setWishlist(wishlist);
+        if (!wishlist.includes(id)) {
+            setWishlist((prev) => [...prev, id])
         } else {
-            wishlist.splice(index, 1);
-            setWishlist(wishlist);
-        }    
-
-        setWishlist(wishlist)
-
-        console.log(wishlist);
+            let fdata = wishlist.filter((v) => v !== id)
+            console.log(fdata);
+            setWishlist(fdata)
+        }
     }
+
+    console.log(wishlist);
 
 
     const handleSearchSort = () => {
@@ -107,7 +104,9 @@ function Doctors(props) {
                 <div className='text-center'>
                     {
                         category.map((v) => (
-                            <button onClick={() => setSelectCat(v)} className="appointment-btn scrollto" id='doc-cat-but'>
+                            <button
+                                style={{ backgroundColor: selectCat === v ? '#166ab5' : '#FF6337' }}
+                                onClick={() => setSelectCat(v)} className="appointment-btn scrollto" id='doc-cat-but'>
                                 <span className="d-none d-md-inline">{v}</span>
                             </button>
                         ))
@@ -126,8 +125,10 @@ function Doctors(props) {
                 <div className="row">
                     {
                         finalData.map((v) => (
-                            <div className="col-lg-6">
-                                <span className='icon' onClick={() => handleWishlist(v.id)}><FavoriteBorderIcon /></span>
+                            <div className="col-lg-6 border">
+                                <IconButton className='icon' onClick={() => handleWishlist(v.id)} aria-label="delete" size="small">
+                                    {wishlist.includes(v.id) ? <FavoriteIcon/> : <FavoriteBorderIcon fontSize="inherit" />}
+                                </IconButton>
                                 <div className="pic text-center">
                                     <img src={v.image} className="img-doctor" alt />
                                 </div>
@@ -149,7 +150,9 @@ function Doctors(props) {
                     {
                         wishlist.map((v) => (
                             <div className="col-lg-6">
-                                <span className='icon' onClick={() => handleWishlist(v)}><FavoriteBorderIcon /></span>
+                               <IconButton className='icon' onClick={() => handleWishlist(v.id)} aria-label="delete" size="small">
+                                    {wishlist.includes(v.id) ? <FavoriteIcon/> : <FavoriteBorderIcon fontSize="inherit" />}
+                                </IconButton>
                                 <div className="pic text-center">
                                     <img src={v.image} className="img-doctor" alt />
                                 </div>

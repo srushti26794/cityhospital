@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Home from '../Container/Home/Home';
 import Department from '../Container/Department/Department';
 import DepartmentDetails from '../Container/Department/DepartmentDetails';
@@ -13,19 +13,23 @@ import PrivateRoutes from './PrivateRoutes';
 import Header from '../Component/Header/Header';
 import Footer from '../Component/Footer/Footer';
 import LoginSignup from '../Container/LoginSignup/LoginSignup';
+import MyWishlist from '../Container/MyWishlist/MyWishlist';
 
 function UserRoutes(props) {
+    const [wishlist, setWishlist] = useState([])
+
     return (
         <>
-            <Header />
+            <Header wishlist = {wishlist} />
             <Routes>
                 <Route exact path='/' element={<Home />} />
                 <Route exact path='/Department' element={<Department />} />
                 <Route exact path='/Department/:id' element={<DepartmentDetails />} />
-                <Route exact path='/Doctors' element={<Doctors />} />
+                <Route exact path='/Doctors' element={<Doctors wishlist = {wishlist} setWishlist = {setWishlist} />} />
                 <Route exact path='/About' element={<About />} />
                 <Route exact path='/Contact' element={<Contact />} />
                 <Route exact path='/LoginSignup' element={<LoginSignup />}/>
+                <Route exact path='/MyWishlist' element={<MyWishlist wishlist = {wishlist} />} />
 
                 <Route element={<PrivateRoutes />}>
 

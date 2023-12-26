@@ -1,7 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import Badge from '@mui/material/Badge';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
-function Header(props) {
+function Header({ wishlist }) {
     return (
         <div className="main-header">
             <div id="topbar" className="d-flex align-items-center fixed-top">
@@ -15,6 +17,11 @@ function Header(props) {
                         <a href="#" className="facebook"><i className="bi bi-facebook" /></a>
                         <a href="#" className="instagram"><i className="bi bi-instagram" /></a>
                         <a href="#" className="linkedin"><i className="bi bi-linkedin" /></a>
+                        <NavLink to="/MyWishlist" >
+                            <Badge badgeContent={wishlist.length} color="primary">
+                                <FavoriteIcon color="action" />
+                            </Badge>
+                        </NavLink>
                     </div>
                 </div>
             </div>
