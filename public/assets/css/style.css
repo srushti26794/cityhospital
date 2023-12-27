@@ -1764,6 +1764,20 @@ section {
 #doc-cat-but{
   border: none;
 }
-/* .icon{
-  margin-left: 600px;
-} */
+
+/* ---------------------------------------------------------------------------------------------- */
+                                  /* Medicine-user *
+/* ---------------------------------------------------------------------------------------------- */
+
+.add-to-cart{
+  height: 35px;
+  text-align: center;
+  font-size: 14px;
+  border: none;
+  background-color: #FF6337;
+}
+
+.add-to-cart:hover{
+  cursor: pointer;
+  background-color: #166ab5;
+}

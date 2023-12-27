@@ -144,30 +144,6 @@ function Doctors({wishlist, setWishlist}) {
                         ))
                     }
                 </div>
-
-                <div className="row">
-                    <h1>WishList</h1>
-                    {
-                        wishlist.map((v) => (
-                            <div className="col-lg-6">
-                               <IconButton className='icon' onClick={() => handleWishlist(v.id)} aria-label="delete" size="small">
-                                    {wishlist.includes(v.id) ? <FavoriteIcon/> : <FavoriteBorderIcon fontSize="inherit" />}
-                                </IconButton>
-                                <div className="pic text-center">
-                                    <img src={v.image} className="img-doctor" alt />
-                                </div>
-                                <div className="member d-flex align-items-start">
-                                    {/* <div className="pic"><img src={v.image} className="img-doctor" alt /></div> */}
-                                    <div className="member-info">
-                                        <h4>{v.title}</h4>
-                                        <span>{v.category}</span>
-                                        <p>{v.description}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    }
-                </div>
             </div>
         </section>
 

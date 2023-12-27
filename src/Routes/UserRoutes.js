@@ -14,13 +14,15 @@ import Header from '../Component/Header/Header';
 import Footer from '../Component/Footer/Footer';
 import LoginSignup from '../Container/LoginSignup/LoginSignup';
 import MyWishlist from '../Container/MyWishlist/MyWishlist';
+import AddToCart from '../Container/AddToCart/AddToCart';
 
 function UserRoutes(props) {
     const [wishlist, setWishlist] = useState([])
+    const [cart, setCart] = useState([])
 
     return (
         <>
-            <Header wishlist = {wishlist} />
+            <Header wishlist = {wishlist} cart = {cart} />
             <Routes>
                 <Route exact path='/' element={<Home />} />
                 <Route exact path='/Department' element={<Department />} />
@@ -30,10 +32,12 @@ function UserRoutes(props) {
                 <Route exact path='/Contact' element={<Contact />} />
                 <Route exact path='/LoginSignup' element={<LoginSignup />}/>
                 <Route exact path='/MyWishlist' element={<MyWishlist wishlist = {wishlist} setWishlist = {setWishlist}/>} />
+                
 
                 <Route element={<PrivateRoutes />}>
 
-                    <Route exact path='/medicines' element={<Medicines />} />
+                    <Route exact path='/medicines' element={<Medicines cart = {cart} setCart = {setCart}/>} />
+                    <Route exact path='/AddToCart' element={<AddToCart cart = {cart} setCart = {setCart}/>}/>
                     <Route exact path='/medicines/:id' element={<MedicineData />} />
                     <Route exact path='/Appointment' element={<Appointment />} />
                 </Route>

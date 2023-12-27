@@ -41,32 +41,34 @@ function MyWishlist({ wishlist, setWishlist }) {
     return (
         <section id="doctors" className="doctors">
             <div className="container">
+                <div className="section-title">
+                    <h2>My Wishlist</h2>
+                </div>
                 <div className="row">
-                    {/* <h1>WishList</h1> */}
                     {
                         wishData && wishData.map((v) => {
                             // const item = data.find((product) => product.id === v);
                             // console.log(item);
                             // if (item) {
-                                return (
-                                    < div className="col-lg-6 border">
-                                        <IconButton className='icon' onClick={() => handleWishlist(v.id)} aria-label="delete" size="small">
-                                            {/* {wishlist.includes(item.id) ? <FavoriteIcon /> : <FavoriteBorderIcon fontSize='large' />} */}
-                                            <FavoriteIcon />
-                                        </IconButton>
-                                        <div className="pic text-center">
-                                            <img src={v.image} className="img-doctor" alt />
-                                        </div>
-                                        <div className="member d-flex align-items-start">
-                                            {/* <div className="pic"><img src={v.image} className="img-doctor" alt /></div> */}
-                                            <div className="member-info">
-                                                <h4>{v.title}</h4>
-                                                <span>{v.category}</span>
-                                                <p>{v.description}</p>
-                                            </div>
+                            return (
+                                < div className="col-lg-6 border">
+                                    <IconButton className='icon' onClick={() => handleWishlist(v.id)} aria-label="delete" size="small">
+                                        {/* {wishlist.includes(item.id) ? <FavoriteIcon /> : <FavoriteBorderIcon fontSize='large' />} */}
+                                        <FavoriteIcon />
+                                    </IconButton>
+                                    <div className="pic text-center">
+                                        <img src={v.image} className="img-doctor" alt />
+                                    </div>
+                                    <div className="member d-flex align-items-start">
+                                        {/* <div className="pic"><img src={v.image} className="img-doctor" alt /></div> */}
+                                        <div className="member-info">
+                                            <h4>{v.title}</h4>
+                                            <span>{v.category}</span>
+                                            <p>{v.description}</p>
                                         </div>
                                     </div>
-                                )
+                                </div>
+                            )
                             // }
                         })
 

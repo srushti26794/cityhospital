@@ -2,8 +2,10 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Badge from '@mui/material/Badge';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-function Header({ wishlist }) {
+
+function Header({ wishlist, cart }) {
     return (
         <div className="main-header">
             <div id="topbar" className="d-flex align-items-center fixed-top">
@@ -20,6 +22,11 @@ function Header({ wishlist }) {
                         <NavLink to="/MyWishlist" >
                             <Badge badgeContent={wishlist.length} color="primary">
                                 <FavoriteIcon color="action" />
+                            </Badge>
+                        </NavLink>
+                        <NavLink to="/AddToCart" >
+                            <Badge badgeContent={cart.length} color="primary">
+                                <ShoppingCartIcon color="action" />
                             </Badge>
                         </NavLink>
                     </div>

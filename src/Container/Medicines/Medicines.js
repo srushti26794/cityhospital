@@ -7,7 +7,7 @@ import {
 import "./Medicines.css"
 import { Link } from 'react-router-dom';
 import { BsCurrencyRupee } from "react-icons/bs";
-import { ButtonGroup } from '@mui/material';
+// import { Button } from '@mui/material';
 
 // const data = [
 //     {
@@ -76,7 +76,7 @@ import { ButtonGroup } from '@mui/material';
 //     }
 // ]
 
-function Medicines(props) {
+function Medicines({cart, setCart}) {
     const [data, setData] = useState([])
     const [search, setSearch] = useState('')
     const [sort, setSort] = useState('')
@@ -84,14 +84,9 @@ function Medicines(props) {
 
     useEffect(() => {
         getData();
-        // let localData = JSON.parse(localStorage.getItem('medicine'))
-
-        // if (localData) {
-        //     setData(localData)
-        // }
     }, [])
 
-    const getData = async() => {
+    const getData = async () => {
         let response = await fetch("http://localhost:3004/data")
         let apiData = await response.json();
 
@@ -125,9 +120,21 @@ function Medicines(props) {
 
         console.log(fData);
 
-        return fData
+        return fData;
     }
-    console.log(data);
+    const handleCart = (id) => {
+        console.log(id);
+
+        if (!cart.includes(id)) {
+            setCart((prev) => [...prev, id])
+        } else {
+            let fdata = cart.filter((v) => v !== id)
+            console.log(fdata);
+            setCart(fdata)
+        }
+    }
+
+    console.log(cart);
 
     const finalData = handleSearchSort();
 
@@ -182,9 +189,13 @@ function Medicines(props) {
                                                     Expiry : {v.expiry}
                                                 </CardSubtitle>
 
+
                                             </CardBody>
                                         </Card>
                                     </Link>
+                                    <Button onClick={() => handleCart(v.id)} className='add-to-cart'>
+                                        Add to cart
+                                    </Button>
                                 </div>
                             )
                         })
