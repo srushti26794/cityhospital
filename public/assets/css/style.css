@@ -1775,9 +1775,25 @@ section {
   font-size: 14px;
   border: none;
   background-color: #FF6337;
+  margin-right: 20px;
 }
 
 .add-to-cart:hover{
   cursor: pointer;
   background-color: #166ab5;
+}
+
+.count{
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #4b7dab;
+  margin: 0 10px;
+  border: none;
+  border-radius: 3px;
+  padding-bottom: 10px;
 }
