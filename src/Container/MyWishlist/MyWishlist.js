@@ -28,21 +28,15 @@ function MyWishlist({ wishlist, setWishlist }) {
     const handleWishlist = (id) => {
         console.log(id);
 
-        // let fdata = wishlist.filter((v) => v.id !== id)
-        // console.log(fdata);
-
-        let item = data.map((v) => v.id === id)
-        console.log(item);
-        // setWishlist(data)
-
-        // if (!wishlist.includes(id)) {
-        //     setWishlist((prev) => [...prev, id])
-        // } else {
-        //     let fdata = wishlist.filter((v) => v !== id)
-        //     console.log(fdata);
-        //     setWishlist(fdata)
-        // }
+        if (wishlist.includes(id)) {
+            let fdata = wishlist.filter((v) => v !== id)
+            console.log(fdata);
+            setWishlist(fdata)
+        }
     }
+
+    let wishData = data.filter((f) => wishlist.find((v) => v === f.id))
+    console.log(wishData);
 
     return (
         <section id="doctors" className="doctors">
@@ -50,30 +44,30 @@ function MyWishlist({ wishlist, setWishlist }) {
                 <div className="row">
                     {/* <h1>WishList</h1> */}
                     {
-                        wishlist.map((v) => {
-                            const item = data.find((product) => product.id === v);
-                            console.log(item);
-                            if (item) {
+                        wishData && wishData.map((v) => {
+                            // const item = data.find((product) => product.id === v);
+                            // console.log(item);
+                            // if (item) {
                                 return (
                                     < div className="col-lg-6 border">
-                                        <IconButton className='icon' onClick={() => handleWishlist(v)} aria-label="delete" size="small">
+                                        <IconButton className='icon' onClick={() => handleWishlist(v.id)} aria-label="delete" size="small">
                                             {/* {wishlist.includes(item.id) ? <FavoriteIcon /> : <FavoriteBorderIcon fontSize='large' />} */}
                                             <FavoriteIcon />
                                         </IconButton>
                                         <div className="pic text-center">
-                                            <img src={item.image} className="img-doctor" alt />
+                                            <img src={v.image} className="img-doctor" alt />
                                         </div>
                                         <div className="member d-flex align-items-start">
                                             {/* <div className="pic"><img src={v.image} className="img-doctor" alt /></div> */}
                                             <div className="member-info">
-                                                <h4>{item.title}</h4>
-                                                <span>{item.category}</span>
-                                                <p>{item.description}</p>
+                                                <h4>{v.title}</h4>
+                                                <span>{v.category}</span>
+                                                <p>{v.description}</p>
                                             </div>
                                         </div>
                                     </div>
                                 )
-                            }
+                            // }
                         })
 
                     }

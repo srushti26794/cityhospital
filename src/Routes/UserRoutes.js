@@ -29,7 +29,7 @@ function UserRoutes(props) {
                 <Route exact path='/About' element={<About />} />
                 <Route exact path='/Contact' element={<Contact />} />
                 <Route exact path='/LoginSignup' element={<LoginSignup />}/>
-                <Route exact path='/MyWishlist' element={<MyWishlist wishlist = {wishlist} />} />
+                <Route exact path='/MyWishlist' element={<MyWishlist wishlist = {wishlist} setWishlist = {setWishlist}/>} />
 
                 <Route element={<PrivateRoutes />}>
 

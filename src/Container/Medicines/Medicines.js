@@ -83,12 +83,22 @@ function Medicines(props) {
     const [searchData, setSearchData] = useState([]);
 
     useEffect(() => {
-        let localData = JSON.parse(localStorage.getItem('medicine'))
+        getData();
+        // let localData = JSON.parse(localStorage.getItem('medicine'))
 
-        if (localData) {
-            setData(localData)
-        }
+        // if (localData) {
+        //     setData(localData)
+        // }
     }, [])
+
+    const getData = async() => {
+        let response = await fetch("http://localhost:3004/data")
+        let apiData = await response.json();
+
+        setData(apiData)
+    }
+
+    console.log(data);
 
     const handleSearchSort = () => {
         console.log(data, search, sort);
@@ -138,7 +148,7 @@ function Medicines(props) {
 
                 <div className='medParent'>
                     {
-                        finalData.map((v, i) => {
+                        data.map((v, i) => {
                             return (
                                 <div>
                                     <Link to={`/medicines/${v.id}`}>
