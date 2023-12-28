@@ -140,7 +140,7 @@ function Medicines({cart, setCart}) {
 
 
     return (
-        <div>
+        <div className='medicines'>
             <Container className="bg-light border">
                 <div className='search_bar'>
                     <input onChange={(event) => setSearch(event.target.value)} type='search' />
