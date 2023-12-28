@@ -125,13 +125,19 @@ function Medicines({cart, setCart}) {
     const handleCart = (id) => {
         console.log(id);
 
+        let cartObj = {
+            id,
+            qty : '1'
+        }
+
         if (!cart.includes(id)) {
-            setCart((prev) => [...prev, id])
+            setCart((prev) => [...prev, cartObj])
         } else {
             let fdata = cart.filter((v) => v !== id)
             console.log(fdata);
             setCart(fdata)
         }
+
     }
 
     console.log(cart);

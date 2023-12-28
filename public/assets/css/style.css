@@ -1818,7 +1818,7 @@ section {
 .add_card{
   margin: auto;
   max-width: 950px;
-  width: 90%;
+  width: 100%;
   box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 1rem;
   border: transparent;
@@ -1882,9 +1882,21 @@ a{
   margin-left: auto;
   font-size: 0.7rem;
 }
-img{
+.cartImg{
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
   width: 3.5rem;
+  margin-right: 30px;
 }
+
+.cart_img{
+  width: 70px;
+  height: 70px;
+  object-fit: cover
+  ;
+}
+
 .back-to-shop{
   margin-top: 4.5rem;
 }

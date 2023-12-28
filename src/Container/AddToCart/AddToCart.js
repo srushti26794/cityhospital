@@ -11,7 +11,7 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 
 function AddToCart({ cart, setCart }) {
     const [data, setData] = useState([])
-    const [counter, setCounter] = useState(1);
+    // const [counter, setCounter] = useState(1);
 
 
     useEffect(() => {
@@ -25,43 +25,53 @@ function AddToCart({ cart, setCart }) {
         setData(apiData)
     }
 
-    let cartData = data.filter((f) => cart.find((v) => v === f.id))
+    let cartData = data.filter((f) => cart.find((v) => v.id === f.id))
     console.log(cartData);
 
     const handleRemove = (id) => {
-        if (cart.includes(id)) {
-            let fdata = cart.filter((v) => v !== id)
-            console.log(fdata);
-            setCart(fdata)
-        }
+        console.log(id);
+        // if (cart.includes(id)) {
+        let fdata = cart.filter((v) => v.id !== id)
+        console.log(fdata);
+        setCart(fdata)
+        // }
     }
 
     const minus = (id) => {
         console.log(id);
-        // cart.map((v) => {
-        //     if (v == id && counter > 1) {
-        //         setCounter(counter - 1)
-        //     }
-        // })
-        return data.map((v) => {
-            if (v.id == id && counter > 1) {
-                setCounter(counter - 1)
-            }
-        })
+        let index = cart.indexOf(cart.find((v) => v.id == id));
+        if (index > -1 && cart[index].count > 1) {
+
+            cart[index].count--;
+            setCart([...cart]);
+            // cart.map((v) => {
+            //     if (v == id && counter > 1) {
+            //         setCounter(counter - 1)
+            //     }
+            // })
+            // return data.map((v) => {
+            //     if (v.id == id && counter > 1) {
+            //         setCounter(counter - 1)
+            //     }
+            // })
+        }
     }
 
     const plus = (id) => {
         console.log(id);
+        let item = cart.find((v) => v.id == id);
+        item.count++;
+        setCart([...cart])
         // cart.map((v) => {
         //     if (v == id) {
         //         setCounter(counter + 1)
         //     }
         // })
-        return data.map((v) => {
-            if (v.id == id) {
-                setCounter(counter + 1)
-            }
-        })
+        // return data.map((v) => {
+        //     if (v.id == id) {
+        //         setCounter(counter + 1)
+        //     }
+        // })
     }
 
 
@@ -70,7 +80,7 @@ function AddToCart({ cart, setCart }) {
             <div className="container">
                 <div className="add_card">
                     <div className="row">
-                        <div className="col-md-8 cart">
+                        <div className="col-lg-8 cart">
                             <div className="title">
                                 <div className="row">
                                     <div className="col"><h4><b>Shopping Cart</b></h4></div>
@@ -82,7 +92,7 @@ function AddToCart({ cart, setCart }) {
                                     return (
                                         <div className="row border-top border-bottom">
                                             <div className="row main align-items-center">
-                                                <div className="col-2"><img  src={require(`../../../public/assets/img/medicine/${v.image}`)} /></div>
+                                                <div className="col-2 cartImg"><img className='cart_img' src={require(`../../../public/assets/img/medicine/${v.image}`)} /></div>
                                                 <div className="col">
                                                     <div className="row text-muted">{v.name}</div>
                                                     <div className="row">{v.expiry}</div>
@@ -92,7 +102,7 @@ function AddToCart({ cart, setCart }) {
                                                     <span className='number'>{counter}</span>
                                                     <button className='count' onClick={() => plus(v.id)} disabled={counter < 10 ? false : true}> + </button>
                                                 </div>
-                                                <div className="col"><CurrencyRupeeIcon/>{v.price}</div>
+                                                <div className="col"><CurrencyRupeeIcon />{v.price}</div>
                                                 <div className="col-2"><span onClick={() => handleRemove(v.id)} className='removeCart'>x</span></div>
                                             </div>
                                         </div>
@@ -102,7 +112,7 @@ function AddToCart({ cart, setCart }) {
 
                             <div className="back-to-shop"><a href="./medicines">←</a><span className="text-muted">Back to shop</span></div>
                         </div>
-                        <div className="col-md-4 summary">
+                        <div className="col-lg-4 summary">
                             <div><h5><b>Summary</b></h5></div>
                             <hr />
                             <div className="row">
@@ -125,72 +135,7 @@ function AddToCart({ cart, setCart }) {
                 </div>
             </div>
         </section>
-
-
-
-
-
-        // <section id="doctors" className="doctors">
-        //     <div className="container">
-        //         <div className="section-title">
-        //             <h2>My Cart</h2>
-        //         </div>
-
-        //         <div className='medParent'>
-        //             {
-        //                 cartData.map((v, i) => {
-        //                     return (
-        //                         <div>
-        //                             <Link to={`/medicines/${v.id}`}>
-        //                                 <Card
-        //                                     style={{
-        //                                         width: '18rem'
-        //                                     }}
-        //                                 >
-        //                                     {/* <div className='medImage'>
-        //                                         <img
-        //                                             className='med-img'
-        //                                             alt="Sample"
-        //                                             src={require(`../../../public/assets/img/medicine/${v.image}`)}
-        //                                         />
-        //                                     </div> */}
-
-        //                                     <CardBody>
-        //                                         <CardTitle tag="h5">
-        //                                             {v.name}
-        //                                         </CardTitle>
-        //                                         <CardSubtitle
-        //                                             className="mb-2"
-        //                                             tag="h6"
-        //                                         >
-        //                                             <BsCurrencyRupee />{v.price}
-        //                                         </CardSubtitle>
-        //                                         <CardSubtitle
-        //                                             className="mb-2"
-        //                                             tag="h6"
-        //                                         >
-        //                                             Expiry : {v.expiry}
-        //                                         </CardSubtitle>
-
-
-        //                                     </CardBody>
-        //                                 </Card>
-        //                             </Link>
-        //                             <Button onClick={() => handleRemove(v.id)} className='add-to-cart'>
-        //                                 Remove
-        //                             </Button>
-        //                             <button className='count' onClick={() => minus(v.id)} disabled={counter > 0 ? false : true}> - </button>
-        //                             <span className='number'>{counter}</span>
-        //                             <button className='count' onClick={() => plus(v.id)} disabled={counter < 10 ? false : true}> + </button>
-
-        //                         </div>
-        //                     )
-        //                 })
-        //             }
-        //         </div>
-        //     </div>
-        // </section >
-    );
+    )
 }
 
 export default AddToCart;
