@@ -76,7 +76,7 @@ import { BsCurrencyRupee } from "react-icons/bs";
 //     }
 // ]
 
-function Medicines({cart, setCart}) {
+function Medicines({ cart, setCart }) {
     const [data, setData] = useState([])
     const [search, setSearch] = useState('')
     const [sort, setSort] = useState('')
@@ -93,10 +93,10 @@ function Medicines({cart, setCart}) {
         setData(apiData)
     }
 
-    console.log(data);
+    // console.log(data);
 
     const handleSearchSort = () => {
-        console.log(data, search, sort);
+        // console.log(data, search, sort);
 
         let fData = data.filter((v) =>
             v.name.toLowerCase().includes(search) ||
@@ -118,25 +118,35 @@ function Medicines({cart, setCart}) {
         })
 
 
-        console.log(fData);
+        // console.log(fData);
 
         return fData;
     }
     const handleCart = (id) => {
-        console.log(id);
+        const data = cart.find((v) => v.id === id)
 
-        let cartObj = {
-            id,
-            qty : '1'
-        }
+        console.log(data);
 
-        if (!cart.includes(id)) {
-            setCart((prev) => [...prev, cartObj])
+        if (data) {
+            let allData = [...cart];
+
+            let index = allData.findIndex((v) => v.id === id);
+
+            allData[index].qty++;
+
+            setCart(allData);
         } else {
-            let fdata = cart.filter((v) => v !== id)
-            console.log(fdata);
-            setCart(fdata)
+            setCart((prev) => [...prev, { id: id, qty: 1 }])
         }
+
+
+        // if (!cart.includes(id)) {
+        //     setCart((prev) => [...prev, cartObj])
+        // } else {
+        //     let fdata = cart.filter((v) => v !== id)
+        //     console.log(fdata);
+        //     setCart(fdata)
+        // }
 
     }
 
@@ -199,7 +209,7 @@ function Medicines({cart, setCart}) {
                                             </CardBody>
                                         </Card>
                                     </Link>
-                                    <Button onClick={() => handleCart(v.id)} className='add-to-cart'>
+                                    <Button onClick={() => handleCart( v.id)} className='add-to-cart'>
                                         Add to cart
                                     </Button>
                                 </div>

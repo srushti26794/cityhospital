@@ -12,7 +12,7 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 function AddToCart({ cart, setCart }) {
     const [data, setData] = useState([])
     // const [counter, setCounter] = useState(1);
-
+    console.log(cart);
 
     useEffect(() => {
         getData();
@@ -25,7 +25,11 @@ function AddToCart({ cart, setCart }) {
         setData(apiData)
     }
 
-    let cartData = data.filter((f) => cart.find((v) => v.id === f.id))
+    let cartData = cart.map((v) => {
+        let med = data.find((d) => d.id === v.id);
+
+        return{...med,...v}
+    })
     console.log(cartData);
 
     const handleRemove = (id) => {
@@ -37,40 +41,23 @@ function AddToCart({ cart, setCart }) {
     }
 
     const minus = (id) => {
-        console.log(id);
-        let index = cart.indexOf(cart.find((v) => v.id == id));
-        if (index > -1 && cart[index].qty > 1) {
+        let allData = [...cart];
 
-            cart[index].count--;
-            setCart([...cart]);
-            // cart.map((v) => {
-            //     if (v == id && counter > 1) {
-            //         setCounter(counter - 1)
-            //     }
-            // })
-            // return data.map((v) => {
-            //     if (v.id == id && counter > 1) {
-            //         setCounter(counter - 1)
-            //     }
-            // })
-        }
+        let index = allData.findIndex((v) => v.id === id);
+
+        allData[index].qty--;
+
+        setCart(allData);
     }
 
     const plus = (id) => {
-        console.log(id);
-        let item = cart.find((v) => v.id == id);
-        item.qty++;
-        setCart([...cart])
-        // cart.map((v) => {
-        //     if (v == id) {
-        //         setCounter(counter + 1)
-        //     }
-        // })
-        // return data.map((v) => {
-        //     if (v.id == id) {
-        //         setCounter(counter + 1)
-        //     }
-        // })
+        let allData = [...cart];
+
+        let index = allData.findIndex((v) => v.id === id);
+
+        allData[index].qty++;
+
+        setCart(allData);
     }
 
 
@@ -83,7 +70,7 @@ function AddToCart({ cart, setCart }) {
                             <div className="title">
                                 <div className="row">
                                     <div className="col"><h4><b>Shopping Cart</b></h4></div>
-                                    <div className="col align-self-center text-right text-muted">{cart.length} item</div>
+                                    <div className="col align-self-center text-right text-muted">{cart.qty} item</div>
                                 </div>
                             </div>
                             {
@@ -97,9 +84,9 @@ function AddToCart({ cart, setCart }) {
                                                     <div className="row">{v.expiry}</div>
                                                 </div>
                                                 <div className="col-4">
-                                                    <button className='count' onClick={() => minus(v.id)} disabled={qty > 0 ? false : true}> - </button>
-                                                    <span className='number'>{qty}</span>
-                                                    <button className='count' onClick={() => plus(v.id)} disabled={qty < 10 ? false : true}> + </button>
+                                                    <button className='count' onClick={() => minus(v.id)} disabled={v.qty > 0 ? false : true}> - </button>
+                                                    <span className='number'>{v.qty}</span>
+                                                    <button className='count' onClick={() => plus(v.id)} disabled={v.qty < 10 ? false : true}> + </button>
                                                 </div>
                                                 <div className="col"><CurrencyRupeeIcon />{v.price}</div>
                                                 <div className="col-2"><span onClick={() => handleRemove(v.id)} className='removeCart'>x</span></div>
