@@ -1771,6 +1771,7 @@ section {
 
 .add-to-cart{
   height: 35px;
+  width: inherit;
   text-align: center;
   font-size: 14px;
   border: none;

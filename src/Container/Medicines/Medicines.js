@@ -87,7 +87,7 @@ function Medicines({ cart, setCart }) {
     }, [])
 
     const getData = async () => {
-        let response = await fetch("http://localhost:3004/data")
+        let response = await fetch("http://localhost:3004/medicines")
         let apiData = await response.json();
 
         setData(apiData)
@@ -122,7 +122,8 @@ function Medicines({ cart, setCart }) {
 
         return fData;
     }
-    const handleCart = (id) => {
+    const handleCart = (event,id) => {
+        event.preventDefault();
         const data = cart.find((v) => v.id === id)
 
         console.log(data);
@@ -159,8 +160,8 @@ function Medicines({ cart, setCart }) {
         <div className='medicines'>
             <Container className="bg-light border">
                 <div className='search_bar'>
-                    <input onChange={(event) => setSearch(event.target.value)} type='search' />
-                    <select name='sort' onChange={(event) => setSort(event.target.value)}>
+                    <input className='input' onChange={(event) => setSearch(event.target.value)} type='search' />
+                    <select className='select' name='sort' onChange={(event) => setSort(event.target.value)}>
                         <option value="0">--Select--</option>
                         <option value="az">A to Z</option>
                         <option value="za">Z to A</option>
@@ -180,13 +181,13 @@ function Medicines({ cart, setCart }) {
                                                 width: '18rem'
                                             }}
                                         >
-                                            {/* <div className='medImage'>
+                                            <div className='medImage'>
                                                 <img
                                                     className='med-img'
                                                     alt="Sample"
                                                     src={require(`../../../public/assets/img/medicine/${v.image}`)}
                                                 />
-                                            </div> */}
+                                            </div>
 
                                             <CardBody>
                                                 <CardTitle tag="h5">
@@ -205,13 +206,13 @@ function Medicines({ cart, setCart }) {
                                                     Expiry : {v.expiry}
                                                 </CardSubtitle>
 
-
                                             </CardBody>
+                                            <button onClick={(event) => handleCart(event,v.id)} className='add-to-cart'>
+                                                Add to cart
+                                            </button>
                                         </Card>
                                     </Link>
-                                    <Button onClick={() => handleCart( v.id)} className='add-to-cart'>
-                                        Add to cart
-                                    </Button>
+
                                 </div>
                             )
                         })

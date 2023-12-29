@@ -1,35 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { CardSubtitle, Container } from 'reactstrap';
-import {
-    Card, CardImg, CardBody,
-    CardTitle, CardText, Button
-} from "reactstrap"
-
-import { Link } from 'react-router-dom';
-import { BsCurrencyRupee } from "react-icons/bs";
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 
 function AddToCart({ cart, setCart }) {
     const [data, setData] = useState([])
     // const [counter, setCounter] = useState(1);
-    console.log(cart);
+
 
     useEffect(() => {
         getData();
     }, [])
 
     const getData = async () => {
-        let response = await fetch("http://localhost:3004/data")
+        let response = await fetch("http://localhost:3004/medicines")
         let apiData = await response.json();
 
         setData(apiData)
     }
 
-    let cartData = cart.map((v) => {
-        let med = data.find((d) => d.id === v.id);
-
-        return{...med,...v}
-    })
+    let cartData = data.filter((f) => cart.find((v) => v.id === f.id))
     console.log(cartData);
 
     const handleRemove = (id) => {
@@ -41,13 +29,13 @@ function AddToCart({ cart, setCart }) {
     }
 
     const minus = (id) => {
-        let allData = [...cart];
+        console.log(id);
+        let index = cart.indexOf(cart.find((v) => v.id == id));
+        if (index > -1 && cart[index].qty > 1) {
 
-        let index = allData.findIndex((v) => v.id === id);
-
-        allData[index].qty--;
-
-        setCart(allData);
+            cart[index].count--;
+            setCart([...cart]);
+        }
     }
 
     const plus = (id) => {
@@ -70,7 +58,7 @@ function AddToCart({ cart, setCart }) {
                             <div className="title">
                                 <div className="row">
                                     <div className="col"><h4><b>Shopping Cart</b></h4></div>
-                                    <div className="col align-self-center text-right text-muted">{cart.qty} item</div>
+                                    <div className="col align-self-center text-right text-muted">{cart.length} item</div>
                                 </div>
                             </div>
                             {
@@ -86,6 +74,7 @@ function AddToCart({ cart, setCart }) {
                                                 <div className="col-4">
                                                     <button className='count' onClick={() => minus(v.id)} disabled={v.qty > 0 ? false : true}> - </button>
                                                     <span className='number'>{v.qty}</span>
+                                                    {/* {v.qty} */}
                                                     <button className='count' onClick={() => plus(v.id)} disabled={v.qty < 10 ? false : true}> + </button>
                                                 </div>
                                                 <div className="col"><CurrencyRupeeIcon />{v.price}</div>
