@@ -5,9 +5,10 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 
-function Header({ wishlist, cart }) {
+function Header({ wishlist, cart , setCart}) {
     let cartTotal = cart.reduce((acc, v) => acc + v.qty , 0);
     console.log(cartTotal);
+    
     return (
         <div className="main-header">
             <div id="topbar" className="d-flex align-items-center fixed-top">

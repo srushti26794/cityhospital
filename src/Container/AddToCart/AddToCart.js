@@ -5,7 +5,6 @@ function AddToCart({ cart, setCart }) {
     const [data, setData] = useState([])
     // const [counter, setCounter] = useState(1);
 
-
     useEffect(() => {
         getData();
     }, [])
@@ -17,7 +16,14 @@ function AddToCart({ cart, setCart }) {
         setData(apiData)
     }
 
-    let cartData = data.filter((f) => cart.find((v) => v.id === f.id))
+    console.log(data);
+    console.log(cart);
+
+    let cartData = cart.map((v) => {
+        let med = data.find((d) => d.id === v.id);
+        return{...med, ...v}
+    })
+
     console.log(cartData);
 
     const handleRemove = (id) => {
@@ -63,6 +69,7 @@ function AddToCart({ cart, setCart }) {
                             </div>
                             {
                                 cartData.map((v) => {
+                                    console.log(v);
                                     return (
                                         <div className="row border-top border-bottom">
                                             <div className="row main align-items-center">
@@ -73,7 +80,7 @@ function AddToCart({ cart, setCart }) {
                                                 </div>
                                                 <div className="col-4">
                                                     <button className='count' onClick={() => minus(v.id)} disabled={v.qty > 0 ? false : true}> - </button>
-                                                    <span className='number'>{v.qty}</span>
+                                                    <span className='n/umber'>{v.qty}</span>
                                                     {/* {v.qty} */}
                                                     <button className='count' onClick={() => plus(v.id)} disabled={v.qty < 10 ? false : true}> + </button>
                                                 </div>

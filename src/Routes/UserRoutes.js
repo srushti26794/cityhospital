@@ -22,7 +22,7 @@ function UserRoutes(props) {
 
     return (
         <>
-            <Header wishlist = {wishlist} cart = {cart} />
+            <Header wishlist = {wishlist} cart = {cart} setCart = {setCart}/>
             <Routes>
                 <Route exact path='/' element={<Home />} />
                 <Route exact path='/Department' element={<Department />} />

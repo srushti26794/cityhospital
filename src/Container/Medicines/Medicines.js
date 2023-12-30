@@ -140,15 +140,6 @@ function Medicines({ cart, setCart }) {
             setCart((prev) => [...prev, { id: id, qty: 1 }])
         }
 
-
-        // if (!cart.includes(id)) {
-        //     setCart((prev) => [...prev, cartObj])
-        // } else {
-        //     let fdata = cart.filter((v) => v !== id)
-        //     console.log(fdata);
-        //     setCart(fdata)
-        // }
-
     }
 
     console.log(cart);
