@@ -25,11 +25,6 @@ function AddToCart({ cart, setCart }) {
         return { ...med, ...v }
     })
 
-
-    console.log(totalPrice);
-
-
-
     console.log(cartData);
 
     const handleRemove = (id) => {
