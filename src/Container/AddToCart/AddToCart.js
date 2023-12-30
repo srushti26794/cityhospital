@@ -83,7 +83,7 @@ function AddToCart({ cart, setCart }) {
                                                         <span className='n/umber'>{v.qty}</span>
                                                         <button className='count' onClick={() => plus(v.id)} disabled={v.qty < 10 ? false : true}> + </button>
                                                     </div>
-                                                <div className="col"><CurrencyRupeeIcon />{v.price}</div>
+                                                <div className="col"><CurrencyRupeeIcon />{v.price * v.qty}</div>
                                                 <div className="col-2"><span onClick={() => handleRemove(v.id)} className='removeCart'>x</span></div>
                                             </div>
                                         </div>
