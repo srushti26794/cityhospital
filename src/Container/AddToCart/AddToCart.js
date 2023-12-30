@@ -3,7 +3,6 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 
 function AddToCart({ cart, setCart }) {
     const [data, setData] = useState([])
-    const [totalPrice, setTotalPrice] = useState([])
 
     useEffect(() => {
         getData();
@@ -56,6 +55,9 @@ function AddToCart({ cart, setCart }) {
 
     console.log(cartData);
 
+    let totalPrice = cartData.reduce((acc,v) => acc + (v.price * v.qty) , 0 )
+    console.log(totalPrice);
+
     return (
         <section id="doctors" className="doctors">
             <div className="container">
@@ -79,10 +81,10 @@ function AddToCart({ cart, setCart }) {
                                                     <div className="row">{v.expiry}</div>
                                                 </div>
                                                 <div className="col-4">
-                                                        <button className='count' onClick={() => minus(v.id)} disabled={v.qty > 0 ? false : true}> - </button>
-                                                        <span className='n/umber'>{v.qty}</span>
-                                                        <button className='count' onClick={() => plus(v.id)} disabled={v.qty < 10 ? false : true}> + </button>
-                                                    </div>
+                                                    <button className='count' onClick={() => minus(v.id)} disabled={v.qty > 0 ? false : true}> - </button>
+                                                    <span className='n/umber'>{v.qty}</span>
+                                                    <button className='count' onClick={() => plus(v.id)} disabled={v.qty < 10 ? false : true}> + </button>
+                                                </div>
                                                 <div className="col"><CurrencyRupeeIcon />{v.price * v.qty}</div>
                                                 <div className="col-2"><span onClick={() => handleRemove(v.id)} className='removeCart'>x</span></div>
                                             </div>
@@ -90,27 +92,25 @@ function AddToCart({ cart, setCart }) {
                                     )
                                 })
                             }
-
-
-
                             <div className="back-to-shop"><a href="./medicines">←</a><span className="text-muted">Back to shop</span></div>
                         </div>
+
                         <div className="col-lg-4 summary">
                             <div><h5><b>Summary</b></h5></div>
                             <hr />
                             <div className="row">
                                 <div className="col" style={{ paddingLeft: 0 }}>ITEMS 3</div>
-                                <div className="col text-right">€ 132.00</div>
+                                <div className="col text-right"><CurrencyRupeeIcon />{totalPrice}</div>
                             </div>
                             <form>
                                 <p>SHIPPING</p>
-                                <select><option className="text-muted">Standard-Delivery- €5.00</option></select>
+                                <select><option className="text-muted">Standard-Delivery- <CurrencyRupeeIcon /> 5.00</option></select>
                                 <p>GIVE CODE</p>
                                 <input id="code" placeholder="Enter your code" />
                             </form>
                             <div className="row" style={{ borderTop: '1px solid rgba(0,0,0,.1)', padding: '2vh 0' }}>
                                 <div className="col">TOTAL PRICE</div>
-                                <div className="col text-right">€ 137.00</div>
+                                <div className="col text-right"><CurrencyRupeeIcon />{totalPrice + 5}</div>
                             </div>
                             <button className="cart_btn">CHECKOUT</button>
                         </div>
