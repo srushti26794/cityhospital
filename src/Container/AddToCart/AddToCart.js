@@ -3,7 +3,7 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 
 function AddToCart({ cart, setCart }) {
     const [data, setData] = useState([])
-    // const [counter, setCounter] = useState(1);
+    const [totalPrice, setTotalPrice] = useState([])
 
     useEffect(() => {
         getData();
@@ -13,16 +13,22 @@ function AddToCart({ cart, setCart }) {
         let response = await fetch("http://localhost:3004/medicines")
         let apiData = await response.json();
 
+        console.log(apiData);
+
         setData(apiData)
     }
 
-    console.log(data);
-    console.log(cart);
+    console.log(data, cart);
 
     let cartData = cart.map((v) => {
         let med = data.find((d) => d.id === v.id);
-        return{...med, ...v}
+        return { ...med, ...v }
     })
+
+
+    console.log(totalPrice);
+
+
 
     console.log(cartData);
 
@@ -31,17 +37,16 @@ function AddToCart({ cart, setCart }) {
         let fdata = cart.filter((v) => v.id !== id)
         console.log(fdata);
         setCart(fdata)
-        // }
     }
 
     const minus = (id) => {
-        console.log(id);
-        let index = cart.indexOf(cart.find((v) => v.id == id));
-        if (index > -1 && cart[index].qty > 1) {
+        let allData = [...cart];
 
-            cart[index].count--;
-            setCart([...cart]);
-        }
+        let index = allData.findIndex((v) => v.id === id);
+
+        allData[index].qty--;
+
+        setCart(allData);
     }
 
     const plus = (id) => {
@@ -54,6 +59,7 @@ function AddToCart({ cart, setCart }) {
         setCart(allData);
     }
 
+    console.log(cartData);
 
     return (
         <section id="doctors" className="doctors">
@@ -68,8 +74,7 @@ function AddToCart({ cart, setCart }) {
                                 </div>
                             </div>
                             {
-                                cartData.map((v) => {
-                                    console.log(v);
+                                cartData.some((c) => c.hasOwnProperty('name')) && cartData.map((v) => {
                                     return (
                                         <div className="row border-top border-bottom">
                                             <div className="row main align-items-center">
@@ -79,11 +84,10 @@ function AddToCart({ cart, setCart }) {
                                                     <div className="row">{v.expiry}</div>
                                                 </div>
                                                 <div className="col-4">
-                                                    <button className='count' onClick={() => minus(v.id)} disabled={v.qty > 0 ? false : true}> - </button>
-                                                    <span className='n/umber'>{v.qty}</span>
-                                                    {/* {v.qty} */}
-                                                    <button className='count' onClick={() => plus(v.id)} disabled={v.qty < 10 ? false : true}> + </button>
-                                                </div>
+                                                        <button className='count' onClick={() => minus(v.id)} disabled={v.qty > 0 ? false : true}> - </button>
+                                                        <span className='n/umber'>{v.qty}</span>
+                                                        <button className='count' onClick={() => plus(v.id)} disabled={v.qty < 10 ? false : true}> + </button>
+                                                    </div>
                                                 <div className="col"><CurrencyRupeeIcon />{v.price}</div>
                                                 <div className="col-2"><span onClick={() => handleRemove(v.id)} className='removeCart'>x</span></div>
                                             </div>
@@ -91,6 +95,8 @@ function AddToCart({ cart, setCart }) {
                                     )
                                 })
                             }
+
+
 
                             <div className="back-to-shop"><a href="./medicines">←</a><span className="text-muted">Back to shop</span></div>
                         </div>
@@ -119,5 +125,6 @@ function AddToCart({ cart, setCart }) {
         </section>
     )
 }
+
 
 export default AddToCart;

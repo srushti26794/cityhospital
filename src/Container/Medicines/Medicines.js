@@ -93,7 +93,7 @@ function Medicines({ cart, setCart }) {
         setData(apiData)
     }
 
-    // console.log(data);
+    console.log(data);
 
     const handleSearchSort = () => {
         // console.log(data, search, sort);

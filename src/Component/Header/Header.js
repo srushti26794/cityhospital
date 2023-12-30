@@ -5,7 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 
-function Header({ wishlist, cart , setCart}) {
+function Header({ wishlist, cart}) {
     let cartTotal = cart.reduce((acc, v) => acc + v.qty , 0);
     console.log(cartTotal);
     
