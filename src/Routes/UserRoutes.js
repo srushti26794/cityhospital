@@ -15,6 +15,7 @@ import Footer from '../Component/Footer/Footer';
 import LoginSignup from '../Container/LoginSignup/LoginSignup';
 import MyWishlist from '../Container/MyWishlist/MyWishlist';
 import AddToCart from '../Container/AddToCart/AddToCart';
+import Counter from '../Container/Counter/Counter';
 
 function UserRoutes(props) {
     const [wishlist, setWishlist] = useState([])
@@ -32,6 +33,7 @@ function UserRoutes(props) {
                 <Route exact path='/Contact' element={<Contact />} />
                 <Route exact path='/LoginSignup' element={<LoginSignup />}/>
                 <Route exact path='/MyWishlist' element={<MyWishlist wishlist = {wishlist} setWishlist = {setWishlist}/>} />
+                <Route exact path='/Counter' element={<Counter />} />
                 
 
                 <Route element={<PrivateRoutes />}>
