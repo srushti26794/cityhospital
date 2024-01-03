@@ -18,9 +18,18 @@ function Counter(props) {
     return (
         <div>
             <div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
                 <button onClick={handleDecrement}>-</button>
                 {counter.count}
                 <button onClick={handleIncrement}>+</button>
+                <br/>
+                <br/>
+                <br/>
             </div>
         </div>
     );

@@ -7,6 +7,8 @@ import {
 import "./Medicines.css"
 import { Link } from 'react-router-dom';
 import { BsCurrencyRupee } from "react-icons/bs";
+import { useDispatch, useSelector } from 'react-redux';
+import { getMedicine } from '../../redux/action/medicine.action';
 // import { Button } from '@mui/material';
 
 // const data = [
@@ -82,8 +84,12 @@ function Medicines({ cart, setCart }) {
     const [sort, setSort] = useState('')
     const [searchData, setSearchData] = useState([]);
 
+    const dispatch = useDispatch();
+
+    const medicineData = useSelector(state => state.Medicines)
+
     useEffect(() => {
-        getData();
+        dispatch(getMedicine());
     }, [])
 
     const getData = async () => {
@@ -122,7 +128,7 @@ function Medicines({ cart, setCart }) {
 
         return fData;
     }
-    const handleCart = (event,id) => {
+    const handleCart = (event, id) => {
         event.preventDefault();
         const data = cart.find((v) => v.id === id)
 
@@ -198,7 +204,7 @@ function Medicines({ cart, setCart }) {
                                                 </CardSubtitle>
 
                                             </CardBody>
-                                            <button onClick={(event) => handleCart(event,v.id)} className='add-to-cart'>
+                                            <button onClick={(event) => handleCart(event, v.id)} className='add-to-cart'>
                                                 Add to cart
                                             </button>
                                         </Card>
