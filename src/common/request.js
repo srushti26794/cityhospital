@@ -16,3 +16,14 @@ const axiousInstance = axios.create({
         url : path
     })
   }
+
+  export const postRequest = (path, data) => {
+    return sendRequest({
+      method : 'POST',
+      url : path,
+      headers : {
+        'Content-Type' : 'application/json'
+      },
+      data: data
+    })
+  }

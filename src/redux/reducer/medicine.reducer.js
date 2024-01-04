@@ -1,4 +1,4 @@
-import { GET_MEDICINES } from "../ActionType"
+import { GET_MEDICINES, POST_MEDICINE } from "../ActionType"
 
 
 export const initialState = {
@@ -13,6 +13,12 @@ export const medicinesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 medicines: action.payload
+            }
+
+        case POST_MEDICINE:
+            return {
+                ...state,
+                medicines: state.medicines.concat(action.payload)
             }
 
         default:

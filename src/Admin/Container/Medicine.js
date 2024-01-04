@@ -11,6 +11,9 @@ import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { getMedicine, postMedicine } from '../../redux/action/medicine.action';
+import { useDispatch, useSelector } from 'react-redux';
+import { postRequest } from '../../common/request';
 
 
 export default function Medicine() {
@@ -22,14 +25,22 @@ export default function Medicine() {
     let nd = new Date();
     nd.setDate(d.getDate() - 1)
 
+    const dispatch = useDispatch();
+
+    const medicine = useSelector(state => state.medicines)
+    console.log(medicine.medicines);
 
     useEffect(() => {
-        const storedData = localStorage.getItem('medicine');
-        // console.log(storedData);
-        if (storedData) {
-            setMedicineData(JSON.parse(storedData));
-        }
-    }, []);
+        dispatch(getMedicine());
+    }, [])
+
+    // useEffect(() => {
+    //     const storedData = localStorage.getItem('medicine');
+    //     // console.log(storedData);
+    //     if (storedData) {
+    //         setMedicineData(JSON.parse(storedData));
+    //     }
+    // }, []);
 
     const SUPPORTED_FORMATS = ['image/jpg', 'image/JPG', 'image/jpeg', 'image/JPEG', 'image/png', 'image/PNG'];
 
@@ -52,9 +63,9 @@ export default function Medicine() {
                 }
             }),
         expiry: yup.date().min(nd, "Date must be future").required("Please enter expiry"),
-        description: yup.string()
+        desc: yup.string()
             .required("Enter description")
-            .test('description', "Description in between 10 to 30 word", function (val) {
+            .test('desc', "Description in between 10 to 30 word", function (val) {
                 let array = val.split(" ");
 
                 if (array.length >= 10 && array.length <= 30) {
@@ -65,27 +76,28 @@ export default function Medicine() {
             })
     })
 
-
     const handleAdd = (values) => {
         console.log(values);
 
-        let id = Math.floor(Math.random() * 1000)
+        dispatch(postMedicine(values))
+        
+        // let id = Math.floor(Math.random() * 1000)
 
-        let localData = JSON.parse(localStorage.getItem("medicine"));
+        // let localData = JSON.parse(localStorage.getItem("medicine"));
 
-        if (localData) {
-            localData.push({ ...values, id: id });
-            localStorage.setItem('medicine', JSON.stringify(localData))
-            setMedicineData(localData)
-        } else {
-            localStorage.setItem('medicine', JSON.stringify([{ ...values, id: id }]));
-            setMedicineData([{ ...values, id: id }])
-        }
+        // if (localData) {
+        //     localData.push({ ...values, id: id });
+        //     localStorage.setItem('medicine', JSON.stringify(localData))
+        //     setMedicineData(localData)
+        // } else {
+        //     localStorage.setItem('medicine', JSON.stringify([{ ...values, id: id }]));
+        //     setMedicineData([{ ...values, id: id }])
+        // }
     }
 
     const handleUpdate = (data) => {
         console.log(data);
-    
+
         let localData = JSON.parse(localStorage.getItem('medicine'))
         console.log(localData);
 
@@ -96,7 +108,7 @@ export default function Medicine() {
             return v;
         })
 
-         console.log(updatedData);
+        console.log(updatedData);
 
         localStorage.setItem('medicine', JSON.stringify(updatedData))
 
@@ -109,7 +121,7 @@ export default function Medicine() {
             name: '',
             price: '',
             expiry: '',
-            description: ''
+            desc: ''
         },
         validationSchema: medicineSchema,
         onSubmit: (values, { resetForm }) => {
@@ -127,6 +139,8 @@ export default function Medicine() {
     })
 
     let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm, setFieldValue, setValues } = formikObj;
+
+    console.log(errors);
 
 
     const [open, setOpen] = React.useState(false);
@@ -164,7 +178,7 @@ export default function Medicine() {
         { field: 'name', headerName: 'Medicine name', width: 130 },
         { field: 'price', headerName: 'Price', width: 130 },
         { field: 'expiry', headerName: 'Expiry', width: 130 },
-        { field: 'description', headerName: 'Description', width: 130 },
+        { field: 'desc', headerName: 'Description', width: 130 },
         {
             field: 'file', headerName: 'Medicine file', width: 130,
             // renderCell: (params) => {
@@ -210,7 +224,7 @@ export default function Medicine() {
                         <span>{errors.file && touched.file ? errors.file : null}</span>
 
                         <TextField
-                            autoFocus
+                            
                             margin="dense"
                             id="name"
                             name='name'
@@ -225,7 +239,7 @@ export default function Medicine() {
                         <span>{errors.name && touched.name ? errors.name : null}</span>
 
                         <TextField
-                            autoFocus
+                            
                             margin="dense"
                             id="name"
                             name='price'
@@ -240,7 +254,6 @@ export default function Medicine() {
                         <span>{errors.price && touched.price ? errors.price : null}</span>
 
                         <TextField
-                            autoFocus
                             margin="dense"
                             id="name"
                             name='expiry'
@@ -255,19 +268,18 @@ export default function Medicine() {
                         <span>{errors.expiry && touched.expiry ? errors.expiry : null}</span>
 
                         <TextField
-                            autoFocus
                             margin="dense"
                             id="name"
-                            name='description'
+                            name='desc'
                             label="Description"
                             type="text"
                             fullWidth
                             variant="standard"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.description}
+                            value={values.desc}
                         />
-                        <span>{errors.description && touched.description ? errors.description : null}</span>
+                        <span>{errors.desc && touched.desc ? errors.desc : null}</span>
 
                         <DialogActions>
                             <Button onClick={handleClose} type='submit'>Add</Button>
@@ -279,7 +291,7 @@ export default function Medicine() {
 
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    rows={medicineData}
+                    rows={medicine.medicines}
                     columns={columns}
                     initialState={{
                         pagination: {

@@ -86,7 +86,8 @@ function Medicines({ cart, setCart }) {
 
     const dispatch = useDispatch();
 
-    const medicineData = useSelector(state => state.Medicines)
+    const medicine = useSelector(state => state.medicines)
+    console.log(medicine.medicines);
 
     useEffect(() => {
         dispatch(getMedicine());
@@ -169,7 +170,7 @@ function Medicines({ cart, setCart }) {
 
                 <div className='medParent'>
                     {
-                        data.map((v, i) => {
+                        medicine.medicines.map((v, i) => {
                             return (
                                 <div>
                                     <Link to={`/medicines/${v.id}`}>
