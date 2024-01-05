@@ -3,10 +3,11 @@
     {
       "id": 1,
       "name": "Naproxen",
-      "price": 85,
-      "expiry": 2023,
+      "price": 850,
+      "expiry": 2025,
       "desc": "Naproxen, sold under the brand name Aleve among others, is a nonsteroidal anti-inflammatory drug used to treat pain, menstrual cramps, inflammatory diseases such as rheumatoid arthritis, gout and fever.",
-      "image": "naproxen.png"
+      "image": "naproxen.png",
+      "file": {}
     },
     {
       "id": 2,

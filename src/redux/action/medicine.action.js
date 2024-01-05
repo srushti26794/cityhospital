@@ -1,5 +1,5 @@
-import { deleteAllMedicineAPI, getAllMedicineAPI, postAllMedicineAPI } from "../../common/api/medicine.api";
-import { DELETE_MEDICINE, GET_MEDICINES, POST_MEDICINE } from "../ActionType";
+import { deleteAllMedicineAPI, getAllMedicineAPI, postAllMedicineAPI, updateAllMedicineAPI } from "../../common/api/medicine.api";
+import { DELETE_MEDICINE, GET_MEDICINES, POST_MEDICINE, UPDATE_MEDICINE } from "../ActionType";
 
 
 export const getMedicine = () => (dispatch) => {
@@ -17,3 +17,8 @@ export const deleteMedicine = (id) => (dispatch) => {
     .then(dispatch({type: DELETE_MEDICINE, payload: id}));
 }
 
+export const updateMedicine = (data) => (dispatch) => {
+    console.log(data);
+    updateAllMedicineAPI(data)
+        .then((response) => dispatch({type: UPDATE_MEDICINE, payload: (response.data)}))
+}

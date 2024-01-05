@@ -1,4 +1,4 @@
-import { deleteRquest, getRequest, postRequest, putRequest } from "../request"
+import { deleteRquest, getRequest, postRequest, updateRequest } from "../request"
 
 
 
@@ -14,3 +14,6 @@ export const deleteAllMedicineAPI = (id) => {
     return deleteRquest('medicines/',id)
 }
 
+export const updateAllMedicineAPI = (data) => {
+    return updateRequest('medicines/', data)
+}

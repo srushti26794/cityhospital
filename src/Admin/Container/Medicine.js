@@ -11,7 +11,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { deleteMedicine, getMedicine, postMedicine } from '../../redux/action/medicine.action';
+import { deleteMedicine, getMedicine, postMedicine, updateMedicine } from '../../redux/action/medicine.action';
 import { useDispatch, useSelector } from 'react-redux';
 import { postRequest } from '../../common/request';
 
@@ -19,6 +19,8 @@ import { postRequest } from '../../common/request';
 export default function Medicine() {
     const [medicineData, setMedicineData] = useState([])
     const [updateData, setUpdateData] = useState(false)
+
+    console.log(updateData);
 
     let d = new Date();
 
@@ -33,14 +35,6 @@ export default function Medicine() {
     useEffect(() => {
         dispatch(getMedicine());
     }, [])
-
-    // useEffect(() => {
-    //     const storedData = localStorage.getItem('medicine');
-    //     // console.log(storedData);
-    //     if (storedData) {
-    //         setMedicineData(JSON.parse(storedData));
-    //     }
-    // }, []);
 
     const SUPPORTED_FORMATS = ['image/jpg', 'image/JPG', 'image/jpeg', 'image/JPEG', 'image/png', 'image/PNG'];
 
@@ -68,7 +62,7 @@ export default function Medicine() {
             .test('desc', "Description in between 10 to 30 word", function (val) {
                 let array = val.split(" ");
 
-                if (array.length >= 10 && array.length <= 30) {
+                if (array.length >= 10 && array.length <= 50) {
                     return true;
                 } else {
                     return false
@@ -80,39 +74,13 @@ export default function Medicine() {
         console.log(values);
 
         dispatch(postMedicine(values))
-        
-        // let id = Math.floor(Math.random() * 1000)
-
-        // let localData = JSON.parse(localStorage.getItem("medicine"));
-
-        // if (localData) {
-        //     localData.push({ ...values, id: id });
-        //     localStorage.setItem('medicine', JSON.stringify(localData))
-        //     setMedicineData(localData)
-        // } else {
-        //     localStorage.setItem('medicine', JSON.stringify([{ ...values, id: id }]));
-        //     setMedicineData([{ ...values, id: id }])
-        // }
+   
     }
 
     const handleUpdate = (data) => {
         console.log(data);
 
-        let localData = JSON.parse(localStorage.getItem('medicine'))
-        console.log(localData);
-
-        let updatedData = localData.map((v) => {
-            if (v.id == data.id) {
-                v = data;
-            }
-            return v;
-        })
-
-        console.log(updatedData);
-
-        localStorage.setItem('medicine', JSON.stringify(updatedData))
-
-        setMedicineData(updatedData)
+        dispatch(updateMedicine(data))
     }
 
     let formikObj = useFormik({
@@ -157,22 +125,12 @@ export default function Medicine() {
         console.log(data);
 
         dispatch(deleteMedicine(data.id))
-
-        // let id = JSON.parse(data.id)
-
-        // let localData = JSON.parse(localStorage.getItem('medicine'))
-
-        // let medicineData = localData.filter((v) => v.id !== id);
-
-        // localStorage.setItem('medicine', JSON.stringify(medicineData))
-
-        // setMedicineData(medicineData);
     }
 
     const handleEdit = (data) => {
         handleClickOpen()
         setValues(data)
-        // setUpdateData(true)
+        setUpdateData(true)
     }
 
     const columns = [
@@ -284,7 +242,7 @@ export default function Medicine() {
                         <span>{errors.desc && touched.desc ? errors.desc : null}</span>
 
                         <DialogActions>
-                            <Button onClick={handleClose} type='submit'>Add</Button>
+                        <Button type='submit'>{updateData ? 'Update' : 'Add'}</Button>
                             <Button onClick={handleClose}>Cancel</Button>
                         </DialogActions>
                     </form>
