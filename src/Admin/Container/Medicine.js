@@ -11,7 +11,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { getMedicine, postMedicine } from '../../redux/action/medicine.action';
+import { deleteMedicine, getMedicine, postMedicine } from '../../redux/action/medicine.action';
 import { useDispatch, useSelector } from 'react-redux';
 import { postRequest } from '../../common/request';
 
@@ -154,17 +154,19 @@ export default function Medicine() {
     };
 
     const handleDelete = (data) => {
-        console.log(JSON.parse(data.id));
+        console.log(data);
 
-        let id = JSON.parse(data.id)
+        dispatch(deleteMedicine(data.id))
 
-        let localData = JSON.parse(localStorage.getItem('medicine'))
+        // let id = JSON.parse(data.id)
 
-        let medicineData = localData.filter((v) => v.id !== id);
+        // let localData = JSON.parse(localStorage.getItem('medicine'))
 
-        localStorage.setItem('medicine', JSON.stringify(medicineData))
+        // let medicineData = localData.filter((v) => v.id !== id);
 
-        setMedicineData(medicineData);
+        // localStorage.setItem('medicine', JSON.stringify(medicineData))
+
+        // setMedicineData(medicineData);
     }
 
     const handleEdit = (data) => {

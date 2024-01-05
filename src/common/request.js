@@ -27,3 +27,12 @@ const axiousInstance = axios.create({
       data: data
     })
   }
+
+  export const deleteRquest = (path,id) => {
+    return sendRequest({
+      method : 'DELETE',
+      url : path + id
+    })
+  }
+
+ 
