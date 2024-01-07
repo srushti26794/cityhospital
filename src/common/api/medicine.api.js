@@ -1,7 +1,5 @@
 import { deleteRquest, getRequest, postRequest, updateRequest } from "../request"
 
-
-
 export const getAllMedicineAPI = () => {
     return getRequest('medicines');
 }

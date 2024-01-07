@@ -2,7 +2,7 @@
   "medicines": [
     {
       "id": 1,
-      "name": "Naproxen",
+      "name": "Naproxenfbvbbb",
       "price": 850,
       "expiry": 2025,
       "desc": "Naproxen, sold under the brand name Aleve among others, is a nonsteroidal anti-inflammatory drug used to treat pain, menstrual cramps, inflammatory diseases such as rheumatoid arthritis, gout and fever.",
@@ -56,6 +56,14 @@
       "expiry": 2023,
       "desc": "Orlistat, sold under the brand name Xenical among others, is a medication used to treat obesity. Its primary function is preventing the absorption of fats from the human diet by acting as a lipase inhibitor, thereby reducing caloric intake.",
       "image": "orlistat.jpeg"
+    }
+  ],
+  "doctors": [
+    {
+      "name": "Srushti Patel",
+      "designation": "senior doctor",
+      "degree": "mbbs",
+      "id": 3
     }
   ]
 }

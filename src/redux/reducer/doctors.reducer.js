@@ -1,37 +1,36 @@
-import { DELETE_MEDICINE, GET_MEDICINES, POST_MEDICINE, UPDATE_MEDICINE } from "../ActionType"
-
+import { DELETE_DOCTORS, GET_DOCTORS, POST_DOCTORS, UPDATE_DOCTORS } from "../ActionType";
 
 export const initialState = {
     isLoding: false,
-    medicines: [],
+    doctors: [],
     error: null
 }
 
-export const medicinesReducer = (state = initialState, action) => {
-    // console.log(action);
+export const doctorReducer = (state = initialState, action) => {
+    console.log(action);
     switch (action.type) {
-        case GET_MEDICINES:
+        case GET_DOCTORS:
             return {
                 ...state,
-                medicines: action.payload
+                doctors: action.payload
             }
 
-        case POST_MEDICINE:
+        case POST_DOCTORS:
             return {
                 ...state,
-                medicines: state.medicines.concat(action.payload)
+                doctors: state.doctors.concat(action.payload)
             }
 
-        case DELETE_MEDICINE:
+        case DELETE_DOCTORS:
             return {
                 ...state,
-                medicines: state.medicines.filter((v) => v.id !== action.payload)
+                doctors: state.doctors.filter((v) => v.id !== action.payload)
             }
 
-        case UPDATE_MEDICINE:
+        case UPDATE_DOCTORS:
             return {
                 ...state,
-                medicines: state.medicines.map((v) => {
+                doctors: state.doctors.map((v) => {
                     if (v.id === action.payload.id) {
                         return action.payload;
                     } else {
@@ -39,7 +38,6 @@ export const medicinesReducer = (state = initialState, action) => {
                     }
                 })
             }
-
 
         default:
             return state;
