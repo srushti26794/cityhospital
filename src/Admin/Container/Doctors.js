@@ -11,18 +11,21 @@ import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteDoctorData, getDoctorData, postDoctorData, updateDoctorData } from '../../redux/action/doctors.actions';
 
 
 export default function Doctors() {
     const [doctorData, setDoctorData] = useState([])
     const [updateData, setUpdateData] = useState(false)
 
+    const dispatch = useDispatch();
+
+    const doctors = useSelector(state => state.doctors)
+    console.log(doctors.doctors);
+
     useEffect(() => {
-        let localData = JSON.parse(localStorage.getItem('doctors'))
-        console.log(localData);
-        if (localData) {
-            setDoctorData(localData);
-        }
+        dispatch(getDoctorData())
     }, []);
 
     let degree = ['mbbs', 'md', 'bhms', 'physiotherapy', 'dermatology', 'pediatrics', 'skin&vd', 'orthopaedics', 'gynaecology']
@@ -49,38 +52,13 @@ export default function Doctors() {
     const handleAdd = (values) => {
         console.log(values);
 
-        let id = Math.floor(Math.random() * 1000)
-
-        let localData = JSON.parse(localStorage.getItem("doctors"));
-
-        if (localData) {
-            localData.push({ ...values, id: id });
-            localStorage.setItem('doctors', JSON.stringify(localData))
-            setDoctorData(localData)
-        } else {
-            localStorage.setItem('doctors', JSON.stringify([{ ...values, id: id }]));
-            setDoctorData([{ ...values, id: id }])
-        }
+        dispatch(postDoctorData(values))
     }
 
     const handleUpdate = (data) => {
         console.log(data);
     
-        let localData = JSON.parse(localStorage.getItem('doctors'))
-        console.log(localData);
-
-        let updatedData = localData.map((v) => {
-            if (v.id == data.id) {
-                v = data;
-            }
-            return v;
-        })
-
-         console.log(updatedData);
-
-        localStorage.setItem('doctors', JSON.stringify(updatedData))
-
-        setDoctorData(updatedData)
+        dispatch(updateDoctorData(data))
     }
 
     let formikObj = useFormik({
@@ -119,17 +97,9 @@ export default function Doctors() {
     };
 
     const handleDelete = (data) => {
-        console.log(JSON.parse(data.id));
+        console.log(data);
 
-        let id = JSON.parse(data.id)
-
-        let localData = JSON.parse(localStorage.getItem('doctors'))
-
-        let doctorData = localData.filter((v) => v.id !== id);
-
-        localStorage.setItem('doctors', JSON.stringify(doctorData))
-
-        setDoctorData(doctorData);
+        dispatch(deleteDoctorData(data.id))
     }
 
     const handleEdit = (data) => {
@@ -220,7 +190,7 @@ export default function Doctors() {
 
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    rows={doctorData}
+                    rows={doctors.doctors}
                     columns={columns}
                     initialState={{
                         pagination: {

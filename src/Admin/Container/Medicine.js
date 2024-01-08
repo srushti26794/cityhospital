@@ -13,8 +13,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { deleteMedicine, getMedicine, postMedicine, updateMedicine } from '../../redux/action/medicine.action';
 import { useDispatch, useSelector } from 'react-redux';
-import { postRequest } from '../../common/request';
-
 
 export default function Medicine() {
     const [medicineData, setMedicineData] = useState([])
