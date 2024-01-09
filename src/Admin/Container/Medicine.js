@@ -15,12 +15,13 @@ import { deleteMedicine, getMedicine, postMedicine, updateMedicine } from '../..
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import { Typography } from '@mui/material';
 
 export default function Medicine() {
     const [medicineData, setMedicineData] = useState([])
     const [updateData, setUpdateData] = useState(false)
 
-    console.log(updateData);
+    // console.log(updateData);
 
     let d = new Date();
 
@@ -173,6 +174,9 @@ export default function Medicine() {
                     <Box sx={{ display: 'flex' }}>
                         <CircularProgress />
                     </Box> :
+
+                    medicine.error ?
+                    <p>{medicine.error.message}</p> :
 
                     <>
                         <Button variant="outlined" onClick={handleClickOpen}>

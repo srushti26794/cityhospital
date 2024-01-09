@@ -1,8 +1,12 @@
 import { deleteAllMedicineAPI, getAllMedicineAPI, postAllMedicineAPI, updateAllMedicineAPI } from "../../common/api/medicine.api";
-import { DELETE_MEDICINE, GET_MEDICINES, LOAD_MEDICINE, POST_MEDICINE, UPDATE_MEDICINE } from "../ActionType";
+import { DELETE_MEDICINE, ERROR_MEDICINE, GET_MEDICINES, LOAD_MEDICINE, POST_MEDICINE, UPDATE_MEDICINE } from "../ActionType";
 
 const loadingMedicine = () => (dispatch) => {
     dispatch({type: LOAD_MEDICINE})
+}
+
+const errorMedicine = (error) => (dispatch) => {
+    dispatch({type: ERROR_MEDICINE, payload: error})
 }
 
 export const getMedicine = () => (dispatch) => {
@@ -10,7 +14,8 @@ export const getMedicine = () => (dispatch) => {
 
     setTimeout(() => {
         getAllMedicineAPI()
-        .then((response) => dispatch({type: GET_MEDICINES, payload: (response.data)}));
+        .then((response) => dispatch({type: GET_MEDICINES, payload: (response.data)}))
+        .catch((error) => dispatch(errorMedicine(error)))
     }, 2000)
 }
 

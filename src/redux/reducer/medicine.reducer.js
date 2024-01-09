@@ -1,4 +1,4 @@
-import { DELETE_MEDICINE, GET_MEDICINES, LOAD_MEDICINE, POST_MEDICINE, UPDATE_MEDICINE } from "../ActionType"
+import { DELETE_MEDICINE, ERROR_MEDICINE, GET_MEDICINES, LOAD_MEDICINE, POST_MEDICINE, UPDATE_MEDICINE } from "../ActionType"
 
 
 export const initialState = {
@@ -15,6 +15,13 @@ export const medicinesReducer = (state = initialState, action) => {
                 isLoding: true,
                 medicines: [],
                 error: null
+            }
+
+        case ERROR_MEDICINE:
+            return {
+                isLoding: false,
+                medicines: [],
+                error: action.payload
             }
 
         case GET_MEDICINES:
