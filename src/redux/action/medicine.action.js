@@ -1,10 +1,17 @@
 import { deleteAllMedicineAPI, getAllMedicineAPI, postAllMedicineAPI, updateAllMedicineAPI } from "../../common/api/medicine.api";
-import { DELETE_MEDICINE, GET_MEDICINES, POST_MEDICINE, UPDATE_MEDICINE } from "../ActionType";
+import { DELETE_MEDICINE, GET_MEDICINES, LOAD_MEDICINE, POST_MEDICINE, UPDATE_MEDICINE } from "../ActionType";
 
+const loadingMedicine = () => (dispatch) => {
+    dispatch({type: LOAD_MEDICINE})
+}
 
 export const getMedicine = () => (dispatch) => {
-    getAllMedicineAPI()
+    dispatch(loadingMedicine())
+
+    setTimeout(() => {
+        getAllMedicineAPI()
         .then((response) => dispatch({type: GET_MEDICINES, payload: (response.data)}));
+    }, 2000)
 }
 
 export const postMedicine = (data) => (dispatch) => {

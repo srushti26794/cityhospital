@@ -13,6 +13,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { deleteMedicine, getMedicine, postMedicine, updateMedicine } from '../../redux/action/medicine.action';
 import { useDispatch, useSelector } from 'react-redux';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 export default function Medicine() {
     const [medicineData, setMedicineData] = useState([])
@@ -72,7 +74,7 @@ export default function Medicine() {
         console.log(values);
 
         dispatch(postMedicine(values))
-   
+
     }
 
     const handleUpdate = (data) => {
@@ -166,100 +168,110 @@ export default function Medicine() {
 
     return (
         <React.Fragment>
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Add Medicine
-            </Button>
-            <Dialog open={open} onClose={handleClose} onSubmit={handleSubmit}>
-                <DialogTitle>Medicine</DialogTitle>
-                <DialogContent>
-                    <form onSubmit={handleSubmit}>
-                        <input
-                            type="file"
-                            id="file"
-                            name='file'
-                            onChange={(event) => setFieldValue("file", event.target.files[0])}
-                        />
-                        <span>{errors.file && touched.file ? errors.file : null}</span>
+            {
+                medicine.isLoding ?
+                    <Box sx={{ display: 'flex' }}>
+                        <CircularProgress />
+                    </Box> :
 
-                        <TextField
-                            
-                            margin="dense"
-                            id="name"
-                            name='name'
-                            label="Medicine name"
-                            type="text"
-                            fullWidth
-                            variant="standard"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.name}
-                        />
-                        <span>{errors.name && touched.name ? errors.name : null}</span>
+                    <>
+                        <Button variant="outlined" onClick={handleClickOpen}>
+                            Add Medicine
+                        </Button>
+                        <Dialog open={open} onClose={handleClose} onSubmit={handleSubmit}>
+                            <DialogTitle>Medicine</DialogTitle>
+                            <DialogContent>
+                                <form onSubmit={handleSubmit}>
+                                    <input
+                                        type="file"
+                                        id="file"
+                                        name='file'
+                                        onChange={(event) => setFieldValue("file", event.target.files[0])}
+                                    />
+                                    <span>{errors.file && touched.file ? errors.file : null}</span>
 
-                        <TextField
-                            
-                            margin="dense"
-                            id="name"
-                            name='price'
-                            label="Price"
-                            type="number"
-                            fullWidth
-                            variant="standard"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.price}
-                        />
-                        <span>{errors.price && touched.price ? errors.price : null}</span>
+                                    <TextField
 
-                        <TextField
-                            margin="dense"
-                            id="name"
-                            name='expiry'
-                            label="Expiry"
-                            type="number"
-                            fullWidth
-                            variant="standard"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.expiry}
-                        />
-                        <span>{errors.expiry && touched.expiry ? errors.expiry : null}</span>
+                                        margin="dense"
+                                        id="name"
+                                        name='name'
+                                        label="Medicine name"
+                                        type="text"
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.name}
+                                    />
+                                    <span>{errors.name && touched.name ? errors.name : null}</span>
 
-                        <TextField
-                            margin="dense"
-                            id="name"
-                            name='desc'
-                            label="Description"
-                            type="text"
-                            fullWidth
-                            variant="standard"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.desc}
-                        />
-                        <span>{errors.desc && touched.desc ? errors.desc : null}</span>
+                                    <TextField
 
-                        <DialogActions>
-                        <Button type='submit'>{updateData ? 'Update' : 'Add'}</Button>
-                            <Button onClick={handleClose}>Cancel</Button>
-                        </DialogActions>
-                    </form>
-                </DialogContent>
-            </Dialog>
+                                        margin="dense"
+                                        id="name"
+                                        name='price'
+                                        label="Price"
+                                        type="number"
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.price}
+                                    />
+                                    <span>{errors.price && touched.price ? errors.price : null}</span>
 
-            <div style={{ height: 400, width: '100%' }}>
-                <DataGrid
-                    rows={medicine.medicines}
-                    columns={columns}
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 5 },
-                        },
-                    }}
-                    pageSizeOptions={[5, 10]}
-                    checkboxSelection
-                />
-            </div>
+                                    <TextField
+                                        margin="dense"
+                                        id="name"
+                                        name='expiry'
+                                        label="Expiry"
+                                        type="number"
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.expiry}
+                                    />
+                                    <span>{errors.expiry && touched.expiry ? errors.expiry : null}</span>
+
+                                    <TextField
+                                        margin="dense"
+                                        id="name"
+                                        name='desc'
+                                        label="Description"
+                                        type="text"
+                                        fullWidth
+                                        variant="standard"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.desc}
+                                    />
+                                    <span>{errors.desc && touched.desc ? errors.desc : null}</span>
+
+                                    <DialogActions>
+                                        <Button type='submit'>{updateData ? 'Update' : 'Add'}</Button>
+                                        <Button onClick={handleClose}>Cancel</Button>
+                                    </DialogActions>
+                                </form>
+                            </DialogContent>
+                        </Dialog>
+
+                        <div style={{ height: 400, width: '100%' }}>
+                            <DataGrid
+                                rows={medicine.medicines}
+                                columns={columns}
+                                initialState={{
+                                    pagination: {
+                                        paginationModel: { page: 0, pageSize: 5 },
+                                    },
+                                }}
+                                pageSizeOptions={[5, 10]}
+                                checkboxSelection
+                            />
+                        </div>
+                    </>
+            }
+
         </React.Fragment>
     );
 }
