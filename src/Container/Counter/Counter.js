@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { decrement, increment } from '../../redux/action/counter.action';
+import { decrement, increment } from '../../redux/slice/counter.slice';
 
 
 function Counter(props) {
@@ -16,22 +16,22 @@ function Counter(props) {
     }
 
     return (
-        <div>
-            <div>
+        <>
+            <div className='container'>
                 <br/>
                 <br/>
                 <br/>
                 <br/>
                 <br/>
                 <br/>
-                <button onClick={handleDecrement}>-</button>
+                <button className='countBtn' onClick={handleDecrement}>-</button>
                 {counter.count}
-                <button onClick={handleIncrement}>+</button>
+                <button className='countBtn'onClick={handleIncrement}>+</button>
                 <br/>
                 <br/>
                 <br/>
             </div>
-        </div>
+        </>
     );
 }
 

@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* --------------------------------------------- Counter --------------------------------------------- */
+
+.countBtn{
+  margin: 0 10px;
+  border: none;
+  cursor: pointer;
+  background-color: chocolate;
+  width: 25px;
+  height: 25px;
+}
