@@ -26,8 +26,6 @@ function AddToCart() {
         // setData(apiData)
     }
 
-    // console.log(data, cart);
-
     let cartData = cart.cart.map((v) => {
         let med = medicine.medicines.find((d) => d.id === v.id);
         return { ...med, ...v }
