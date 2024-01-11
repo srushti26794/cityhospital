@@ -3,10 +3,14 @@ import { NavLink } from 'react-router-dom';
 import Badge from '@mui/material/Badge';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useSelector } from 'react-redux';
 
 
-function Header({ wishlist, cart}) {
-    let cartTotal = cart.reduce((acc, v) => acc + v.qty , 0);
+function Header({ wishlist}) {
+    const cart = useSelector(state => state.cart)
+    console.log(cart.cart);
+
+    let cartTotal = cart.cart.reduce((acc, v) => acc + v.qty , 0);
     console.log(cartTotal);
     
     return (

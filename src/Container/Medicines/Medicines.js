@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { BsCurrencyRupee } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
 import { getMedicine } from '../../redux/action/medicine.action';
-// import { Button } from '@mui/material';
+import { handleCartData } from '../../redux/slice/addToCart.slice';
 
 // const data = [
 //     {
@@ -78,7 +78,7 @@ import { getMedicine } from '../../redux/action/medicine.action';
 //     }
 // ]
 
-function Medicines({ cart, setCart }) {
+function Medicines() {
     const [data, setData] = useState([])
     const [search, setSearch] = useState('')
     const [sort, setSort] = useState('')
@@ -89,16 +89,19 @@ function Medicines({ cart, setCart }) {
     const medicine = useSelector(state => state.medicines)
     console.log(medicine.medicines);
 
+    const cart = useSelector(state => state.cart)
+    console.log(cart.cart);
+
     useEffect(() => {
         dispatch(getMedicine());
     }, [])
 
-    const getData = async () => {
-        let response = await fetch("http://localhost:3004/medicines")
-        let apiData = await response.json();
+    // const getData = async () => {
+    //     let response = await fetch("http://localhost:3004/medicines")
+    //     let apiData = await response.json();
 
-        setData(apiData)
-    }
+    //     setData(apiData)
+    // }
 
     console.log(data);
 
@@ -131,21 +134,24 @@ function Medicines({ cart, setCart }) {
     }
     const handleCart = (event, id) => {
         event.preventDefault();
-        const data = cart.find((v) => v.id === id)
+        dispatch(handleCartData(id))
+        
+        
+        // const data = cart.find((v) => v.id === id)
 
-        console.log(data);
+        // console.log(data);
 
-        if (data) {
-            let allData = [...cart];
+        // if (data) {
+        //     let allData = [...cart];
 
-            let index = allData.findIndex((v) => v.id === id);
+        //     let index = allData.findIndex((v) => v.id === id);
 
-            allData[index].qty++;
+        //     allData[index].qty++;
 
-            setCart(allData);
-        } else {
-            setCart((prev) => [...prev, { id: id, qty: 1 }])
-        }
+        //     setCart(allData);
+        // } else {
+        //     setCart((prev) => [...prev, { id: id, qty: 1 }])
+        // }
 
     }
 
