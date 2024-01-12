@@ -28,18 +28,20 @@
     {
       "id": 4,
       "name": "Hiprex",
-      "price": 85,
-      "expiry": 2023,
+      "price": 850,
+      "expiry": 2026,
       "desc": "Hexamethylenetetramine, also known as methenamine, hexamine, or urotropin, is a heterocyclic organic compound with the formula (CH₂)₆N₄. This white crystalline compound is highly soluble in water and polar organic solvents. It has a cage-like structure similar to adamantane",
-      "image": "hiprex.jpeg"
+      "image": "hiprex.jpeg",
+      "file": {}
     },
     {
       "id": 6,
       "name": "Wegovy",
-      "price": 85,
-      "expiry": 2023,
-      "desc": "WEGOVY® (semaglutide) injection 2.4 mg is an injectable prescription medicine that may help adults and children aged ≥12 years with obesity (BMI ≥30 for adults, BMI ≥ 95th percentile for age and sex for children), or some adults with excess weight (BMI ≥27) (overweight) who also have weight-related medical problems to help them lose weight and keep it off. Wegovy® should be used with a reduced calorie meal plan and increased physical activity",
-      "image": "wegovy.jpg"
+      "price": 850,
+      "expiry": 2025,
+      "desc": "centile for age and sex for children), or some adults with excess weight (BMI ≥27) (overweight) who also have weight-related medical problems to help them lose weight and keep it off. Wegovy® should be used with a reduced calorie meal plan and increased physical activity",
+      "image": "wegovy.jpg",
+      "file": {}
     },
     {
       "id": 7,

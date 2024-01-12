@@ -2,9 +2,9 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Department from '../Admin/Container/Department';
 import Layout from '../Admin/Component/Layout';
-import Medicine from '../Admin/Container/Medicine';
-import Doctors from '../Admin/Container/Doctors';
 import Facilties from '../Admin/Container/Facilties';
+import Medicine from '../Admin/Container/Medicines/Medicine';
+import Doctors from '../Admin/Container/Doctors/Doctors';
 
 function AdminRoutes(props) {
     return (
