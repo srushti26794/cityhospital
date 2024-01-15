@@ -60,7 +60,7 @@ function Home(props) {
                     </div>
                     <div className="row justify-beetween">
                         {
-                            facilityData.map((v, index) => (
+                            facilityData && facilityData.map((v, index) => (
                                     <div className="col-lg-4 col-md-6">
                                         <div className="icon-box">
                                             <div className="icon"><i className="fas fa-hospital-alt" /></div>

@@ -13,13 +13,12 @@ const wishlistSlice = createSlice({
         handleWishlistData: (state, action) => {
             console.log(action.payload);
 
-            // if (!state.wishlist.includes(id)) {
-            //     state.wishlist.push({state.})
-            // } else {
-            //     let fdata = wishlist.filter((v) => v !== id)
-            //     console.log(fdata);
-            //     setWishlist(fdata)
-            // }
+            if (!state.wishlist.includes(action.payload)) {
+                state.wishlist.push(action.payload)
+            } else {
+                let fdata = state.wishlist.filter((v) => v !== action.payload)
+                state.wishlist = fdata;
+            }
         }
     }
 })

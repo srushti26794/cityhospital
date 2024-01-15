@@ -6,7 +6,10 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useSelector } from 'react-redux';
 
 
-function Header({ wishlist}) {
+function Header() {
+    const wishlist = useSelector(state => state.wishlist)
+    console.log(wishlist.wishlist);
+
     const cart = useSelector(state => state.cart)
     console.log(cart.cart);
 
@@ -27,7 +30,7 @@ function Header({ wishlist}) {
                         <a href="#" className="instagram"><i className="bi bi-instagram" /></a>
                         <a href="#" className="linkedin"><i className="bi bi-linkedin" /></a>
                         <NavLink to="/MyWishlist" >
-                            <Badge badgeContent={wishlist.length} color="primary">
+                            <Badge badgeContent={wishlist.wishlist.length} color="primary">
                                 <FavoriteIcon color="action" />
                             </Badge>
                         </NavLink>

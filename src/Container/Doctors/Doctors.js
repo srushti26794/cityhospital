@@ -47,8 +47,8 @@ function Doctors({wishlist, setWishlist}) {
         setData(apiData)
     }
 
-    const handleWishlist = (data) => {
-        dispatch(handleWishlistData(data))
+    const handleWishlist = (id) => {
+        dispatch(handleWishlistData(id))
         // console.log(wishlist.includes(id));
 
         // if (!wishlist.includes(id)) {
@@ -131,7 +131,7 @@ function Doctors({wishlist, setWishlist}) {
                     {
                         finalData.map((v) => (
                             <div className="col-lg-6 border">
-                                <IconButton className='icon' onClick={() => handleWishlist(v)} aria-label="delete" size="small">
+                                <IconButton className='icon' onClick={() => handleWishlist(v.id)} aria-label="delete" size="small">
                                     {wishlist.includes(v.id) ? <FavoriteIcon/> : <FavoriteBorderIcon fontSize="inherit" />}
                                 </IconButton>
                                 <div className="pic text-center">
