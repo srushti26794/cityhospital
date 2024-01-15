@@ -5,6 +5,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { set } from 'date-fns';
 import { id } from 'date-fns/locale';
+import { useDispatch } from 'react-redux';
+import { handleWishlistData } from '../../redux/slice/docWishlist.slice';
 
 function Doctors({wishlist, setWishlist}) {
     const [data, setData] = useState([])
@@ -12,6 +14,8 @@ function Doctors({wishlist, setWishlist}) {
     const [sort, setSort] = useState('')
     const [category, setcategory] = useState([])
     const [selectCat, setSelectCat] = useState('')
+
+    const dispatch = useDispatch;
 
     useEffect(() => {
         getData()
@@ -43,19 +47,20 @@ function Doctors({wishlist, setWishlist}) {
         setData(apiData)
     }
 
-    const handleWishlist = (id) => {
-        console.log(wishlist.includes(id));
+    const handleWishlist = (data) => {
+        dispatch(handleWishlistData(data))
+        // console.log(wishlist.includes(id));
 
-        if (!wishlist.includes(id)) {
-            setWishlist((prev) => [...prev, id])
-        } else {
-            let fdata = wishlist.filter((v) => v !== id)
-            console.log(fdata);
-            setWishlist(fdata)
-        }
+        // if (!wishlist.includes(id)) {
+        //     setWishlist((prev) => [...prev, id])
+        // } else {
+        //     let fdata = wishlist.filter((v) => v !== id)
+        //     console.log(fdata);
+        //     setWishlist(fdata)
+        // }
     }
 
-    console.log(wishlist);
+    // console.log(wishlist);
 
 
     const handleSearchSort = () => {
@@ -126,7 +131,7 @@ function Doctors({wishlist, setWishlist}) {
                     {
                         finalData.map((v) => (
                             <div className="col-lg-6 border">
-                                <IconButton className='icon' onClick={() => handleWishlist(v.id)} aria-label="delete" size="small">
+                                <IconButton className='icon' onClick={() => handleWishlist(v)} aria-label="delete" size="small">
                                     {wishlist.includes(v.id) ? <FavoriteIcon/> : <FavoriteBorderIcon fontSize="inherit" />}
                                 </IconButton>
                                 <div className="pic text-center">
