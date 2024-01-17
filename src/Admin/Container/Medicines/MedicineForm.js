@@ -34,14 +34,14 @@ function MedicineForm({handleAdd, handleUpdate, updateData}) {
     const SUPPORTED_FORMATS = ['image/jpg', 'image/JPG', 'image/jpeg', 'image/JPEG', 'image/png', 'image/PNG'];
 
     const medicineSchema = yup.object({
-        file: yup
-            .mixed()
-            .nullable()
-            .required('A file is required')
-            .test('Fichier taille',
-                'File size is too large', (value) => !value || (value && value.size <= 1024 * 1024))
-            .test('format',
-                'Please upload jpg, jpeg or png file', (value) => !value || (value && SUPPORTED_FORMATS.includes(value.type))),
+        // file: yup
+        //     .mixed()
+        //     .nullable()
+        //     .required('A file is required')
+        //     .test('Fichier taille',
+        //         'File size is too large', (value) => !value || (value && value.size <= 1024 * 1024))
+        //     .test('format',
+        //         'Please upload jpg, jpeg or png file', (value) => !value || (value && SUPPORTED_FORMATS.includes(value.type))),
         name: yup.string().required("Enter medicine name").matches(/^([a-zA-Z ]{2,30})||([0-9])$/, "Please enter valid name"),
         price: yup.string().required("Enter price")
             .test('price', 'price can not be zero or negative', function (val) {
@@ -67,7 +67,7 @@ function MedicineForm({handleAdd, handleUpdate, updateData}) {
 
     let formikObj = useFormik({
         initialValues: {
-            file: '',
+            // file: '',
             name: '',
             price: '',
             expiry: '',
@@ -98,13 +98,13 @@ function MedicineForm({handleAdd, handleUpdate, updateData}) {
                 <DialogTitle>Medicine</DialogTitle>
                 <DialogContent>
                     <form onSubmit={handleSubmit}>
-                        <input
+                        {/* <input
                             type="file"
                             id="file"
                             name='file'
                             onChange={(event) => setFieldValue("file", event.target.files[0])}
                         />
-                        <span>{errors.file && touched.file ? errors.file : null}</span>
+                        <span>{errors.file && touched.file ? errors.file : null}</span> */}
 
                         <TextField
 

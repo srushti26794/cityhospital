@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import MedicineForm from './MedicineForm';
+import { addMedicine } from '../../../redux/slice/medicines.slice';
 
 export default function Medicine() {
     const [medicineData, setMedicineData] = useState([])
@@ -24,11 +25,10 @@ export default function Medicine() {
     }, [])
 
 
-
     const handleAdd = (values) => {
         console.log(values);
 
-        dispatch(postMedicine(values))
+        dispatch(addMedicine(values))
 
     }
 
@@ -57,18 +57,18 @@ export default function Medicine() {
         { field: 'price', headerName: 'Price', width: 130 },
         { field: 'expiry', headerName: 'Expiry', width: 130 },
         { field: 'desc', headerName: 'Description', width: 130 },
-        {
-            field: 'file', headerName: 'Medicine file', width: 130,
-            // renderCell: (params) => {
-            //     console.log(params.row);
-            //     // <image>
-            //     return (
-            //         <img src={URL.createObjectURL(params.row.file)} />
-            //     )
+        // {
+        //     field: 'file', headerName: 'Medicine file', width: 130,
+        //     // renderCell: (params) => {
+        //     //     console.log(params.row);
+        //     //     // <image>
+        //     //     return (
+        //     //         <img src={URL.createObjectURL(params.row.file)} />
+        //     //     )
 
 
-            // }
-        },
+        //     // }
+        // },
         {
             field: 'action',
             headerName: 'Action',
