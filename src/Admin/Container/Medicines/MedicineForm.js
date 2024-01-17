@@ -68,6 +68,7 @@ function MedicineForm({handleAdd, handleUpdate, updateData}) {
     let formikObj = useFormik({
         initialValues: {
             // file: '',
+            id: '',
             name: '',
             price: '',
             expiry: '',

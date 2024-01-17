@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import MedicineForm from './MedicineForm';
-import { addMedicine } from '../../../redux/slice/medicines.slice';
+import { addMedicine, getMedicineData } from '../../../redux/slice/medicines.slice';
 
 export default function Medicine() {
     const [medicineData, setMedicineData] = useState([])
@@ -21,7 +21,7 @@ export default function Medicine() {
     console.log(medicine.medicines);
 
     useEffect(() => {
-        dispatch(getMedicine());
+        dispatch(getMedicineData());
     }, [])
 
 
@@ -50,6 +50,8 @@ export default function Medicine() {
         // setValues(data)
         setUpdateData(data)
     }
+
+    let id = Math.floor(Math.random()*100)
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
