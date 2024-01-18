@@ -3,12 +3,11 @@ import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { deleteMedicine, getMedicine, postMedicine, updateMedicine } from '../../../redux/action/medicine.action';
 import { useDispatch, useSelector } from 'react-redux';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import MedicineForm from './MedicineForm';
-import { addMedicine, getMedicineData } from '../../../redux/slice/medicines.slice';
+import { addMedicine, deleteMedicine, getMedicineData, updateMedicine } from '../../../redux/slice/medicines.slice';
 
 export default function Medicine() {
     const [medicineData, setMedicineData] = useState([])
@@ -23,7 +22,6 @@ export default function Medicine() {
     useEffect(() => {
         dispatch(getMedicineData());
     }, [])
-
 
     const handleAdd = (values) => {
         console.log(values);
@@ -90,7 +88,7 @@ export default function Medicine() {
         <React.Fragment>
           
             {
-                medicine.isLoding ?
+                medicine.isloading ?
                     <Box sx={{ display: 'flex' }}>
                         <CircularProgress />
                     </Box> :
