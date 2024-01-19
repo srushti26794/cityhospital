@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db, storage } from "../../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const initialState = {
     isloading: false,
@@ -13,9 +14,25 @@ export const addMedicine = createAsyncThunk(
 
     async (data) => {
         try {
-            const docRef = await addDoc(collection(db, "medicines"), data);
-            console.log("Document written with ID: ", docRef.id);
-            return { id: docRef.id, ...data };
+            const rNo = Math.floor(Math.random() * 10000)
+            const storageRef = ref(storage, 'medicines/' + rNo + '_' + data.file.name);
+
+            let newData = {}
+            // 'file' comes from the Blob or File API
+            await uploadBytes(storageRef, data.file)
+                .then(async (snapshot) => {
+                    await getDownloadURL(storageRef)
+                        .then(async (url) => {
+                            console.log(url);
+                            const docRef = await addDoc(collection(db, "medicines"),{...data, file: url});
+                            console.log("Document written with ID: ", docRef.id);
+
+                            newData = {id: docRef.id, ...data, file: url}
+                        });
+                })
+                console.log(newData);
+   
+            return newData;
         } catch (e) {
             console.error("Error adding document: ", e);
         }
@@ -47,9 +64,9 @@ export const updateMedicine = createAsyncThunk(
         const medicineRef = doc(db, "medicines", data.id);
         console.log(medicineRef);
 
-        let newData = {...data};
+        let newData = { ...data };
         delete newData.id;
-        
+
         await updateDoc(medicineRef, newData);
 
         return data
@@ -105,9 +122,9 @@ const medicinesSlice = createSlice({
             console.log(action);
             state.isloading = false;
             state.medicines = state.medicines.map((v) => {
-                if(v.id === action.payload.id){
+                if (v.id === action.payload.id) {
                     return action.payload
-                }else{
+                } else {
                     return v;
                 }
             })

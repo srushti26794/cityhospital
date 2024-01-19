@@ -57,18 +57,16 @@ export default function Medicine() {
         { field: 'price', headerName: 'Price', width: 130 },
         { field: 'expiry', headerName: 'Expiry', width: 130 },
         { field: 'desc', headerName: 'Description', width: 130 },
-        // {
-        //     field: 'file', headerName: 'Medicine file', width: 130,
-        //     // renderCell: (params) => {
-        //     //     console.log(params.row);
-        //     //     // <image>
-        //     //     return (
-        //     //         <img src={URL.createObjectURL(params.row.file)} />
-        //     //     )
-
-
-        //     // }
-        // },
+        {
+            field: 'file', headerName: 'Medicine file', width: 130,
+            renderCell: (params) => {
+                console.log(params.row);
+                // <image>
+                return (
+                    <img height='100px' width='100px' src={(params.row.file)} />
+                )
+            }
+        },
         {
             field: 'action',
             headerName: 'Action',
