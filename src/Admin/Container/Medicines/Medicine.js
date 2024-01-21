@@ -40,7 +40,7 @@ export default function Medicine() {
     const handleDelete = (data) => {
         console.log(data);
 
-        dispatch(deleteMedicine(data.id))
+        dispatch(deleteMedicine(data))
     }
 
     const handleEdit = (data) => {

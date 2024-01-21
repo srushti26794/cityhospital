@@ -37,11 +37,11 @@ function MedicineForm({handleAdd, handleUpdate, updateData}) {
         file: yup
             .mixed()
             .nullable()
-            .required('A file is required')
-            .test('Fichier taille',
-                'File size is too large', (value) => !value || (value && value.size <= 1024 * 1024))
-            .test('format',
-                'Please upload jpg, jpeg or png file', (value) => !value || (value && SUPPORTED_FORMATS.includes(value.type))),
+            .required('A file is required'),
+            // .test('Fichier taille',
+            //     'File size is too large', (value) => !value || (value && value.size <= 1024 * 1024))
+            // .test('format',
+            //     'Please upload jpg, jpeg or png file', (value) => !value || (value && SUPPORTED_FORMATS.includes(value.type))),
         name: yup.string().required("Enter medicine name").matches(/^([a-zA-Z ]{2,30})||([0-9])$/, "Please enter valid name"),
         price: yup.string().required("Enter price")
             .test('price', 'price can not be zero or negative', function (val) {

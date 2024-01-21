@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../../firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
 const initialState = {
     isloading: false,
@@ -24,14 +24,14 @@ export const addMedicine = createAsyncThunk(
                     await getDownloadURL(storageRef)
                         .then(async (url) => {
                             console.log(url);
-                            const docRef = await addDoc(collection(db, "medicines"),{...data, file: url});
+                            const docRef = await addDoc(collection(db, "medicines"), { ...data, file: url, fileName: rNo + '_' + data.file.name });
                             console.log("Document written with ID: ", docRef.id);
 
-                            newData = {id: docRef.id, ...data, file: url}
+                            newData = { id: docRef.id, ...data, file: url }
                         });
                 })
-                console.log(newData);
-   
+            console.log(newData);
+
             return newData;
         } catch (e) {
             console.error("Error adding document: ", e);
@@ -60,26 +60,66 @@ export const getMedicineData = createAsyncThunk(
 export const updateMedicine = createAsyncThunk(
     'medicines/update',
     async (data) => {
+        let newData = {};
         console.log(data);
-        const medicineRef = doc(db, "medicines", data.id);
-        console.log(medicineRef);
 
-        let newData = { ...data };
-        delete newData.id;
+        if (typeof data.file === 'string') {
+            const medicineRef = doc(db, "medicines", data.id);
+            console.log(medicineRef);
 
-        await updateDoc(medicineRef, newData);
+            let newData = { ...data };
+            delete newData.id;
 
-        return data
+            await updateDoc(medicineRef, newData);
+        } else {
+            const medicineRef = ref(storage, 'medicines/' + data.fileName);
+
+            //1. delete old image
+            deleteObject(medicineRef).then(async () => {
+                //2. upload image and get url
+                const rNo = Math.floor(Math.random() * 10000)
+                const storageRef = ref(storage, 'medicines/' + rNo + '_' + data.file.name);
+                
+                await uploadBytes(storageRef, data.file)
+                    .then(async (snapshot) => {
+                        await getDownloadURL(storageRef)
+                            .then(async (url) => {
+                                //3. update in cloud store
+                                const medicineRef = doc(db, "medicines", data.id);
+                                console.log(medicineRef);
+
+                                newData = { ...data, file: url, fileName: rNo + '_' + data.file.name};
+                                delete newData.id;
+
+                                await updateDoc(medicineRef, newData);
+
+                                newData.id = data.id;
+                            });
+                    })
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+        return newData;
     }
 )
 
 export const deleteMedicine = createAsyncThunk(
     'medicines/delete',
 
-    async (id) => {
-        await deleteDoc(doc(db, "medicines", id));
+    async (data) => {
+        // Create a reference to the file to delete
+        const medicineRef = ref(storage, 'medicines/' + data.fileName);
 
-        return id;
+        // Delete the file
+        deleteObject(medicineRef).then(async () => {
+            await deleteDoc(doc(db, "medicines", data.id));
+        }).catch((error) => {
+            console.log(error);
+        });
+
+        return data.id;
     }
 )
 
