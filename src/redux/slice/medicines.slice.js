@@ -172,7 +172,7 @@ const medicinesSlice = createSlice({
         })
         builder.addCase(deleteMedicine.fulfilled, (state, action) => {
             console.log(action);
-            state.isloding = false;
+            state.isloading = false;
             state.medicines = state.medicines.filter((v) => v.id !== action.payload)
             state.error = null;
         })
