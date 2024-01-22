@@ -3,11 +3,15 @@ import { Container } from 'reactstrap';
 import "./LoginSignup.css"
 import * as yup from 'yup';
 import { useFormik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { signupRequest } from '../../redux/action/auth.action';
 
 
 function LoginSignup(props) {
     const [type, setType] = useState('login');
-    console.log(type);
+    // console.log(type);
+
+    const dispatch = useDispatch();
 
     const handleSignup = () => {
         setType('signup')
@@ -41,7 +45,15 @@ function LoginSignup(props) {
         },
         validationSchema: loginSignupSchema,
         onSubmit: values => {
-            console.log(values);
+            
+            if(type === 'signup'){
+                dispatch(signupRequest(values))
+            } else if(type === 'login'){
+
+            }else{
+
+            }
+    
         },
     })
 
