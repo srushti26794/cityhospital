@@ -88,7 +88,7 @@ function MedicineForm({handleAdd, handleUpdate, updateData}) {
         },
     })
 
-    let { handleSubmit, handleChange, handleBlur, touched, errors, values, resetForm, setFieldValue, setValues } = formikObj;
+    let { handleSubmit, handleChange, handleBlur, touched, errors, values, setFieldValue, setValues } = formikObj;
     return (
         <>
             <Button variant="outlined" onClick={handleClickOpen}>

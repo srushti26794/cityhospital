@@ -4,7 +4,7 @@ import "./LoginSignup.css"
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
-import { signupRequest } from '../../redux/action/auth.action';
+import { forgetRequest, loginRequest, signupRequest } from '../../redux/action/auth.action';
 
 
 function LoginSignup(props) {
@@ -25,33 +25,62 @@ function LoginSignup(props) {
         setType('forgot');
     }
 
-    const loginSignupSchema = yup.object({
-        name: yup.string().required("Enter your name").matches(/^[a-zA-Z ]{2,30}$/, "Please enter valid name"),
-        email: yup.string().required("Enter your email").email("Enter valid email"),
-        password: yup.string().min(8, 'Password must be 8 characters long')
-            .matches(/[0-9]/, 'Password requires a number')
-            .matches(/[a-z]/, 'Password requires a lowercase letter')
-            .matches(/[A-Z]/, 'Password requires an uppercase letter')
-            .matches(/[^\w]/, 'Password requires a symbol'),
-        confPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
-    })
+    let authSchema = {}, initialVal = {};
 
-    let formikObj = useFormik({
-        initialValues: {
+    if(type === 'signup'){
+        authSchema = yup.object({
+            name: yup.string().required("Enter your name").matches(/^[a-zA-Z ]{2,30}$/, "Please enter valid name"),
+            email: yup.string().required("Enter your email").email("Enter valid email"),
+            password: yup.string().min(8, 'Password must be 8 characters long')
+                .matches(/[0-9]/, 'Password requires a number')
+                .matches(/[a-z]/, 'Password requires a lowercase letter')
+                .matches(/[A-Z]/, 'Password requires an uppercase letter')
+                .matches(/[^\w]/, 'Password requires a symbol'),
+            confPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
+        })
+        initialVal = ({
             name: '',
             email: '',
             password: '',
             confPassword: ''
-        },
-        validationSchema: loginSignupSchema,
+        })
+    } else if (type === 'login'){
+        authSchema = yup.object({
+            email: yup.string().required("Enter your email").email("Enter valid email"),
+            password: yup.string().min(8, 'Password must be 8 characters long')
+                .matches(/[0-9]/, 'Password requires a number')
+                .matches(/[a-z]/, 'Password requires a lowercase letter')
+                .matches(/[A-Z]/, 'Password requires an uppercase letter')
+                .matches(/[^\w]/, 'Password requires a symbol')
+        })
+
+        initialVal = ({
+            email: '',
+            password: '',
+        })
+    } else {
+        authSchema = yup.object({
+            email: yup.string().required("Enter your email").email("Enter valid email")
+        })
+
+        initialVal = ({
+            email: '',
+        })
+    }
+
+    
+
+    let formikObj = useFormik({
+        initialValues: initialVal,
+        validationSchema: authSchema,
         onSubmit: values => {
             
             if(type === 'signup'){
                 dispatch(signupRequest(values))
             } else if(type === 'login'){
-
+                dispatch(loginRequest(values))
             }else{
-
+                dispatch(forgetRequest(values))
             }
     
         },
