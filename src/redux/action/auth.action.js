@@ -1,4 +1,4 @@
-import { FORGET_REQUEST, LOGGEDIN_USER, LOGIN_REQUEST, SIGNUP_REQUEST } from "../ActionType"
+import { FORGET_REQUEST, LOGGEDIN_USER, LOGGEDOUT_USER, LOGIN_REQUEST, SIGNUP_REQUEST } from "../ActionType"
 
 export const signupRequest = (data) => (dispatch) => {
     dispatch({type: SIGNUP_REQUEST, payload: data})
@@ -17,4 +17,9 @@ export const forgetRequest = (data) => (dispatch) => {
 export const loggedUser = (data) => (dispatch) => {
     console.log(data);
     dispatch({type: LOGGEDIN_USER, payload: data})
+}
+
+export const loggedOutUser = (data) => (dispatch) => {
+    console.log(data);
+    dispatch({type: LOGGEDOUT_USER, payload: data})
 }

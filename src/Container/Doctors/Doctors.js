@@ -18,7 +18,7 @@ function Doctors() {
     const dispatch = useDispatch();
 
     const wishData = useSelector(state => state.wishlist);
-    console.log(wishData);
+    console.log(wishData.wishlist);
 
     useEffect(() => {
         getData()
@@ -51,7 +51,6 @@ function Doctors() {
     }
 
     const handleWishlist = (id) => {
-
         dispatch(handleWishlistData(id))
         // console.log(wishlist.includes(id));
 
@@ -136,7 +135,7 @@ function Doctors() {
                         finalData.map((v) => (
                             <div className="col-lg-6 border">
                                 <IconButton className='icon' onClick={() => handleWishlist(v.id)} aria-label="delete" size="small">
-                                    {wishData.includes(v.id) ? <FavoriteIcon/> : <FavoriteBorderIcon fontSize="inherit" />}
+                                    {wishData.wishlist.includes(v.id) ? <FavoriteIcon/> : <FavoriteBorderIcon fontSize="inherit" />}
                                 </IconButton>
                                 <div className="pic text-center">
                                     <img src={v.image} className="img-doctor" alt />

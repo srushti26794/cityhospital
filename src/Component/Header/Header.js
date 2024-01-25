@@ -7,15 +7,15 @@ import { useSelector } from 'react-redux';
 
 
 function Header() {
-    const wishlistData = useSelector(state => state.wishlist.length)
-    console.log(wishlistData);
+    const wishlistData = useSelector(state => state.wishlist);
+    console.log(wishlistData.wishlist);
 
     const cart = useSelector(state => state.cart)
     console.log(cart.cart);
 
-    let cartTotal = cart.cart.reduce((acc, v) => acc + v.qty , 0);
+    let cartTotal = cart.cart.reduce((acc, v) => acc + v.qty, 0);
     console.log(cartTotal);
-    
+
     return (
         <div className="main-header">
             <div id="topbar" className="d-flex align-items-center fixed-top">
@@ -30,7 +30,7 @@ function Header() {
                         <a href="#" className="instagram"><i className="bi bi-instagram" /></a>
                         <a href="#" className="linkedin"><i className="bi bi-linkedin" /></a>
                         <NavLink to="/MyWishlist" >
-                            <Badge badgeContent={wishlistData && wishlistData.wishlistData.length} color="primary">
+                            <Badge badgeContent={wishlistData.wishlist.length} color="primary">
                                 <FavoriteIcon color="action" />
                             </Badge>
                         </NavLink>
@@ -65,6 +65,9 @@ function Header() {
                         Appointment</NavLink>
                     <NavLink to="/LoginSignup" className="appointment-btn scrollto">
                         <span className="d-none d-md-inline">Login/ Signup</span>
+                    </NavLink>
+                    <NavLink to="/Logout" className="appointment-btn scrollto">
+                        <span className="d-none d-md-inline">Logout</span>
                     </NavLink>
                 </div>
             </header>
