@@ -16,7 +16,6 @@ import LoginSignup from '../Container/LoginSignup/LoginSignup';
 import MyWishlist from '../Container/MyWishlist/MyWishlist';
 import AddToCart from '../Container/AddToCart/AddToCart';
 import Counter from '../Container/Counter/Counter';
-import Logout from '../Container/Logout/Logout';
 
 function UserRoutes(props) {
     const [wishlist, setWishlist] = useState([])
