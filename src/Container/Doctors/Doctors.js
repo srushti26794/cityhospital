@@ -5,13 +5,20 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { set } from 'date-fns';
 import { id } from 'date-fns/locale';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleWishlistData } from '../../redux/slice/wishlist.slice';
 
-function Doctors({wishlist, setWishlist}) {
+function Doctors() {
     const [data, setData] = useState([])
     const [search, setSearch] = useState('')
     const [sort, setSort] = useState('')
     const [category, setcategory] = useState([])
     const [selectCat, setSelectCat] = useState('')
+
+    const dispatch = useDispatch();
+
+    const wishData = useSelector(state => state.wishlist);
+    console.log(wishData);
 
     useEffect(() => {
         getData()
@@ -44,18 +51,20 @@ function Doctors({wishlist, setWishlist}) {
     }
 
     const handleWishlist = (id) => {
-        console.log(wishlist.includes(id));
 
-        if (!wishlist.includes(id)) {
-            setWishlist((prev) => [...prev, id])
-        } else {
-            let fdata = wishlist.filter((v) => v !== id)
-            console.log(fdata);
-            setWishlist(fdata)
-        }
+        dispatch(handleWishlistData(id))
+        // console.log(wishlist.includes(id));
+
+        // if (!wishlist.includes(id)) {
+        //     setWishlist((prev) => [...prev, id])
+        // } else {
+        //     let fdata = wishlist.filter((v) => v !== id)
+        //     console.log(fdata);
+        //     setWishlist(fdata)
+        // }
     }
 
-    console.log(wishlist);
+    // console.log(wishlist);
 
 
     const handleSearchSort = () => {
@@ -127,7 +136,7 @@ function Doctors({wishlist, setWishlist}) {
                         finalData.map((v) => (
                             <div className="col-lg-6 border">
                                 <IconButton className='icon' onClick={() => handleWishlist(v.id)} aria-label="delete" size="small">
-                                    {wishlist.includes(v.id) ? <FavoriteIcon/> : <FavoriteBorderIcon fontSize="inherit" />}
+                                    {wishData.includes(v.id) ? <FavoriteIcon/> : <FavoriteBorderIcon fontSize="inherit" />}
                                 </IconButton>
                                 <div className="pic text-center">
                                     <img src={v.image} className="img-doctor" alt />

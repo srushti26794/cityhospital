@@ -1,22 +1,27 @@
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import { forgetAPI, loginAPI, signupAPI } from '../../common/api/auth.api'
 import { FORGET_REQUEST, LOGIN_REQUEST, SIGNUP_REQUEST } from '../ActionType';
+import { loggedUser } from '../action/auth.action';
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* signup(action) {
   try {
     const user = yield call(signupAPI, action.payload)
     // yield put({ type: 'USER_FETCH_SUCCEEDED', user: user })
+    console.log(user);
   } catch (e) {
     console.log(e);
     // yield put({ type: 'USER_FETCH_FAILED', message: e.message })
+    console.log(e);
   }
 }
 
 function* login(action){
   try {
     const user = yield call(loginAPI, action.payload)
+    yield put(loggedUser(user.user))
     // yield put({ type: 'USER_FETCH_SUCCEEDED', user: user })
+    console.log(user);
   } catch (e) {
     console.log(e);
     // yield put({ type: 'USER_FETCH_FAILED', message: e.message })

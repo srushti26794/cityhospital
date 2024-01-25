@@ -13,13 +13,19 @@ export const signupAPI = (data) => {
                 const auth = getAuth();
                 sendEmailVerification(auth.currentUser)
                     .then(() => {
-                        console.log('Email varification sent.');
+                        resolve({message : 'Email varification sent.'});
                     });
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                console.log(errorCode);
+
+                if(errorCode.localeCompare('auth/email-already-in-use') === 0){
+                    reject({message : 'This email already used.'});
+                } else if(errorCode.localeCompare("auth/weak-password") === 0){
+                    reject({message : 'Password must be 8 character'});
+                }
+                
             });
     })
 }
@@ -32,12 +38,16 @@ export const loginAPI = (data) => {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-                console.log('Login successfully');
+                resolve({message : 'Login successfully', user: user});
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                // console.log(errorCode);
+                if(errorCode.localeCompare("auth/user-not-found") === 0){
+                    reject({message : 'First signup with this email.'});
+                } else if(errorCode.localeCompare("auth/invalid-credential") === 0){
+                    reject({message : 'Incorrect email or password'});
+                }
             });
     })
 }
