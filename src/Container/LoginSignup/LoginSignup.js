@@ -5,9 +5,12 @@ import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { forgetRequest, loginRequest, signupRequest } from '../../redux/action/auth.action';
+import { useNavigate } from 'react-router-dom';
 
 
 function LoginSignup(props) {
+    const navigate = useNavigate()
+
     const [type, setType] = useState('login');
     // console.log(type);
 
@@ -74,7 +77,12 @@ function LoginSignup(props) {
             if(type === 'signup'){
                 dispatch(signupRequest(values))
             } else if(type === 'login'){
-                dispatch(loginRequest(values))
+                dispatch(loginRequest({
+                    data : values,
+                    callback : (route) => {
+                        navigate(route)
+                    }
+                }))
             }else{
                 dispatch(forgetRequest(values))
             }

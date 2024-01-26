@@ -3,10 +3,16 @@ import { NavLink } from 'react-router-dom';
 import Badge from '@mui/material/Badge';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { loggedOutUser, logoutRequest } from '../../redux/action/auth.action';
 
 
 function Header() {
+    const auth = useSelector(state => state.auth);
+    console.log(auth.user);
+
+    const dispatch = useDispatch();
+
     const wishlistData = useSelector(state => state.wishlist);
     console.log(wishlistData.wishlist);
 
@@ -15,6 +21,10 @@ function Header() {
 
     let cartTotal = cart.cart.reduce((acc, v) => acc + v.qty, 0);
     console.log(cartTotal);
+
+    const handleLogout = () => [
+        dispatch(logoutRequest())
+    ]
 
     return (
         <div className="main-header">
@@ -62,13 +72,20 @@ function Header() {
                         <i className="bi bi-list mobile-nav-toggle" />
                     </nav>
                     <NavLink to="/Appointment" className="appointment-btn scrollto"><span className="d-none d-md-inline">Make an </span>
-                        Appointment</NavLink>
-                    <NavLink to="/LoginSignup" className="appointment-btn scrollto">
-                        <span className="d-none d-md-inline">Login/ Signup</span>
+                        Appointment
                     </NavLink>
-                    <NavLink to="/Logout" className="appointment-btn scrollto">
-                        <span className="d-none d-md-inline">Logout</span>
-                    </NavLink>
+
+                    {
+                        auth.user ?
+                            <NavLink to="/" className="appointment-btn scrollto" onClick={() => handleLogout()}>
+                                <span className="d-none d-md-inline">Logout</span>
+                            </NavLink> :
+                            <NavLink to="/LoginSignup" className="appointment-btn scrollto">
+                                <span className="d-none d-md-inline">Login/ Signup</span>
+                            </NavLink>
+                    }
+
+
                 </div>
             </header>
         </div>

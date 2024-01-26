@@ -1,7 +1,7 @@
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
-import { forgetAPI, loginAPI, signupAPI } from '../../common/api/auth.api'
+import { forgetAPI, loginAPI, logoutAPI, signupAPI } from '../../common/api/auth.api'
 import { FORGET_REQUEST, LOGGEDOUT_USER, LOGIN_REQUEST, SIGNUP_REQUEST } from '../ActionType';
-import { loggedUser } from '../action/auth.action';
+import { loggedOutUser, loggedUser } from '../action/auth.action';
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* signup(action) {
@@ -18,8 +18,9 @@ function* signup(action) {
 
 function* login(action){
   try {
-    const user = yield call(loginAPI, action.payload)
+    const user = yield call(loginAPI, action.payload.data)
     yield put(loggedUser(user.user))
+    action.payload.callback("/")
     // yield put({ type: 'USER_FETCH_SUCCEEDED', user: user })
     console.log(user);
   } catch (e) {
@@ -38,8 +39,13 @@ function* forget(action){
   }
 }
 
-function* loggedOut(action){
-  console.log(action);
+function* logout(){
+  try {
+    const user = yield call(logoutAPI)
+    yield put(loggedOutUser())
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function* watchSignup() {
@@ -54,8 +60,8 @@ function* watchForget() {
   yield takeEvery(FORGET_REQUEST ,forget)
 }
 
-function* watchLoggedOut() {
-  yield takeEvery(LOGGEDOUT_USER, loggedOut)
+function* watchLogout() {
+  yield takeEvery(LOGGEDOUT_USER, logout)
 }
 
 export default function* rootSaga() {
@@ -63,6 +69,6 @@ export default function* rootSaga() {
       watchSignup(),
       watchLogin(),
       watchForget(),
-      watchLoggedOut()
+      watchLogout()
     ])
   }
