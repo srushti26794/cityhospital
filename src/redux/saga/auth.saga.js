@@ -2,40 +2,38 @@ import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import { forgetAPI, loginAPI, logoutAPI, signupAPI } from '../../common/api/auth.api'
 import { FORGET_REQUEST, LOGGEDOUT_USER, LOGIN_REQUEST, SIGNUP_REQUEST } from '../ActionType';
 import { loggedOutUser, loggedUser } from '../action/auth.action';
+import { setAlert } from '../slice/Alert.slice';
 
-// worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* signup(action) {
   try {
     const user = yield call(signupAPI, action.payload)
-    // yield put({ type: 'USER_FETCH_SUCCEEDED', user: user })
-    console.log(user);
+    yield put(setAlert({text : user.message, color : 'success'}))
   } catch (e) {
     console.log(e);
-    // yield put({ type: 'USER_FETCH_FAILED', message: e.message })
-    console.log(e);
+    yield put(setAlert({text : e.message, color : 'error'}))
   }
 }
 
 function* login(action){
   try {
     const user = yield call(loginAPI, action.payload.data)
+    console.log(user);
     yield put(loggedUser(user.user))
     action.payload.callback("/")
-    // yield put({ type: 'USER_FETCH_SUCCEEDED', user: user })
+    yield put(setAlert({text : user.message, color : 'success'}))
     console.log(user);
   } catch (e) {
     console.log(e);
-    // yield put({ type: 'USER_FETCH_FAILED', message: e.message })
+    yield put(setAlert({text : e.message, color : 'error'}))
   }
 }
 
 function* forget(action){
   try {
     const user = yield call(forgetAPI, action.payload)
-    // yield put({ type: 'USER_FETCH_SUCCEEDED', user: user })
+    yield put(setAlert({text : user.message, color : 'success'}))
   } catch (e) {
-    console.log(e);
-    // yield put({ type: 'USER_FETCH_FAILED', message: e.message })
+    yield put(setAlert({text : e.message, color : 'error'}))
   }
 }
 
@@ -43,8 +41,9 @@ function* logout(){
   try {
     const user = yield call(logoutAPI)
     yield put(loggedOutUser())
-  } catch (error) {
-    console.log(error);
+    yield put(setAlert({text : user.message, color : 'success'}))
+  } catch (e) {
+    yield put(setAlert({text : e.message, color : 'error'}))
   }
 }
 
