@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { forgetRequest, loginRequest, signupRequest } from '../../redux/action/auth.action';
 import { useNavigate } from 'react-router-dom';
+import Button from '../../Component/UI/Button/Button';
 
 
 function LoginSignup(props) {
@@ -141,7 +142,7 @@ function LoginSignup(props) {
                                         : type === 'signup'
                                             ? <><div className="text-center"><button className='signUpBtn' type="submit">Sign up</button></div>
                                                 <p className='haveAcc'>Already have an account? <a href='#' onClick={handleLogin}>Login</a></p></>
-                                            : <><div className="text-center"><button className='loginBtn' type="submit">Login</button></div>
+                                            : <><div className="text-center"><Button>Login</Button> </div>
                                                 <p className='haveAcc'><a href='#' onClick={handleForgot}>Forgot password?</a></p>
                                                 <p><a href='#' onClick={handleSignup}>Create a new account?</a></p></>
                                 }
