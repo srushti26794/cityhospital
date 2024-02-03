@@ -121,7 +121,7 @@ function LoginSignup(props) {
                                 <span>{errors.email && touched.email ? errors.email : null}</span>
                                 <div className="validate" />
 
-                                <Button type="primary">Login</Button>
+                                <Button type="primary" btnDisable={true}>Login</Button>
                                 <Button type="secondary">Signup</Button>
                                 <Button type="outline">Signup</Button>
 

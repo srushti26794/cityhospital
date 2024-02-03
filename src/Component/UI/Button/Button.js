@@ -1,7 +1,7 @@
 import React from 'react';
 import { BaseButton, OutlineButton, PrimaryButton, SecondaryButton } from './button.styled';
 
-function Button({children, type}) {
+function Button({children, type, btnDisable, ...rest}) {
     console.log(type);
 
     const decideButton = () => {
@@ -24,7 +24,7 @@ function Button({children, type}) {
     
 
     return (
-       <ButtonTheme>
+       <ButtonTheme disabled={btnDisable} {...rest}>
             {children}
        </ButtonTheme>
     );
