@@ -31,7 +31,7 @@ function LoginSignup(props) {
 
     let authSchema = {}, initialVal = {};
 
-    if(type === 'signup'){
+    if (type === 'signup') {
         authSchema = yup.object({
             name: yup.string().required("Enter your name").matches(/^[a-zA-Z ]{2,30}$/, "Please enter valid name"),
             email: yup.string().required("Enter your email").email("Enter valid email"),
@@ -48,7 +48,7 @@ function LoginSignup(props) {
             password: '',
             confPassword: ''
         })
-    } else if (type === 'login'){
+    } else if (type === 'login') {
         authSchema = yup.object({
             email: yup.string().required("Enter your email").email("Enter valid email"),
             password: yup.string().required("Enter your password")
@@ -68,26 +68,26 @@ function LoginSignup(props) {
         })
     }
 
-    
+
 
     let formikObj = useFormik({
         initialValues: initialVal,
         validationSchema: authSchema,
         onSubmit: values => {
-            
-            if(type === 'signup'){
+
+            if (type === 'signup') {
                 dispatch(signupRequest(values))
-            } else if(type === 'login'){
+            } else if (type === 'login') {
                 dispatch(loginRequest({
-                    data : values,
-                    callback : (route) => {
+                    data: values,
+                    callback: (route) => {
                         navigate(route)
                     }
                 }))
-            }else{
+            } else {
                 dispatch(forgetRequest(values))
             }
-    
+
         },
     })
 
@@ -120,6 +120,11 @@ function LoginSignup(props) {
                                 <input onChange={handleChange} onBlur={handleBlur} value={values.email} type="email" className="form-control signup" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
                                 <span>{errors.email && touched.email ? errors.email : null}</span>
                                 <div className="validate" />
+
+                                <Button type="primary">Login</Button>
+                                <Button type="secondary">Signup</Button>
+                                <Button type="outline">Signup</Button>
+
 
                                 {
                                     type === 'forgot'
