@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { forgetRequest, loginRequest, signupRequest } from '../../redux/action/auth.action';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../Component/UI/Button/Button';
+import Text from '../../Component/UI/Textfield/Text';
 
 
 function LoginSignup(props) {
@@ -117,7 +118,7 @@ function LoginSignup(props) {
                                 }
 
 
-                                <input onChange={handleChange} onBlur={handleBlur} value={values.email} type="email" className="form-control signup" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                                <Text onChange={handleChange} onBlur={handleBlur} value={values.email} type="email" className="form-control signup" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
                                 <span>{errors.email && touched.email ? errors.email : null}</span>
                                 <div className="validate" />
 
