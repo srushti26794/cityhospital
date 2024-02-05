@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
 import React from 'react';
 import * as yup from 'yup';
+import InputText from '../../Component/UI/Textfield/InputText';
 
 function Appointment(props) {
 
@@ -74,25 +75,25 @@ function Appointment(props) {
                 <form onSubmit={handleSubmit} method="post" role="form" className="php-email-form">
                     <div className="row">
                         <div className="col-md-4 form-group">
-                            <input onChange={handleChange} onBlur={handleBlur} value={values.name} type="text" name="name" className="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                            <span>{errors.name && touched.name ? errors.name : null}</span>
+                            <InputText errorText={errors.name && touched.name ? errors.name : null} onChange={handleChange} onBlur={handleBlur} value={values.name} type="text" name="name" className="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                            {/* <span>{errors.name && touched.name ? errors.name : null}</span> */}
                             <div className="validate" />
                         </div>
                         <div className="col-md-4 form-group mt-3 mt-md-0">
-                            <input onChange={handleChange} onBlur={handleBlur} value={values.email} type="email" className="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
-                            <span>{errors.email && touched.email ? errors.email : null}</span>
+                            <InputText errorText={errors.email && touched.email ? errors.email : null} onChange={handleChange} onBlur={handleBlur} value={values.email} type="email" className="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                            {/* <span>{errors.email && touched.email ? errors.email : null}</span> */}
                             <div className="validate" />
                         </div>
                         <div className="col-md-4 form-group mt-3 mt-md-0">
-                            <input onChange={handleChange} onBlur={handleBlur} value={values.phone} type="number" className="form-control" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                            <span>{errors.phone && touched.phone ? errors.phone : null}</span>
+                            <InputText errorText={errors.phone && touched.phone ? errors.phone : null} onChange={handleChange} onBlur={handleBlur} value={values.phone} type="number" className="form-control" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                            {/* <span>{errors.phone && touched.phone ? errors.phone : null}</span> */}
                             <div className="validate" />
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-md-4 form-group mt-3">
-                            <input onChange={handleChange} onBlur={handleBlur} value={values.date} type="date" name="date" className="form-control datepicker" id="date" placeholder="Appointment Date" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                            <span>{errors.date && touched.date ? errors.date : null}</span>
+                            <InputText errorText={errors.date && touched.date ? errors.date : null} onChange={handleChange} onBlur={handleBlur} value={values.date} type="date" name="date" className="form-control datepicker" id="date" placeholder="Appointment Date" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                            {/* <span>{errors.date && touched.date ? errors.date : null}</span> */}
                             <div className="validate" />
                         </div>
                         <div className="col-md-4 form-group mt-3">
@@ -106,8 +107,8 @@ function Appointment(props) {
                             <div className="validate" />
                         </div>
                         <div className="col-md-4 form-group mt-3">
-                            <input onChange={handleChange} onBlur={handleBlur} value={values.file} type='file' name='file' className="form-control datepicker"></input>
-                            <span>{errors.file && touched.file ? errors.file : null}</span>
+                            <input errorText={errors.file && touched.file ? errors.file : null} onChange={handleChange} onBlur={handleBlur} value={values.file} type='file' name='file' className="form-control datepicker"/>
+                            {/* <span>{errors.file && touched.file ? errors.file : null}</span> */}
                             <div className="validate" />
                         </div>
                     </div>

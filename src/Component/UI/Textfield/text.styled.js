@@ -16,5 +16,10 @@ border: 1px solid #ced4da;
 appearance: none;
 border-radius: 0.25rem;
 transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-margin-bottom: 20px;
+// margin-top: 20px;
+`
+
+export const ErrorSpan = styled.span`
+    color: red;
+    display: ${props => props.error ? 'inline' : 'none'}
 `

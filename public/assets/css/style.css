@@ -1953,10 +1953,10 @@ input:focus::-webkit-input-placeholder
   color: white;
 }
 a{
-  color: black; 
+  color:  blue; 
 }
 a:hover{
-  color: black;
+  color: #FF6337;
   text-decoration: none;
 }
 
