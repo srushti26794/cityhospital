@@ -10,6 +10,7 @@ import { BsCurrencyRupee } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
 import { getMedicine } from '../../redux/action/medicine.action';
 import { handleCartData } from '../../redux/slice/addToCart.slice';
+import { getMedicineData } from '../../redux/slice/medicines.slice';
 
 // const data = [
 //     {
@@ -86,14 +87,17 @@ function Medicines() {
 
     const dispatch = useDispatch();
 
-    const medicine = useSelector(state => state.medicines)
-    console.log(medicine.medicines);
+    // const medicine = useSelector(state => state.medicines)
+    // console.log(medicine.medicines);
+
+    const medicineData = useSelector(state => state.medicines)
+    console.log(medicineData.medicines);
 
     const cart = useSelector(state => state.cart)
     console.log(cart.cart);
 
     useEffect(() => {
-        dispatch(getMedicine());
+        dispatch(getMedicineData());
     }, [])
 
     // const getData = async () => {
@@ -176,7 +180,7 @@ function Medicines() {
 
                 <div className='medParent'>
                     {
-                        medicine.medicines.map((v, i) => {
+                        medicineData && medicineData.medicines.map((v, i) => {
                             return (
                                 <div>
                                     <Link to={`/medicines/${v.id}`}>
@@ -189,7 +193,7 @@ function Medicines() {
                                                 <img
                                                     className='med-img'
                                                     alt="Sample"
-                                                    src={require(`../../../public/assets/img/medicine/${v.image}`)}
+                                                    src={v.file}
                                                 />
                                             </div>
 

@@ -84,7 +84,7 @@ function AddToCart() {
                                     return (
                                         <div className="row border-top border-bottom">
                                             <div className="row main align-items-center">
-                                                <div className="col-2 cartImg"><img className='cart_img' src={require(`../../../public/assets/img/medicine/${v.image}`)} /></div>
+                                                <div className="col-2 cartImg"><img className='cart_img' src={v.file} /></div>
                                                 <div className="col">
                                                     <div className="row text-muted">{v.name}</div>
                                                     <div className="row">{v.expiry}</div>
