@@ -119,7 +119,7 @@ function AddToCart() {
                             </form>
                             <div className="row" style={{ borderTop: '1px solid rgba(0,0,0,.1)', padding: '2vh 0' }}>
                                 <div className="col">TOTAL PRICE</div>
-                                <div className="col text-right"><CurrencyRupeeIcon />{totalPrice + 5}</div>
+                                <div className="col text-right"><CurrencyRupeeIcon />{totalPrice === 0 ? totalPrice : totalPrice + 5}</div>
                             </div>
                             <button className="cart_btn">CHECKOUT</button>
                         </div>

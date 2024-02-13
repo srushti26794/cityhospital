@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMedicine } from '../../redux/action/medicine.action';
 import { handleCartData } from '../../redux/slice/addToCart.slice';
 import { getMedicineData } from '../../redux/slice/medicines.slice';
+import Select from '../../Component/UI/DropDown/Select';
 
 // const data = [
 //     {
@@ -169,13 +170,14 @@ function Medicines() {
             <Container className="bg-light border">
                 <div className='search_bar'>
                     <input className='input' onChange={(event) => setSearch(event.target.value)} type='search' />
-                    <select className='select' name='sort' onChange={(event) => setSort(event.target.value)}>
+                    <Select className='select' name='sort' onChange={(event) => setSort(event.target.value)}>
                         <option value="0">--Select--</option>
                         <option value="az">A to Z</option>
                         <option value="za">Z to A</option>
                         <option value="lh">Low to High</option>
                         <option value="hl">High to Low</option>
-                    </select>
+                    </Select>
+                    
                 </div>
 
                 <div className='medParent'>

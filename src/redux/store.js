@@ -12,7 +12,7 @@ import { auth } from "../firebase";
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist : [auth, cart]
+    whitelist : ['auth']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -21,5 +21,5 @@ transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 
 export const ErrorSpan = styled.span`
     color: red;
-    display: ${props => props.error ? 'inline' : 'none'}
+    display: ${props => props.errors ? 'inline' : 'none'}
 `

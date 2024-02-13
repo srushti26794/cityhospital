@@ -1,12 +1,13 @@
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import { forgetAPI, loginAPI, logoutAPI, signupAPI } from '../../common/api/auth.api'
-import { FORGET_REQUEST, LOGGEDOUT_USER, LOGIN_REQUEST, SIGNUP_REQUEST } from '../ActionType';
+import { FORGET_REQUEST, LOGGEDOUT_USER, LOGIN_REQUEST, LOGOUT_REQUEST, SIGNUP_REQUEST } from '../ActionType';
 import { loggedOutUser, loggedUser } from '../action/auth.action';
 import { setAlert } from '../slice/Alert.slice';
 
 function* signup(action) {
   try {
     const user = yield call(signupAPI, action.payload)
+    console.log(user);
     yield put(setAlert({text : user.message, color : 'success'}))
   } catch (e) {
     console.log(e);
@@ -40,6 +41,7 @@ function* forget(action){
 function* logout(){
   try {
     const user = yield call(logoutAPI)
+    console.log(user);
     yield put(loggedOutUser())
     yield put(setAlert({text : user.message, color : 'success'}))
   } catch (e) {
@@ -60,7 +62,7 @@ function* watchForget() {
 }
 
 function* watchLogout() {
-  yield takeEvery(LOGGEDOUT_USER, logout)
+  yield takeEvery(LOGOUT_REQUEST, logout)
 }
 
 export default function* rootSaga() {
